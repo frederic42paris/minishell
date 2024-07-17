@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/17 14:51:26 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:34:08 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,18 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
 	{
-		cmds_list->old_stdin = dup(STDIN_FILENO);
-		cmds_list->old_stdout = dup(STDOUT_FILENO);
-		exec_shell_builtin(cmds_list, builtin_check, env_list);
-		dup2(cmds_list->old_stdout, STDOUT_FILENO);
-		dup2(cmds_list->old_stdin, STDIN_FILENO);
-		close(cmds_list->old_stdout);
-		close(cmds_list->old_stdin);
+		// cmds_list->old_stdin = dup(STDIN_FILENO);
+		// cmds_list->old_stdout = dup(STDOUT_FILENO);
+		// exec_shell_builtin(cmds_list, builtin_check, env_list);
+		if (getfile(cmds_list))
+		{
+			only_redirection(cmds_list);
+			exec_builtin(builtin_check, cmds_list, env_list);
+		}
+		// dup2(cmds_list->old_stdout, STDOUT_FILENO);
+		// dup2(cmds_list->old_stdin, STDIN_FILENO);
+		// close(cmds_list->old_stdout);
+		// close(cmds_list->old_stdin);
 	}
 	else
 	{

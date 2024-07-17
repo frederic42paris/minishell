@@ -6,30 +6,11 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/17 14:47:10 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:12:14 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_export(char *str)
-{
-	char	*echo;
-	int		i;
-
-	i = 0;
-	echo = "export";
-	while (str[i] && echo[i])
-	{
-		if (str[i] == echo[i])
-			i++;
-		else
-			return (0);
-	}
-	if (str[i] == '\0' && echo[i] == '\0')
-		return (1);
-	return (0);
-}
 
 t_env	*sort_env(t_env *env_copy, t_env *current)
 {
@@ -73,7 +54,7 @@ void	export_without_args(t_env **env)
 	current = sort_env(env_copy, current);
 	while (current)
 	{
-		printf("export %s\n", current->env_var);
+		// printf("export %s\n", current->env_var);
 		current = current->next;
 	}
 }
@@ -84,7 +65,6 @@ int	check_variable(t_env **env, char *variable, char *value)
 	int		result;
 	t_env	*current;
 
-	printf("YO ? \n");
 	result = 0;
 	current = *env;
 	while (current != NULL)
@@ -104,10 +84,12 @@ int	check_variable(t_env **env, char *variable, char *value)
 
 void	func_export(t_parse *cmds, t_env **env)
 {
-	int	i;
+	char	*var_name;
+	char	*var_value;
+	char	*equals;
+	char	*cmd_cpy;
+	int		i;
 
-	// char	*variable;
-	// char	*value;
 	// char	**split_var;
 	// char	*variable_join;
 	if (!cmds->cmd_array[1])
@@ -118,14 +100,15 @@ void	func_export(t_parse *cmds, t_env **env)
 	i = 1;
 	while (cmds->cmd_array[i])
 	{
-		printf("cmds->cmd_array[i][0] %c\n", cmds->cmd_array[i][0]);
-		// if(//it is valable )
-		// 	{
-		// 	i++;
-		// 	}
-		// 	else{
-		// 	i++;
-		// 	}
+		cmd_cpy = ft_strdup(cmds->cmd_array[i]);
+		equals = ft_strchr(cmd_cpy, '=');
+		if (!equals)
+			my_setenv();
+		else
+		{
+			*equals = '\0';
+			var_name = ft_strdup(cmds->cmd_array[i]);
+		}
 	}
 	// split_var = ft_split(cmds->cmd_array[1], '=');
 	// variable = split_var[0];

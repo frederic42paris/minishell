@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/17 15:02:56 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:44:52 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int					is_export(char *str);
 int					is_unset(char *str);
 void				func_echo(t_parse *cmds);
 void				func_pwd(t_parse *cmds);
-void				func_cd(t_parse *cmds);
+void				func_cd(char *path);
 void				func_path(int path_int, char *path);
 void				func_relative_cd(int path_int);
 void				func_exit(t_parse *cmds);
@@ -163,7 +163,7 @@ void				func_env(t_parse *cmds, t_env **env);
 void				func_export(t_parse *parser, t_env **env);
 void				func_unset(t_parse *parser, t_env **env);
 void				func_absolute_cd(char *dir);
-int					print_echo(t_parse *cmds, int i, int nextline_flag);
+void				print_echo(t_parse *cmds, int i, int nextline_flag);
 int					ft_strcmp(const char *s1, const char *s2);
 int					check_export_variable(char s);
 //  lexical analysis

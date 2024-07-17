@@ -6,45 +6,42 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/17 14:47:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:46:38 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_echo(char *str)
-{
-	char	*echo;
-	int		i;
+// int	is_echo(char *str)
+// {
+// 	char	*echo;
+// 	int		i;
 
-	i = 0;
-	echo = "echo";
-	while (str[i] && echo[i])
-	{
-		if (str[i] == echo[i])
-			i++;
-		else
-			return (0);
-	}
-	if (str[i] == '\0' && echo[i] == '\0')
-		return (1);
-	return (0);
-}
+// 	i = 0;
+// 	echo = "echo";
+// 	while (str[i] && echo[i])
+// 	{
+// 		if (str[i] == echo[i])
+// 			i++;
+// 		else
+// 			return (0);
+// 	}
+// 	if (str[i] == '\0' && echo[i] == '\0')
+// 		return (1);
+// 	return (0);
+// }
 
-int	print_echo(t_parse *cmds, int i, int nextline_flag)
+void	print_echo(t_parse *cmds, int i, int nextline_flag)
 {
 	while (cmds->cmd_array[i])
 	{
 		printf("%s", cmds->cmd_array[i]);
 		i++;
+		if (cmds->cmd_array[i])
+			printf(" ");
 	}
 	if (!nextline_flag)
-	{
 		printf("\n");
-		return (2);
-	}
-	else
-		return (1);
 }
 
 void	func_echo(t_parse *cmds)
@@ -68,6 +65,5 @@ void	func_echo(t_parse *cmds)
 		else
 			break ;
 	}
-	if (print_echo(cmds, i, nextline_flag) == 2)
-		return ;
+	print_echo(cmds, i, nextline_flag);
 }
