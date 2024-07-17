@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/27 19:55:47 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/17 17:35:41 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ int	not_operator(char c)
 		return (0);
 }
 
+int	is_separator(char c)
+{
+	if (c == ' ' || c == '"')
+		return (1);
+	else
+		return (0);
+}
+
 int	not_space_pipe(char c)
 {
 	if (c != ' ' && c != '\0' && c != '|')
@@ -83,6 +91,14 @@ int	not_single_quote(char c)
 int	is_space(char c)
 {
 	if (c == ' ' && c != '\0')
+		return (1);
+	else
+		return (0);
+}
+
+int	is_single_quote(char c)
+{
+	if (c == 39 && c != '\0')
 		return (1);
 	else
 		return (0);
@@ -151,6 +167,11 @@ void	len_double_quote(t_data *data, t_env *env_list, t_token *element)
 			element->len = element->len + data->exit_len;
 			data->pos = data->pos + data->exit_len;
 		}
+		else if (data->input[data->pos] == '$' && data->input[data->pos + 1] == '"')
+		{
+			element->len = element->len + 1;
+			data->pos = data->pos + 1;
+		}
 		else if (data->input[data->pos] == '$')
 		{
 			expand_len_pos(data, env_list, element);
@@ -175,6 +196,15 @@ void	len_no_quote(t_data *data, t_env *env_list, t_token *element)
 		{
 			element->len = element->len + data->exit_len;
 			data->pos = data->pos + data->exit_len;
+		}
+		else if (data->input[data->pos] == '$' && is_single_quote(data->input[data->pos + 1]))
+		{
+			data->pos = data->pos + 1;
+		}
+		else if (data->input[data->pos] == '$' && is_separator(data->input[data->pos + 1]))
+		{
+			element->len = element->len + 1;
+			data->pos = data->pos + 1;
 		}
 		else if (data->input[data->pos] == '$')
 		{
@@ -300,6 +330,8 @@ void	store_double_quote(t_token *element, char *str, t_env *env_list, t_data *da
 	{
 		if (str[element->i] == '$' && str[element->i + 1] == '?')
 			copy_exit(element, data);
+		else if (str[element->i] == '$' && str[element->i + 1] == '"')
+			copy_word(element, str);
 		else if (str[element->i] == '$')
 			expand_word(element, str, env_list);
 		else
@@ -315,6 +347,10 @@ void	store_no_quote(t_token *element, char *str, t_env *env_list, t_data *data)
 	{
 		if (str[element->i] == '$' && str[element->i + 1] == '?')
 			copy_exit(element, data);
+		else if (str[element->i] == '$' && is_single_quote(str[element->i + 1]))
+			element->i++;
+		else if (str[element->i] == '$' && is_separator(str[element->i + 1]))
+			copy_word(element, str);
 		else if (str[element->i] == '$')
 			expand_word(element, str, env_list);
 		else
@@ -329,7 +365,7 @@ void	store_string(t_token *element, char *str, t_env *env_list, t_data *data)
 	else
 	{
 		element->word = malloc(element->len + 1);
-		element->operator= NULL;
+		element->operator = NULL;
 		while (not_space_pipe(str[element->i]))
 		{
 			if (str[element->i] == 39)

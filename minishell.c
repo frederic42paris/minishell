@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/16 16:03:38 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/17 16:04:45 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ int	main(int argc, char **argv, char **envp)
 		search_command(par_list, data);
 		display_parse_list(par_list);
 
-		enable_signal();
-		if (data->has_pipe < 1)
-		{
-			exec_shell(par_list, &env_list, copy, data);
-		}
-		else
-		{
-			runtime_shell(par_list, copy, data, &env_list);
-		}
+		// enable_signal();
+		// if (data->has_pipe < 1)
+		// {
+		// 	exec_shell(par_list, &env_list, copy, data);
+		// }
+		// else
+		// {
+		// 	runtime_shell(par_list, copy, data, &env_list);
+		// }
 		// free_env_list(&env_list);
 		
 		// printf("chiffre %d\n", data->exit_len);
