@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/19 16:15:18 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:40:23 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,28 @@ void	export_without_args(t_env **env)
 	}
 }
 
-int	check_variable(t_env **env, char *variable, char *value)
-{
-	char	*found_value;
-	int		result;
-	t_env	*current;
+// int	check_variable(t_env **env, char *variable, char *value)
+// {
+// 	char	*found_value;
+// 	int		result;
+// 	t_env	*current;
 
-	result = 0;
-	current = *env;
-	while (current != NULL)
-	{
-		found_value = ft_strnstr(current->env_var, variable,
-				ft_strlen(current->env_var));
-		if (found_value != NULL)
-		{
-			result = 1;
-			replace_one_env(env, current->env_var, variable, value);
-			break ;
-		}
-		current = current->next;
-	}
-	return (result);
-}
+// 	result = 0;
+// 	current = *env;
+// 	while (current != NULL)
+// 	{
+// 		found_value = ft_strnstr(current->env_var, variable,
+// 				ft_strlen(current->env_var));
+// 		if (found_value != NULL)
+// 		{
+// 			result = 1;
+// 			replace_one_env(env, current->env_var, variable, value);
+// 			break ;
+// 		}
+// 		current = current->next;
+// 	}
+// 	return (result);
+// }
 
 void	update_existing_env(char *env_str, char *name, t_env **env)
 {

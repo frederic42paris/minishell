@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/17 19:44:52 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:34:26 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ void				delete_one_env(t_env **env_list, char *variable);
 void				replace_one_env(t_env **env_list, char *env_val,
 						char *variable, char *value);
 void				free_env_list(t_env **env_list);
+char				*find_env_var(char *name, t_env **env);
 
 // display
 void				display_array(char **array);

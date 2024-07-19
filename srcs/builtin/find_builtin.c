@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:41:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/17 19:50:34 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:45:52 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	is_builtin(t_parse *cmds)
 		return (2);
 	else if (!ft_strcmp(cmds->cmd_array[0], "cd"))
 		return (3);
-	else if (is_env(cmds->cmd_array[0]) == 1)
+	else if (!ft_strcmp(cmds->cmd_array[0], "env"))
 		return (4);
-	else if (is_exit(cmds->cmd_array[0]) == 1)
+	else if (!ft_strcmp(cmds->cmd_array[0], "exit"))
 		return (5);
-	else if (is_unset(cmds->cmd_array[0]))
+	else if (!ft_strcmp(cmds->cmd_array[0], "unset"))
 		return (6);
 	else if (!ft_strcmp(cmds->cmd_array[0], "export"))
 		return (7);
