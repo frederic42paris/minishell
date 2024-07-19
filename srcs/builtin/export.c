@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/18 09:10:24 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:15:18 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	export_without_args(t_env **env)
 	t_env	*env_copy;
 	t_env	*current;
 
-	// display_env_list(*env);
 	current = *env;
 	env_copy = NULL;
 	while (current)
@@ -54,7 +53,7 @@ void	export_without_args(t_env **env)
 	current = sort_env(env_copy, current);
 	while (current)
 	{
-		// printf("export %s\n", current->env_var);
+		printf("%s\n", current->env_var);
 		current = current->next;
 	}
 }
@@ -70,7 +69,7 @@ int	check_variable(t_env **env, char *variable, char *value)
 	while (current != NULL)
 	{
 		found_value = ft_strnstr(current->env_var, variable,
-				strlen(current->env_var));
+				ft_strlen(current->env_var));
 		if (found_value != NULL)
 		{
 			result = 1;
@@ -82,71 +81,76 @@ int	check_variable(t_env **env, char *variable, char *value)
 	return (result);
 }
 
-t_bool	update_existing_env(char *env_str, char *name, t_env **env)
+void	update_existing_env(char *env_str, char *name, t_env **env)
 {
-	
+	t_env	*current;
+
+	current = *env;
+	while (current != NULL)
+	{
+		if (ft_strncmp(current->env_var, name, ft_strlen(name)) == 0)
+		{
+			free(current->env_var);
+			current->env_var = ft_strdup(env_str);
+		}
+		current = current->next;
+	}
 }
 
-void	ft_setenv(char *env_str, char *name, char *value, t_env **env)
+char	*find_env_var(char *name, t_env **env)
 {
-	char	*env_str;
-	char	*existing_env;
-	size_t	env_count;
-	char	**new_env;
+	t_env	*current;
 
-	existing_env = getenv(name);
+	current = *env;
+	while (current != NULL)
+	{
+		if (ft_strncmp(current->env_var, name, ft_strlen(name)) == 0 && current->env_var[ft_strlen(name)] == '=')
+			return  (current->env_var);
+		current = current->next;
+	}
+	return (NULL);
+}
+
+void	ft_setenv(char *env_str, char *name, t_env **env)
+{
+	char	*existing_env;
+
+	existing_env = find_env_var(name, env);
 	if (existing_env)
 	{
-		if (update_existing_env(env_str, name, env))
+		update_existing_env(env_str, name, env);
+		return ;
+	}
+	else
+	{
+		push_env_list(env, env_str, ft_strlen(env_str));
 	}
 }
 
 void	func_export(t_parse *cmds, t_env **env)
 {
 	char	*var_name;
-	char	*var_value;
 	char	*equals;
 	char	*cmd_cpy;
 	int		i;
 
-	// char	**split_var;
-	// char	*variable_join;
-	if (!cmds->cmd_array[1])
-	{
-		export_without_args(env);
-		return ;
-	}
 	i = 1;
+	if (!cmds->cmd_array[i])
+		return (export_without_args(env));
 	while (cmds->cmd_array[i])
 	{
-		cmd_cpy = ft_strdup(cmds->cmd_array[i]);
-		equals = ft_strchr(cmd_cpy, '=');
+		var_name = ft_strdup(cmds->cmd_array[i]);
+		equals = ft_strchr(var_name, '=');
 		if (!equals)
-			my_setenv(cmd_cpy, "", env);
+			ft_setenv(cmd_cpy, "", env);
 		else
 		{
 			*equals = '\0';
-			var_name = ft_strdup(cmds->cmd_array[i]);
-			var_value = equals + 1;
-			my_setenv(env_str, var_name, var_value, env);
+			cmd_cpy = ft_strdup(cmds->cmd_array[i]);
+			ft_setenv(cmd_cpy, var_name, env);
 			free(var_name);
 			free(cmd_cpy);
 		}
+		i++;
 	}
-	// split_var = ft_split(cmds->cmd_array[1], '=');
-	// variable = split_var[0];
-	// value = split_var[1];
-	// variable_join = ft_strjoin(variable, "=");
-	// if (check_variable(env, variable_join, value))
-	// 	return ;
-	// else
-	// {
-	// 	// if (variable[0] != '\0' && value[0] != '\0')
-	// 	printf("HERE\n");
-	// 	if (check_export_variable(variable[0]))
-	// 		push_env_list(env, ft_strjoin(variable_join, value),
-	// 			ft_strlen(ft_strjoin(variable_join, value)));
-	// 	else
-	// 		return ;
-	// }
 }
