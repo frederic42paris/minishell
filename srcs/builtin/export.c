@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/17 22:12:14 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/18 09:10:24 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,25 @@ int	check_variable(t_env **env, char *variable, char *value)
 	return (result);
 }
 
+t_bool	update_existing_env(char *env_str, char *name, t_env **env)
+{
+	
+}
+
+void	ft_setenv(char *env_str, char *name, char *value, t_env **env)
+{
+	char	*env_str;
+	char	*existing_env;
+	size_t	env_count;
+	char	**new_env;
+
+	existing_env = getenv(name);
+	if (existing_env)
+	{
+		if (update_existing_env(env_str, name, env))
+	}
+}
+
 void	func_export(t_parse *cmds, t_env **env)
 {
 	char	*var_name;
@@ -103,11 +122,15 @@ void	func_export(t_parse *cmds, t_env **env)
 		cmd_cpy = ft_strdup(cmds->cmd_array[i]);
 		equals = ft_strchr(cmd_cpy, '=');
 		if (!equals)
-			my_setenv();
+			my_setenv(cmd_cpy, "", env);
 		else
 		{
 			*equals = '\0';
 			var_name = ft_strdup(cmds->cmd_array[i]);
+			var_value = equals + 1;
+			my_setenv(env_str, var_name, var_value, env);
+			free(var_name);
+			free(cmd_cpy);
 		}
 	}
 	// split_var = ft_split(cmds->cmd_array[1], '=');
