@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 20:44:17 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:19:20 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,17 @@ typedef struct s_data
 	char			*exit_string;
 }					t_data;
 
+typedef struct s_redir
+{
+	int				type;
+	char			*name;
+	char			*token;
+	int				exist;
+	int				access;
+	struct s_redir	*next;
+	struct s_redir	*prev;
+}					t_redir;
+
 typedef struct s_parse
 {
 	int				index;
@@ -86,6 +97,7 @@ typedef struct s_parse
 	char			*outfile_token;
 	int				outfile_exist;
 	int				outfile_access;
+	t_redir			*redirection;
 	char			*path;
 	int				builtin;
 	int				only_cmd;
@@ -184,6 +196,7 @@ void				check_outfile(t_parse *par_list);
 void				check_infile(t_parse *par_list);
 void				search_command(t_parse *par_list, t_data *data);
 void				count_nb_pipe(t_token *tok_list, t_data *data);
+void				store_redirection(t_token *tok_list, t_parse *par_list);
 
 //  env
 void				store_env_list(char **envp, t_env **env_list);

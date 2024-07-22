@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/17 17:35:41 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:27:28 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,7 +421,8 @@ void	create_token_list(t_data *data, t_token **tok_list, t_env *env_list)
 
 void	display_token_list(t_token *tok_list)
 {
-	tok_list->num = 0;
+	// tok_list->num = 0;
+	printf("--------------------\n");
 	while (tok_list)
 	{
 		if (tok_list->word)
@@ -430,6 +431,7 @@ void	display_token_list(t_token *tok_list)
 			printf("%s\n", tok_list->operator);
 		tok_list = tok_list->next;
 	}
+	printf("--------------------\n");
 }
 
 void	get_num_token(t_token *tok_list, t_data *data)

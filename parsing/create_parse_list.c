@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/27 20:12:52 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:37:31 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,31 +100,42 @@ void	display_parser_array(char **array)
 		printf("%s", array[i]);
 }
 
+void	display_redir_list(t_redir *redir_list)
+{
+	printf("\n");
+	printf("Redirection List : \n");
+	while (redir_list)
+	{
+		printf("file type : %d\n", redir_list->type);
+		printf("file token : %s\n", redir_list->token);
+		printf("file name : %s\n", redir_list->name);
+		printf("file exist : %d\n", redir_list->exist);
+		printf("file access : %d\n", redir_list->access);
+		printf("\n");
+		redir_list = redir_list->next;
+	}
+}
+
 void	display_parse_list(t_parse *par_list)
 {
 	int	i;
 
 	i = 0;
+	printf("--------------------\n");
 	while (par_list)
 	{
 		printf("\n");
 		printf("Command %d\n", i);
-		printf("infile token : %s\n", par_list->infile_token);
-		printf("infile name : %s\n", par_list->infile_name);
-		printf("infile exist : %d\n", par_list->infile_exist);
-		printf("infile access : %d\n", par_list->infile_access);
+		display_redir_list(par_list->redirection);
 		printf("command_array : ");
 		display_parser_array(par_list->cmd_array);
 		printf("\n");
-		printf("outfile token : %s\n", par_list->outfile_token);
-		printf("outfile name : %s\n", par_list->outfile_name);
-		printf("outfile exist : %d\n", par_list->outfile_exist);
-		printf("outfile access : %d\n", par_list->outfile_access);
 		printf("builtin : %d\n", par_list->builtin);
 		printf("path : %s\n", par_list->path);
 		par_list = par_list->next;
 		i++;
 	}
+	printf("--------------------\n");
 }
 
 int	string_is_bracket(char *str)
