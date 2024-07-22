@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/27 20:18:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/22 18:09:43 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	search_command(t_parse *par_list, t_data *data)
 	char	*arr[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit",
 			NULL};
 	int		i;
+	
 	while (par_list)
 	{
 		i = 0;
