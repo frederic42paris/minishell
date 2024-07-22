@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_outfile.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:55:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/12 16:43:32 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:55:01 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,22 @@ int	outfile_exist(char *string)
 	return (1);
 }
 
-void	check_outfile(t_parse *par_list)
+void	check_outfile(t_redir *redir_list)
 {
-	while (par_list)
+	while (redir_list)
 	{
-		if (par_list->outfile_name != NULL)
+		if (redir_list->type == 1)
 		{
-			par_list->outfile_exist = outfile_exist(par_list->outfile_name);
-			if (par_list->outfile_exist == 1 && access(par_list->outfile_name,
-					W_OK) == -1)
-				par_list->outfile_access = 0;
-			else
-				par_list->outfile_access = 1;
+			if (redir_list->name != NULL)
+			{
+				redir_list->exist = outfile_exist(redir_list->name);
+				if (redir_list->exist == 1 && access(redir_list->name,
+						W_OK) == -1)
+					redir_list->access = 0;
+				else
+					redir_list->access = 1;
+			}
 		}
-		par_list = par_list->next;
+		redir_list = redir_list->next;
 	}
 }

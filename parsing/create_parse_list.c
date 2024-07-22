@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/22 15:37:31 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:30:02 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_words_pipe_create(t_token *tok_list)
 	len = 0;
 	while (tok_list)
 	{
-		if (tok_list->operator&& tok_list->operator[0] == '|')
+		if (tok_list->operator && tok_list->operator[0] == '|')
 			break ;
 		len++;
 		tok_list = tok_list->next;
@@ -35,14 +35,14 @@ void	push_parse_list(t_parse **par_list, int i)
 	last = *par_list;
 	element = malloc(sizeof(t_parse));
 	element->index = i;
-	element->infile_name = NULL;
-	element->infile_token = NULL;
-	element->infile_exist = 0;
-	element->infile_access = 0;
-	element->outfile_name = NULL;
-	element->outfile_token = NULL;
-	element->outfile_exist = 0;
-	element->outfile_access = 0;
+	// element->infile_name = NULL;
+	// element->infile_token = NULL;
+	// element->infile_exist = 0;
+	// element->infile_access = 0;
+	// element->outfile_name = NULL;
+	// element->outfile_token = NULL;
+	// element->outfile_exist = 0;
+	// element->outfile_access = 0;
 	element->path = NULL;
 	element->builtin = 0;
 	element->next = NULL;
@@ -81,7 +81,7 @@ void	create_parse_list(t_token *tok_list, t_parse **par_list)
 			tok_list = tok_list->next;
 			k++;
 		}
-		if (tok_list && tok_list->operator&& tok_list->operator[0] == '|')
+		if (tok_list && tok_list->operator && tok_list->operator[0] == '|')
 			tok_list = tok_list->next;
 	}
 }
@@ -102,8 +102,11 @@ void	display_parser_array(char **array)
 
 void	display_redir_list(t_redir *redir_list)
 {
-	printf("\n");
-	printf("Redirection List : \n");
+	if (redir_list)
+	{
+		printf("\n");
+		printf("Redirection List : \n");
+	}
 	while (redir_list)
 	{
 		printf("file type : %d\n", redir_list->type);
@@ -147,7 +150,7 @@ int	string_is_bracket(char *str)
 	len = ft_strlen(str);
 	if (str[0] == '>' || str[0] == '<')
 		is_bracket = 1;
-	if (is_bracket == 1 && len ==1)
+	if (is_bracket == 1 && len == 1)
 		return (1);
 	return (0);
 }

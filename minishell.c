@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 16:48:51 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:56:31 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	main(int argc, char **argv, char **envp)
 		store_redirection(tok_list, par_list);
 		store_command(tok_list, par_list);
 		free_token_list(&tok_list);
-		// check_infile(par_list);
-		// check_outfile(par_list);
+		check_infile(par_list->redirection);
+		check_outfile(par_list->redirection);
 		// search_command(par_list, data);
 		display_parse_list(par_list);
 
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 		
 		// printf("chiffre %d\n", data->exit_len);
 		// printf("string %s\n", data->exit_string);
-		// free_parse_list(&par_list);
+		free_parse_list(&par_list);
 	}
 	return (0);
 }

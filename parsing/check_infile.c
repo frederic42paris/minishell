@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_infile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:54:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/16 13:20:53 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:54:32 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,21 @@ int	infile_rights(char *string)
 	return (1);
 }
 
-void	check_infile(t_parse *par_list)
+void	check_infile(t_redir *redir_list)
 {
-	while (par_list)
+	while (redir_list)
 	{
-		if (par_list->infile_name != NULL
-			&& ft_strlen(par_list->infile_token) == 1)
+		if (redir_list->type == 0)
 		{
-			par_list->infile_exist = infile_exist(par_list->infile_name);
-			if (par_list->infile_exist == 1)
-				par_list->infile_access = infile_rights(par_list->infile_name);
+			if (redir_list->name != NULL
+				&& ft_strlen(redir_list->token) == 1)
+			{
+				redir_list->exist = infile_exist(redir_list->name);
+				if (redir_list->exist == 1)
+					redir_list->access = infile_rights(redir_list->name);
+			}
 		}
-		par_list = par_list->next;
+		redir_list = redir_list->next;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 16:02:31 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:48:29 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,15 @@ typedef struct s_redir
 typedef struct s_parse
 {
 	int				index;
-	char			*infile_name;
-	char			*infile_token;
-	int				infile_exist;
-	int				infile_access;
+	// char			*infile_name;
+	// char			*infile_token;
+	// int				infile_exist;
+	// int				infile_access;
 	char			**cmd_array;
-	char			*outfile_name;
-	char			*outfile_token;
-	int				outfile_exist;
-	int				outfile_access;
+	// char			*outfile_name;
+	// char			*outfile_token;
+	// int				outfile_exist;
+	// int				outfile_access;
 	t_redir			*redirection;
 	char			*path;
 	int				builtin;
@@ -193,8 +193,8 @@ void				create_parse_list(t_token *tok_list, t_parse **par_list);
 void				free_parse_list(t_parse **par_list);
 void				display_parse_list(t_parse *par_list);
 void				store_command(t_token *tok_list, t_parse *par_list);
-void				check_outfile(t_parse *par_list);
-void				check_infile(t_parse *par_list);
+void				check_outfile(t_redir *par_list);
+void				check_infile(t_redir *par_list);
 void				search_command(t_parse *par_list, t_data *data);
 void				count_nb_pipe(t_token *tok_list, t_data *data);
 void				store_redirection(t_token *tok_list, t_parse *par_list);
