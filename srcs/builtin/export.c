@@ -6,37 +6,11 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/19 16:40:23 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:54:16 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_env	*sort_env(t_env *env_copy, t_env *current)
-{
-	int		swapped;
-	char	*tmp;
-
-	swapped = 1;
-	while (swapped)
-	{
-		swapped = 0;
-		current = env_copy;
-		while (current && current->next != NULL)
-		{
-			if (ft_strncmp(current->env_var, current->next->env_var, 1) > 0)
-			{
-				tmp = current->env_var;
-				current->env_var = current->next->env_var;
-				current->next->env_var = tmp;
-				swapped = 1;
-			}
-			current = current->next;
-		}
-	}
-	current = env_copy;
-	return (current);
-}
 
 void	export_without_args(t_env **env)
 {
@@ -57,29 +31,6 @@ void	export_without_args(t_env **env)
 		current = current->next;
 	}
 }
-
-// int	check_variable(t_env **env, char *variable, char *value)
-// {
-// 	char	*found_value;
-// 	int		result;
-// 	t_env	*current;
-
-// 	result = 0;
-// 	current = *env;
-// 	while (current != NULL)
-// 	{
-// 		found_value = ft_strnstr(current->env_var, variable,
-// 				ft_strlen(current->env_var));
-// 		if (found_value != NULL)
-// 		{
-// 			result = 1;
-// 			replace_one_env(env, current->env_var, variable, value);
-// 			break ;
-// 		}
-// 		current = current->next;
-// 	}
-// 	return (result);
-// }
 
 void	update_existing_env(char *env_str, char *name, t_env **env)
 {
@@ -104,8 +55,9 @@ char	*find_env_var(char *name, t_env **env)
 	current = *env;
 	while (current != NULL)
 	{
-		if (ft_strncmp(current->env_var, name, ft_strlen(name)) == 0 && current->env_var[ft_strlen(name)] == '=')
-			return  (current->env_var);
+		if (ft_strncmp(current->env_var, name, ft_strlen(name)) == 0
+			&& current->env_var[ft_strlen(name)] == '=')
+			return (current->env_var);
 		current = current->next;
 	}
 	return (NULL);
@@ -117,14 +69,9 @@ void	ft_setenv(char *env_str, char *name, t_env **env)
 
 	existing_env = find_env_var(name, env);
 	if (existing_env)
-	{
 		update_existing_env(env_str, name, env);
-		return ;
-	}
 	else
-	{
 		push_env_list(env, env_str, ft_strlen(env_str));
-	}
 }
 
 void	func_export(t_parse *cmds, t_env **env)

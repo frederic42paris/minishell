@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/17 15:02:35 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:36:30 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	push_parse_list(t_parse **par_list, int i)
 	element->old_stdin = -1;
 	element->old_stdout = -1;
 	element->cmd_array = (char **)ft_calloc(2, sizeof(char *));
-	element->cmd_array[0] = (char *)ft_calloc (1, sizeof(char));
+	element->cmd_array[0] = (char *)ft_calloc(1, sizeof(char));
 	if (*par_list == NULL)
 	{
 		*par_list = element;
@@ -81,7 +81,7 @@ void	create_parse_list(t_token *tok_list, t_parse **par_list)
 			tok_list = tok_list->next;
 			k++;
 		}
-		if (tok_list && tok_list->operator&& tok_list->operator[0] == '|')
+		if (tok_list && tok_list->operator && tok_list->operator[0] == '|')
 			tok_list = tok_list->next;
 	}
 }

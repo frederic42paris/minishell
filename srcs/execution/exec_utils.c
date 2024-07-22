@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/17 19:34:08 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:25:30 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,17 @@ void	free_array(char **line)
 	free(line);
 }
 
-int	parse_path(char **cmds, char *path)
+t_bool parse_path(char **cmds, char *path)
 {
 	if (!path || access(path, X_OK | F_OK) != 0)
 	{
 		printf("%s: Command not found\n", cmds[0]);
-		return (0);
+		return (FALSE);
 	}
-	else
-	{
-		return (1);
-	}
+	return (TRUE);
 }
 
-int	init_child(t_parse *cmds_list, char **env_copy)
+t_bool	init_child(t_parse *cmds_list, char **env_copy)
 {
 	if (getfile(cmds_list))
 	{
@@ -46,12 +43,12 @@ int	init_child(t_parse *cmds_list, char **env_copy)
 		if (parse_path(cmds_list->cmd_array, cmds_list->path))
 		{
 			execve(cmds_list->path, cmds_list->cmd_array, env_copy);
-			return (0);
+			return (FALSE);
 		}
 		else
-			return (1);
+			return (TRUE);
 	}
-	return (0);
+	return (FALSE);
 }
 
 void	exec_shell_builtin(t_parse *cmds_list, int builtin_check,
@@ -76,18 +73,11 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
 	{
-		// cmds_list->old_stdin = dup(STDIN_FILENO);
-		// cmds_list->old_stdout = dup(STDOUT_FILENO);
-		// exec_shell_builtin(cmds_list, builtin_check, env_list);
 		if (getfile(cmds_list))
 		{
 			only_redirection(cmds_list);
 			exec_builtin(builtin_check, cmds_list, env_list);
 		}
-		// dup2(cmds_list->old_stdout, STDOUT_FILENO);
-		// dup2(cmds_list->old_stdin, STDIN_FILENO);
-		// close(cmds_list->old_stdout);
-		// close(cmds_list->old_stdin);
 	}
 	else
 	{
@@ -105,7 +95,6 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 				exit(0);
 		}
 		waitpid(fork_id, &status, 0);
-		// printf("loop %d\n", WEXITSTATUS(status));
 		data->exit_status = WEXITSTATUS(status);
 	}
 }

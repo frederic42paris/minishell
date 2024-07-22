@@ -6,11 +6,40 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/17 18:02:22 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:50:27 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**copy_envp(char **envp)
+{
+	int		i;
+	int		count;
+	char	**copy;
+
+	count = 0;
+	while (envp[count] != NULL)
+		count++;
+	copy = malloc(sizeof(char *) * (count + 1));
+	if (copy == NULL)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (i < count)
+	{
+		copy[i] = ft_strdup(envp[i]);
+		if (copy[i] == NULL)
+		{
+			while (i > 0)
+				free(copy[--i]);
+			free(copy);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+	copy[count] = NULL;
+	return (copy);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -18,26 +47,22 @@ int	main(int argc, char **argv, char **envp)
 	t_parse	*par_list;
 	t_env	*env_list;
 	t_data	*data;
-	// int		builtin_check;
-	char	**copy;
+	char	**environ;
 
-	copy = envp;
-	// builtin_check = 0;
+	if (argc > 1 || argv[1] != NULL)
+		exit_program("Minishell does not take arguments.");
 	data = malloc(sizeof(t_data));
 	data->all_paths = (char **)ft_calloc(2, sizeof(char *));
 	data->exit_status = 0;
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;
-	if (argc > 1 || argv[1] != NULL)
-		exit_program("Minishell does not take arguments.");
 	store_env_list(envp, &env_list);
+	environ = copy_envp(envp);
 	while (1)
 	{
 		data->exit_len = ft_strlen(ft_itoa(data->exit_status));
-		data->exit_string = malloc((data->exit_len + 1) * sizeof(char));
-		ft_strlcpy(data->exit_string, ft_itoa(data->exit_status), data->exit_len + 1);
-		// printf("exit status : %d\n", data->exit_status);
+		data->exit_string = ft_strdup(ft_itoa(data->exit_status));
 		disable_signal();
 		if (take_input(data, env_list))
 			continue ;
@@ -65,20 +90,11 @@ int	main(int argc, char **argv, char **envp)
 		check_infile(par_list);
 		check_outfile(par_list);
 		search_command(par_list, data);
-		display_parse_list(par_list);
 		enable_signal();
 		if (data->has_pipe < 1)
-		{
-			exec_shell(par_list, &env_list, copy, data);
-		}
+			exec_shell(par_list, &env_list, environ, data);
 		else
-		{
-			runtime_shell(par_list, copy, data, &env_list);
-		}
-		// free_env_list(&env_list);
-		
-		// printf("chiffre %d\n", data->exit_len);
-		// printf("string %s\n", data->exit_string);
+			runtime_shell(par_list, environ, data, &env_list);
 		free_parse_list(&par_list);
 	}
 	return (0);

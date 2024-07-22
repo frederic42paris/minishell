@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:41:01 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/17 15:02:28 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:48:01 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,4 @@ void	store_path(t_env *env_list, t_data *data)
 		}
 		env_list = env_list->next;
 	}
-}
-
-void	display_path(t_data *data)
-{
-	display_array(data->all_paths);
-	printf("nb pipes : %d\n", data->has_pipe);
 }

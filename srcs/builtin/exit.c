@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 14:49:53 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:51:55 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ t_bool	ft_check_args(char *str)
 	int	count_digits;
 
 	count_digits = 0;
-	if (ft_strtol(str, NULL, 10) > INT_MAX || ft_strtol(str, NULL, 10) < INT_MIN)
+	if (ft_strtol(str, NULL, 10) > INT_MAX
+		|| ft_strtol(str, NULL, 10) < INT_MIN)
 		return (FALSE);
 	while (ft_isspace(*str))
 		str++;

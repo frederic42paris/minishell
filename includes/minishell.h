@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/19 16:34:26 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:30:36 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_pipe
 	int				only_redirect;
 	int				tmp_file;
 	int				num_cmd;
-	int 			counter;
+	int				counter;
 }					t_pipe;
 
 typedef struct s_token
@@ -101,6 +101,7 @@ typedef struct s_parse
 	int				old_stdout;
 	struct s_parse	*next;
 	struct s_parse	*prev;
+	char			**environ;
 	// t_data			*data;
 }					t_parse;
 
@@ -166,6 +167,7 @@ void				func_absolute_cd(char *dir);
 void				print_echo(t_parse *cmds, int i, int nextline_flag);
 int					ft_strcmp(const char *s1, const char *s2);
 int					check_export_variable(char s);
+t_env				*sort_env(t_env *env_copy, t_env *current);
 //  lexical analysis
 int					check_input(char const *str);
 void				create_token_list(t_data *data, t_token **tok_list,
@@ -197,7 +199,6 @@ char				*find_env_var(char *name, t_env **env);
 
 // display
 void				display_array(char **array);
-void				display_path(t_data *data);
 void				display_env_list(t_env *env_list);
 void				display_token_list(t_token *tok_list);
 
@@ -245,6 +246,8 @@ void				init_heredoc(t_parse *cmds_list);
 void				pipe_null_check(void);
 void				pipe_null_check(void);
 void				close_no_file(t_parse *cmds_list);
-void				close_parent(t_parse *head, t_pipe *pipe_info, t_data *data);
+void				close_parent(t_parse *head, t_pipe *pipe_info,
+							t_data *data);
 void				call_heredoc(t_parse *cmds_list);
+
 #endif
