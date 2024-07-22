@@ -24,6 +24,7 @@ builtin/find_builtin.c\
 lexical_analysis/check_input.c\
 lexical_analysis/create_token_list.c\
 lexical_analysis/count_nb_pipe.c\
+lexical_analysis/free_redirection.c\
 lexical_analysis/free_token_list.c\
 parsing/create_parse_list.c\
 parsing/check_infile.c\

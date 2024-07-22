@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 15:19:20 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/22 16:02:31 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ void				free_token_list(t_token **tok_list);
 void				get_num_token(t_token *tok_list, t_data *data);
 int					check_bracket_error(t_token *tok_list, t_data *data);
 int					check_bracket_dup(t_token *tok_list);
+void				free_redirection(t_token	**tok_list);
 
 //  parsing
 void				create_parse_list(t_token *tok_list, t_parse **par_list);
