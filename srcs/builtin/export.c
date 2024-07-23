@@ -6,98 +6,144 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 14:54:16 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:46:30 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export_without_args(t_env **env)
+int	cmp(const void *a, const void *b)
 {
-	t_env	*env_copy;
-	t_env	*current;
-
-	current = *env;
-	env_copy = NULL;
-	while (current)
-	{
-		push_env_list(&env_copy, current->env_var, ft_strlen(current->env_var));
-		current = current->next;
-	}
-	current = sort_env(env_copy, current);
-	while (current)
-	{
-		printf("%s\n", current->env_var);
-		current = current->next;
-	}
+	const char **ia = (const char **)a;
+	const char **ib = (const char **)b;
+	return (ft_strcmp(*ia, *ib));
 }
 
-void	update_existing_env(char *env_str, char *name, t_env **env)
+void	export_without_args(char **environ)
 {
-	t_env	*current;
+	int	i;
+	int	count;
+	char	**sorted_environ;
 
-	current = *env;
-	while (current != NULL)
+	i = 0;
+	while (environ[count] != NULL)
+		count++;
+	sorted_environ = malloc(sizeof(char *) * (count + 1));
+	while (i < count)
 	{
-		if (ft_strncmp(current->env_var, name, ft_strlen(name)) == 0)
+		sorted_environ[i] = environ[i];
+		i++;
+	}
+	sorted_environ[count] = NULL;
+	qsort(sorted_environ, count, sizeof(char *), cmp);
+	i = 0;
+	while (environ[i] != NULL)
+	{
+		printf("declare -x \"%s\"\n", environ[i]);
+		i++;
+	}
+	free(sorted_environ);
+}
+
+void	update_existing_env(char *env_str, char *name, char ***environ)
+{
+	int	i;
+
+	i = 0;
+	while (*environ[i])
+	{
+		if (!ft_strncmp(*environ[i], name, ft_strlen(name))
+			&& *environ[i][ft_strlen(name)] == '=')
 		{
-			free(current->env_var);
-			current->env_var = ft_strdup(env_str);
+			free(*environ[i]);
+			*environ[i] = ft_strdup(env_str);
 		}
-		current = current->next;
+		i++;
 	}
 }
 
-char	*find_env_var(char *name, t_env **env)
+char	*find_env_var(char *name, char ***environ)
 {
-	t_env	*current;
+	char	**env;
 
-	current = *env;
-	while (current != NULL)
+	env = *environ;
+	while (*env)
 	{
-		if (ft_strncmp(current->env_var, name, ft_strlen(name)) == 0
-			&& current->env_var[ft_strlen(name)] == '=')
-			return (current->env_var);
-		current = current->next;
+		if (!ft_strncmp(*env, name, ft_strlen(name))
+			&& *env[ft_strlen(name)] == '=')
+			return (*env);
+		env++;
 	}
 	return (NULL);
 }
 
-void	ft_setenv(char *env_str, char *name, t_env **env)
+char **create_env(char *env_str, char **environ)
+{
+	int 	count;
+	int		i;
+	char	**new_env;
+
+	count = 0;
+	i = 0;
+	while (environ[count] != NULL)
+		count++;
+	new_env = malloc(sizeof(char *) * (count + 2));
+	while (i < count)
+	{
+		new_env[i] = environ[i];
+		i++;
+	}
+	new_env[i] = ft_strdup(env_str);
+	new_env[i + 1] = NULL;
+	return (new_env);
+}
+
+void	ft_setenv(char *env_str, char *name, char ***environ)
 {
 	char	*existing_env;
 
-	existing_env = find_env_var(name, env);
+	existing_env = find_env_var(name, environ);
 	if (existing_env)
-		update_existing_env(env_str, name, env);
+		update_existing_env(env_str, name, environ);
 	else
-		push_env_list(env, env_str, ft_strlen(env_str));
+		*environ = create_env(env_str, *environ);
 }
 
-void	func_export(t_parse *cmds, t_env **env)
+
+void	func_export(t_parse *cmds, t_env **env, char ***environ)
 {
 	char	*var_name;
 	char	*equals;
 	char	*cmd_cpy;
 	int		i;
 
+	(void)env;
 	i = 1;
 	if (!cmds->cmd_array[i])
-		return (export_without_args(env));
-	while (cmds->cmd_array[i])
+		export_without_args(*environ);
+	else
 	{
-		var_name = ft_strdup(cmds->cmd_array[i]);
-		equals = ft_strchr(var_name, '=');
-		if (!equals)
-			ft_setenv(cmd_cpy, "", env);
-		else
+		while (cmds->cmd_array[i])
 		{
-			*equals = '\0';
+			// if (!check_export_variable(cmds->cmd_array[i]))
+			// 	return ;
 			cmd_cpy = ft_strdup(cmds->cmd_array[i]);
-			ft_setenv(cmd_cpy, var_name, env);
-			free(var_name);
+			equals = ft_strchr(cmd_cpy, '=');
+			if (!equals)
+			{
+				if (!find_env_var(cmd_cpy, environ))
+					*environ = create_env(cmd_cpy, *environ);
+			}
+			else
+			{
+				*equals = '\0';
+				var_name = ft_strdup(cmd_cpy);
+				ft_setenv(cmds->cmd_array[i], var_name, environ);
+				free(var_name);
+				//free(equals + 1);
+			}
 			free(cmd_cpy);
+			i++;
 		}
-		i++;
 	}
 }

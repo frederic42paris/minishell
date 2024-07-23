@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 16:30:36 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:40:41 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int					count_cmds(t_parse *cmds_list);
 void				runtime_shell(t_parse *cmds_list, char **env_copy,
 						t_data *data, t_env **env_list);
 void				exec_shell(t_parse *cmds_list, t_env **env_list,
-						char **env_copy, t_data *data);
+						char ***environ, t_data *data);
 
 // pipex
 // int					parse_path(char **cmds, char *path);
@@ -143,30 +143,18 @@ void				create_list(char const *str, t_token **lexer);
 int					check_input(char const *str);
 
 // built-in
-// int					is_builtin(t_parse *cmds, t_env *env);
 int					is_builtin(t_parse *cmds);
-void				exec_builtin(int func, t_parse *cmds, t_env **env);
-void				execute_builtin(char **cmds);
-int					is_echo(char *str);
-int					is_pwd(char *str);
-int					is_cd(char *str);
-int					is_env(char *str);
-int					is_exit(char *str);
-int					is_export(char *str);
-int					is_unset(char *str);
+void				exec_builtin(int func, t_parse *cmds, t_env **env, char ***environ);
 void				func_echo(t_parse *cmds);
 void				func_pwd(t_parse *cmds);
 void				func_cd(char *path);
-void				func_path(int path_int, char *path);
-void				func_relative_cd(int path_int);
 void				func_exit(t_parse *cmds);
-void				func_env(t_parse *cmds, t_env **env);
-void				func_export(t_parse *parser, t_env **env);
-void				func_unset(t_parse *parser, t_env **env);
-void				func_absolute_cd(char *dir);
+void				func_env(t_parse *cmds, t_env **env, char **environ);
+void				func_export(t_parse *parser, t_env **env, char ***environ);
+void				func_unset(t_parse *parser, t_env **env, char ***environ);
 void				print_echo(t_parse *cmds, int i, int nextline_flag);
 int					ft_strcmp(const char *s1, const char *s2);
-int					check_export_variable(char s);
+int					check_export_variable(char *s);
 t_env				*sort_env(t_env *env_copy, t_env *current);
 //  lexical analysis
 int					check_input(char const *str);
@@ -195,7 +183,7 @@ void				delete_one_env(t_env **env_list, char *variable);
 void				replace_one_env(t_env **env_list, char *env_val,
 						char *variable, char *value);
 void				free_env_list(t_env **env_list);
-char				*find_env_var(char *name, t_env **env);
+char				*find_env_var(char *name, char ***environ);
 
 // display
 void				display_array(char **array);

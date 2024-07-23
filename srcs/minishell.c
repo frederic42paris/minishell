@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 16:50:27 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:08:43 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	main(int argc, char **argv, char **envp)
 		search_command(par_list, data);
 		enable_signal();
 		if (data->has_pipe < 1)
-			exec_shell(par_list, &env_list, environ, data);
+			exec_shell(par_list, &env_list, &environ, data);
 		else
 			runtime_shell(par_list, environ, data, &env_list);
 		free_parse_list(&par_list);

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 16:25:30 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:11:25 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,7 @@ t_bool	init_child(t_parse *cmds_list, char **env_copy)
 	return (FALSE);
 }
 
-void	exec_shell_builtin(t_parse *cmds_list, int builtin_check,
-		t_env **env_list)
-{
-	if (getfile(cmds_list))
-	{
-		only_redirection(cmds_list);
-		exec_builtin(builtin_check, cmds_list, env_list);
-	}
-}
-
-void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
+void	exec_shell(t_parse *cmds_list, t_env **env_list, char ***environ,
 		t_data *data)
 {
 	int		builtin_check;
@@ -76,7 +66,7 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 		if (getfile(cmds_list))
 		{
 			only_redirection(cmds_list);
-			exec_builtin(builtin_check, cmds_list, env_list);
+			exec_builtin(builtin_check, cmds_list, env_list, environ);
 		}
 	}
 	else
@@ -84,7 +74,7 @@ void	exec_shell(t_parse *cmds_list, t_env **env_list, char **env_copy,
 		fork_id = fork();
 		if (fork_id == 0)
 		{
-			result = init_child(cmds_list, env_copy);
+			result = init_child(cmds_list, *environ);
 			free_parse_list(&cmds_list);
 			free_array(data->all_paths);
 			free_env_list(env_list);

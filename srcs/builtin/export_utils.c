@@ -6,21 +6,45 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:49:28 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 14:53:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:32:14 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_export_variable(char s)
+int	ft_isspecial(int c)
 {
-	if (s == '_' || ft_isalpha(s))
+	if (c == ';' || c == '&' || c == '|' || c == '>'
+		|| c == '<' || c == '(' || c == ')'
+		|| c == '{' || c == '}' || c == '$' || c == '*'
+		|| c == '?' || c == '[' || c == ']' || c == '#'
+		|| c == '\\' || c == '!' || c == '~' || c == ' '
+		|| '\"' || c == '\'' || c == '`')
 		return (1);
-	else
+	return (0);
+}
+
+t_bool	check_export_variable(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
 	{
-		printf("export : '%c' : not a valid identifier\n", s);
-		return (0);
+		if (ft_isalpha(s[i]) || s[i] == '_')
+			i++;
+		else if (ft_isdigit(s[i]) && i != 0)
+			i++;
+		else if (s[i] == '\\')
+		{
+			if (ft_isspecial(s[i + 1]) || (ft_isdigit(s[i + 1] && i == 0)))
+				return (printf("export: `%s': not a valid identifier\n", s), FALSE);
+			i++;
+		}
+		else
+			return (printf("export: `%s': not a valid identifier\n", s), FALSE);
 	}
+	return (TRUE);
 }
 
 t_env	*sort_env(t_env *env_copy, t_env *current)
