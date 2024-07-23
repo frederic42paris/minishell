@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 16:46:37 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/23 18:19:48 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ int	main(int argc, char **argv, char **envp)
 			free_token_list(&tok_list);
 			continue ;
 		}
-
+		if (check_bracket_empty(tok_list))
+		{
+			free_token_list(&tok_list);
+			continue ;
+		}
 		create_parse_list(tok_list, &par_list);
 		store_redirection(tok_list, par_list);
 		store_command(tok_list, par_list);
