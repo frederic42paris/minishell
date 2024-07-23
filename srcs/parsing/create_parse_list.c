@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/23 15:53:36 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:17:51 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	push_parse_list(t_parse **par_list, int i)
 	// element->outfile_token = NULL;
 	// element->outfile_exist = 0;
 	// element->outfile_access = 0;
+	element->infile_nb = 0;
+	element->outfile_nb = 0;
 	element->path = NULL;
 	element->builtin = 0;
 	element->next = NULL;
@@ -130,6 +132,8 @@ void	display_parse_list(t_parse *par_list)
 		printf("\n");
 		printf("Command %d\n", i);
 		display_redir_list(par_list->redirection);
+		printf("infile_nb : %d\n", par_list->infile_nb);
+		printf("outfile_nb : %d\n", par_list->outfile_nb);
 		printf("command_array : ");
 		display_parser_array(par_list->cmd_array);
 		printf("\n");

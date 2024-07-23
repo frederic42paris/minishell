@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 17:18:24 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:15:13 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ typedef struct s_parse
 	// char			*outfile_token;
 	// int				outfile_exist;
 	// int				outfile_access;
+	int				infile_nb;
+	int				outfile_nb;
 	t_redir			*redirection;
 	char			*path;
 	int				builtin;
