@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_infile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD:srcs/parsing/check_infile.c
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:54:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/17 15:02:35 by rrichard         ###   ########.fr       */
-=======
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 15:54:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/22 17:54:32 by ftanon           ###   ########.fr       */
->>>>>>> f785234444dfa2eb74ea6b3d6b6f9cb5de3154da:parsing/check_infile.c
+/*   Updated: 2024/07/23 16:18:32 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

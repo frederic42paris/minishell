@@ -6,48 +6,7 @@ NAME = minishell
 
 CC = cc
 
-<<<<<<< HEAD
 CFLAGS = -Werror -Wall -Wextra -g
-=======
-SRCS = minishell.c error_handler/error_controler.c\
-input_handler/input_handler.c\
-e_execution_system.c\
-execution/pipe_init.c\
-execution/pipe_utils.c\
-execution/runtime.c\
-execution/exec_utils.c\
-execution/redirect_init.c\
-execution/heredoc.c\
-execution/exit_status.c\
-builtin/echo.c\
-builtin/pwd.c\
-builtin/cd.c\
-builtin/exit.c\
-builtin/export.c\
-builtin/unset.c\
-builtin/env.c\
-builtin/export_utils.c\
-builtin/find_builtin.c\
-lexical_analysis/check_input.c\
-lexical_analysis/create_token_list.c\
-lexical_analysis/count_nb_pipe.c\
-lexical_analysis/free_redirection.c\
-lexical_analysis/free_token_list.c\
-parsing/create_parse_list.c\
-parsing/check_infile.c\
-parsing/check_outfile.c\
-parsing/free_parse_list.c\
-parsing/search_command.c\
-parsing/store_command.c\
-parsing/store_redirection.c\
-signals/signals.c\
-store_env/free_env_list.c\
-store_env/store_env_list.c\
-store_env/store_path.c\
-store_env/env_utils.c\
-utils_display/display.c\
-get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
->>>>>>> f785234444dfa2eb74ea6b3d6b6f9cb5de3154da
 
 CSANIT = -g -fsanitize=address
 

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 13:46:30 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:17:05 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ int	cmp(const void *a, const void *b)
 
 void	export_without_args(char **environ)
 {
-	int	i;
-	int	count;
+	int		i;
+	int		count;
 	char	**sorted_environ;
 
 	i = 0;
+	count = 0;
 	while (environ[count] != NULL)
 		count++;
 	sorted_environ = malloc(sizeof(char *) * (count + 1));
@@ -77,7 +78,7 @@ char	*find_env_var(char *name, char ***environ)
 	return (NULL);
 }
 
-char **create_env(char *env_str, char **environ)
+char	**create_env(char *env_str, char **environ)
 {
 	int 	count;
 	int		i;

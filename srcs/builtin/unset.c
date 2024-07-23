@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 12:14:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:18:00 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	func_unset(t_parse *cmds, t_env **env, char ***environ)
 		{
 			while (cmds->cmd_array[i])
 			{
-				existing_env = find_env_var(cmds->cmd_array[i], env);
+				existing_env = find_env_var(cmds->cmd_array[i], environ);
 				if (existing_env != NULL)
 					delete_one_env(env, cmds->cmd_array[1]);
 				i++;

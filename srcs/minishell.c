@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 15:51:26 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:19:04 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,17 @@ int	main(int argc, char **argv, char **envp)
 		}
 
 		create_parse_list(tok_list, &par_list);
-		store_redirection(tok_list, par_list);
+		// store_redirection(tok_list, par_list);
 		store_command(tok_list, par_list);
 		free_token_list(&tok_list);
 		check_infile(par_list->redirection);
 		check_outfile(par_list->redirection);
 		search_command(par_list, data);
 		enable_signal();
-		if (data->has_pipe < 1)
-			exec_shell(par_list, &env_list, &environ, data);
-		else
-			runtime_shell(par_list, environ, data, &env_list);
+		// if (data->has_pipe < 1)
+			// exec_shell(par_list, &env_list, &environ, data);
+		// else
+			// runtime_shell(par_list, environ, data, &env_list);
 		free_parse_list(&par_list);
 	}
 	return (0);
