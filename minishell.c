@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 15:17:03 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/23 16:46:37 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		// printf("chiffre %d\n", data->exit_len);
 		// printf("string %s\n", data->exit_string);
 
-		// free_parse_list(&par_list);
+		free_parse_list(&par_list);
 	}
 	return (0);
 }

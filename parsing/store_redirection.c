@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/22 15:31:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/23 18:06:10 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ void	split_redirection(t_token *tok_list, t_parse *par_list)
 		if (tok_list->operator)
 		{
 			push_redirection(&par_list->redirection, tok_list);
+			if (tok_list->operator[0] == '<')
+				par_list->infile_nb++;
+			else if (tok_list->operator[0] == '>')
+				par_list->outfile_nb++;
 			tok_list = tok_list->next;
 			tok_list = tok_list->next;
 		}
