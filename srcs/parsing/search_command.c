@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/22 15:41:51 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:54:02 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*find_path(char *single_path, char **command)
 void	search_command(t_parse *par_list, t_data *data)
 {
 	int		i;
-
+	
 	while (par_list)
 	{
 		i = 0;

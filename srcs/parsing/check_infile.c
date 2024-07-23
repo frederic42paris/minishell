@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   check_infile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD:srcs/parsing/check_infile.c
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:54:51 by ftanon            #+#    #+#             */
 /*   Updated: 2024/07/17 15:02:35 by rrichard         ###   ########.fr       */
+=======
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/01 15:54:51 by ftanon            #+#    #+#             */
+/*   Updated: 2024/07/22 17:54:32 by ftanon           ###   ########.fr       */
+>>>>>>> f785234444dfa2eb74ea6b3d6b6f9cb5de3154da:parsing/check_infile.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +39,21 @@ int	infile_rights(char *string)
 	return (1);
 }
 
-void	check_infile(t_parse *par_list)
+void	check_infile(t_redir *redir_list)
 {
-	while (par_list)
+	while (redir_list)
 	{
-		if (par_list->infile_name != NULL
-			&& ft_strlen(par_list->infile_token) == 1)
+		if (redir_list->type == 0)
 		{
-			par_list->infile_exist = infile_exist(par_list->infile_name);
-			if (par_list->infile_exist == 1)
-				par_list->infile_access = infile_rights(par_list->infile_name);
+			if (redir_list->name != NULL
+				&& ft_strlen(redir_list->token) == 1)
+			{
+				redir_list->exist = infile_exist(redir_list->name);
+				if (redir_list->exist == 1)
+					redir_list->access = infile_rights(redir_list->name);
+			}
 		}
-		par_list = par_list->next;
+		redir_list = redir_list->next;
 	}
 }
 

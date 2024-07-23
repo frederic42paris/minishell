@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/22 16:36:30 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:53:36 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_words_pipe_create(t_token *tok_list)
 	len = 0;
 	while (tok_list)
 	{
-		if (tok_list->operator&& tok_list->operator[0] == '|')
+		if (tok_list->operator && tok_list->operator[0] == '|')
 			break ;
 		len++;
 		tok_list = tok_list->next;
@@ -35,14 +35,14 @@ void	push_parse_list(t_parse **par_list, int i)
 	last = *par_list;
 	element = malloc(sizeof(t_parse));
 	element->index = i;
-	element->infile_name = NULL;
-	element->infile_token = NULL;
-	element->infile_exist = 0;
-	element->infile_access = 0;
-	element->outfile_name = NULL;
-	element->outfile_token = NULL;
-	element->outfile_exist = 0;
-	element->outfile_access = 0;
+	// element->infile_name = NULL;
+	// element->infile_token = NULL;
+	// element->infile_exist = 0;
+	// element->infile_access = 0;
+	// element->outfile_name = NULL;
+	// element->outfile_token = NULL;
+	// element->outfile_exist = 0;
+	// element->outfile_access = 0;
 	element->path = NULL;
 	element->builtin = 0;
 	element->next = NULL;
@@ -100,31 +100,45 @@ void	display_parser_array(char **array)
 		printf("%s", array[i]);
 }
 
+void	display_redir_list(t_redir *redir_list)
+{
+	if (redir_list)
+	{
+		printf("\n");
+		printf("Redirection List : \n");
+	}
+	while (redir_list)
+	{
+		printf("file type : %d\n", redir_list->type);
+		printf("file token : %s\n", redir_list->token);
+		printf("file name : %s\n", redir_list->name);
+		printf("file exist : %d\n", redir_list->exist);
+		printf("file access : %d\n", redir_list->access);
+		printf("\n");
+		redir_list = redir_list->next;
+	}
+}
+
 void	display_parse_list(t_parse *par_list)
 {
 	int	i;
 
 	i = 0;
+	printf("--------------------\n");
 	while (par_list)
 	{
 		printf("\n");
 		printf("Command %d\n", i);
-		printf("infile token : %s\n", par_list->infile_token);
-		printf("infile name : %s\n", par_list->infile_name);
-		printf("infile exist : %d\n", par_list->infile_exist);
-		printf("infile access : %d\n", par_list->infile_access);
+		display_redir_list(par_list->redirection);
 		printf("command_array : ");
 		display_parser_array(par_list->cmd_array);
 		printf("\n");
-		printf("outfile token : %s\n", par_list->outfile_token);
-		printf("outfile name : %s\n", par_list->outfile_name);
-		printf("outfile exist : %d\n", par_list->outfile_exist);
-		printf("outfile access : %d\n", par_list->outfile_access);
 		printf("builtin : %d\n", par_list->builtin);
 		printf("path : %s\n", par_list->path);
 		par_list = par_list->next;
 		i++;
 	}
+	printf("--------------------\n");
 }
 
 int	string_is_bracket(char *str)
@@ -136,7 +150,7 @@ int	string_is_bracket(char *str)
 	len = ft_strlen(str);
 	if (str[0] == '>' || str[0] == '<')
 		is_bracket = 1;
-	if (is_bracket == 1 && len ==1)
+	if (is_bracket == 1 && len == 1)
 		return (1);
 	return (0);
 }

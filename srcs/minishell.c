@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 12:08:43 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:51:26 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		store_path(env_list, data);
 		create_token_list(data, &tok_list, env_list);
+		display_token_list(tok_list);
+
 		count_nb_pipe(tok_list, data);
 		get_num_token(tok_list, data);
 		free(data->input);
@@ -83,12 +85,13 @@ int	main(int argc, char **argv, char **envp)
 			free_token_list(&tok_list);
 			continue ;
 		}
+
 		create_parse_list(tok_list, &par_list);
+		store_redirection(tok_list, par_list);
 		store_command(tok_list, par_list);
-		display_token_list(tok_list);
 		free_token_list(&tok_list);
-		check_infile(par_list);
-		check_outfile(par_list);
+		check_infile(par_list->redirection);
+		check_outfile(par_list->redirection);
 		search_command(par_list, data);
 		enable_signal();
 		if (data->has_pipe < 1)
