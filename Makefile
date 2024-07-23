@@ -81,6 +81,7 @@ SRCS_FILES =	minishell.c \
 				store_env/store_env_list.c \
 				store_env/store_path.c \
 				utils_display/display.c \
+				parsing/store_redirection.c \
 
 
 ################################################################################

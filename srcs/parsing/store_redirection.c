@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   store_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/22 15:31:54 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/23 16:30:32 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	count_words_operator_redirect(t_token *tok_list)
 {
