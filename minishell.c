@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 18:10:51 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/23 15:17:03 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **envp)
 		store_path(env_list, data);
 		create_token_list(data, &tok_list, env_list);
 		display_token_list(tok_list);
+
 		count_nb_pipe(tok_list, data);
 		get_num_token(tok_list, data);
 		free(data->input);
@@ -61,6 +62,7 @@ int	main(int argc, char **argv, char **envp)
 			free_token_list(&tok_list);
 			continue ;
 		}
+
 		create_parse_list(tok_list, &par_list);
 		store_redirection(tok_list, par_list);
 		store_command(tok_list, par_list);
@@ -83,7 +85,8 @@ int	main(int argc, char **argv, char **envp)
 		
 		// printf("chiffre %d\n", data->exit_len);
 		// printf("string %s\n", data->exit_string);
-		free_parse_list(&par_list);
+
+		// free_parse_list(&par_list);
 	}
 	return (0);
 }
