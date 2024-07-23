@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/23 18:26:32 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/23 18:35:35 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,6 @@ int	check_bracket_empty(t_token *tok_list)
 			{
 				printf("Error : invalid cmd\n");
 				return (1);
-
 			}
 		}
 		tok_list = tok_list->next;
