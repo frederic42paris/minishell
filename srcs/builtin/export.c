@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 16:17:05 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:15:25 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,13 @@ void	ft_setenv(char *env_str, char *name, char ***environ)
 }
 
 
-void	func_export(t_parse *cmds, t_env **env, char ***environ)
+int	func_export(t_parse *cmds, char ***environ)
 {
 	char	*var_name;
 	char	*equals;
 	char	*cmd_cpy;
 	int		i;
 
-	(void)env;
 	i = 1;
 	if (!cmds->cmd_array[i])
 		export_without_args(*environ);
@@ -147,4 +146,5 @@ void	func_export(t_parse *cmds, t_env **env, char ***environ)
 			i++;
 		}
 	}
+	return (0);
 }

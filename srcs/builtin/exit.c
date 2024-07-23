@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/22 14:51:55 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:24:50 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	normal_exit(t_parse *cmds_list, int exit_code)
 	exit(exit_code);
 }
 
-void	func_exit(t_parse *cmds)
+int	func_exit(t_parse *cmds)
 {
 	int		num_args;
 
@@ -58,11 +58,12 @@ void	func_exit(t_parse *cmds)
 			normal_exit(cmds, 2);
 		}
 		else if (num_args > 2)
-			return ((void)printf("exit: too many arguments\n"));
+			return ((void)printf("exit: too many arguments\n"), 1);
 		else
 		{
 			printf("exit\n");
 			normal_exit(cmds, ft_atoi(cmds->cmd_array[1]) % 256);
+			return (0);
 		}
 	}
 	else
@@ -70,4 +71,5 @@ void	func_exit(t_parse *cmds)
 		printf("exit\n");
 		normal_exit(cmds, 0);
 	}
+	return (0);
 }

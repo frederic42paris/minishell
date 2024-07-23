@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 16:30:22 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:10:28 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,7 @@ int	main(int argc, char **argv, char **envp)
 		count_nb_pipe(tok_list, data);
 		get_num_token(tok_list, data);
 		free(data->input);
-		if (check_bracket_dup(tok_list))
-		{
-			free_token_list(&tok_list);
-			continue ;
-		}
-		if (check_bracket_error(tok_list, data))
+		if (check_bracket_dup(tok_list) || check_bracket_error(tok_list, data))
 		{
 			free_token_list(&tok_list);
 			continue ;
@@ -95,8 +90,13 @@ int	main(int argc, char **argv, char **envp)
 		search_command(par_list, data);
 		display_parse_list(par_list);
 		enable_signal();
-		// if (data->has_pipe < 1)
-			// exec_shell(par_list, &env_list, &environ, data);
+		if (par_list->builtin && data->has_pipe)
+		{
+			free_token_list(&tok_list);
+			continue ;
+		}
+		if (data->has_pipe < 1)
+			exec_shell(par_list, &environ, data);
 		// else
 			// runtime_shell(par_list, environ, data, &env_list);
 		free_parse_list(&par_list);

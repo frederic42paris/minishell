@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 15:54:53 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:18:49 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@
 // 		chdir(dir);
 // }
 
-void	func_cd(char *path)
+int	func_cd(char *path)
 {
 	if (chdir(path) != 0)
-		perror("cd");
+		return (perror("cd"), 1);
+	return (0);
 }

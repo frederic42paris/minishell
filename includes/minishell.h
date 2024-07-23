@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 15:54:59 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:18:24 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,7 @@ int					count_cmds(t_parse *cmds_list);
 // execution
 void				runtime_shell(t_parse *cmds_list, char **env_copy,
 						t_data *data, t_env **env_list);
-void				exec_shell(t_parse *cmds_list, t_env **env_list,
-						char ***environ, t_data *data);
+void				exec_shell(t_parse *cmds_list, char ***environ, t_data *data);
 
 // pipex
 // int					parse_path(char **cmds, char *path);
@@ -156,18 +155,16 @@ int					check_input(char const *str);
 
 // built-in
 int					is_builtin(t_parse *cmds);
-void				exec_builtin(int func, t_parse *cmds, t_env **env, char ***environ);
-void				func_echo(t_parse *cmds);
-void				func_pwd(t_parse *cmds);
-void				func_cd(char *path);
-void				func_exit(t_parse *cmds);
-void				func_env(t_parse *cmds, t_env **env, char **environ);
-void				func_export(t_parse *parser, t_env **env, char ***environ);
-void				func_unset(t_parse *parser, t_env **env, char ***environ);
+int				exec_builtin(int func, t_parse *cmds, char ***environ);
+int				func_echo(t_parse *cmds);
+int				func_pwd(t_parse *cmds);
+int				func_cd(char *path);
+int				func_exit(t_parse *cmds);
+int				func_env(t_parse *cmds, char **environ);
+int				func_export(t_parse *parser, char ***environ);
+void				func_unset(t_parse *parser, char ***environ);
 void				print_echo(t_parse *cmds, int i, int nextline_flag);
-int					ft_strcmp(const char *s1, const char *s2);
 int					check_export_variable(char *s);
-t_env				*sort_env(t_env *env_copy, t_env *current);
 //  lexical analysis
 int					check_input(char const *str);
 void				create_token_list(t_data *data, t_token **tok_list,

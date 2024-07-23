@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 15:04:21 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:17:00 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	print_echo(t_parse *cmds, int i, int nextline_flag)
 		printf("\n");
 }
 
-void	func_echo(t_parse *cmds)
+int	func_echo(t_parse *cmds)
 {
 	int	nextline_flag;
 	int	i;
@@ -66,4 +66,5 @@ void	func_echo(t_parse *cmds)
 			break ;
 	}
 	print_echo(cmds, i, nextline_flag);
+	return (0);
 }
