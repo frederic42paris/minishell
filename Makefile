@@ -47,7 +47,6 @@ INC_FILES =		minishell.h \
 
 SRCS_FILES =	minishell.c \
 				builtin/cd.c \
-				builtin/e_execution_system.c \
 				builtin/echo.c \
 				builtin/env.c \
 				builtin/exit.c \

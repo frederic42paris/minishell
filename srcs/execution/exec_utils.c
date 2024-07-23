@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 18:01:22 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:35:51 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,25 @@ void	free_array(char **line)
 // 	}
 // }
 
-void	get_last_infile(t_parse *cmds)
-{
-	while (cmds->)
-}
+// void	get_last_infile(t_parse *cmds)
+// {
+// 	t_redir	*current;
+// 	int		count_in;
+// 	int		count_out;
 
-int	exec_cmd(t_parse *cmds, char **environ, t_data *data)
+// 	current = cmds->redirection;
+// 	while (current->exist)
+// 	{
+// 		if (current->type)
+// 			count_out++;
+// 		else
+// 			count_in++;
+// 		if (current->)
+// 		current = current->next;
+// 	}
+// }
+
+void	exec_cmd(t_parse *cmds, char **environ, t_data *data)
 {
 	int		fd_in;
 	int		fd_out;
@@ -78,46 +91,44 @@ int	exec_cmd(t_parse *cmds, char **environ, t_data *data)
 
 	if (cmds->redirection->type)
 	{
-		fd_in = open(cmds->redirection->name, O_RDONLY);
-		if (cmds->redirection)
+		if (!cmds->redirection->type)
+		{
+			fd_in = open(cmds->redirection->name, O_RDONLY);
+			cmds->redirection = cmds->redirection->next;
+		}
+		else if (cmds->redirection->type)
+			fd_out = open(cmds->redirection->name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	}
 	fork_id = fork();
 	if (fork_id == 0)
 	{
-		dup2(fd_in, STDIN_FILENO);
-		dup2()
+		if (fd_in)
+			dup2(fd_in, STDIN_FILENO);
+		else if (fd_out)
+			dup2(fd_out, STDOUT_FILENO);
+		if (fd_in != STDIN_FILENO)
+			close(fd_in);
+		if (fd_out != STDOUT_FILENO)
+			close(fd_out);
+		if (execve(cmds->path, cmds->cmd_array, environ) == -1)
+		{
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+		waitpid(fork_id, &status, 0);
+		data->exit_status = WEXITSTATUS(status);
 	}
 }
 
 void	exec_shell(t_parse *cmds_list, char ***environ, t_data *data)
 {
 	int		builtin_check;
-	pid_t	fork_id;
-	int		status;
-	int		result;
 
-	status = 0;
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
 		data->exit_status = exec_builtin(builtin_check, cmds_list, environ);
 	else
 	{
-		cmds_list->redirection->type
-		fork_id = fork();
-		if (fork_id == 0)
-		{
-			
-			free_parse_list(&cmds_list);
-			free_array(data->all_paths);
-			free_env_list(env_list);
-			free(data);
-			if (result == 1)
-				exit(127);
-			else
-				exit(0);
-		}
-		waitpid(fork_id, &status, 0);
-		// printf("loop %d\n", WEXITSTATUS(status));
-		data->exit_status = WEXITSTATUS(status);
+		exec_cmd(cmds_list, *environ, data);
 	}
 }
