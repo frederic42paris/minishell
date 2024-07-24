@@ -6,13 +6,13 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/22 15:27:28 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/24 15:54:52 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_operator(char c)
+int	is_meta(char c)
 {
 	if (c == '>' || c == '<' || c == '|')
 		return (1);
@@ -38,16 +38,16 @@ int	is_bracket_pipe(char c)
 		return (0);
 }
 
-int	not_operator_dollar(char c)
-{
-	if (c != ' ' && c != '\0' && c != '"' && c != 39 && c != '|' && c != '>'
-		&& c != '<' && c != '$')
-		return (1);
-	else
-		return (0);
-}
+// int	not_meta_quote_dollar(char c)
+// {
+// 	if (c != ' ' && c != '\0' && c != '"' && c != 39 && c != '|' && c != '>'
+// 		&& c != '<' && c != '$')
+// 		return (1);
+// 	else
+// 		return (0);
+// }
 
-int	not_operator(char c)
+int	not_meta_quote(char c)
 {
 	if (c != ' ' && c != '\0' && c != '"' && c != 39 && c != '|' && c != '>'
 		&& c != '<')
@@ -56,7 +56,7 @@ int	not_operator(char c)
 		return (0);
 }
 
-int	is_separator(char c)
+int	is_space_double_quote(char c)
 {
 	if (c == ' ' || c == '"')
 		return (1);
@@ -64,9 +64,9 @@ int	is_separator(char c)
 		return (0);
 }
 
-int	not_space_pipe(char c)
+int	not_meta(char c)
 {
-	if (c != ' ' && c != '\0' && c != '|')
+	if (c != ' ' && c != '\0' && c != '|' && c != '>' && c != '<')
 		return (1);
 	else
 		return (0);
@@ -131,7 +131,7 @@ void	expand_len_pos(t_data *data, t_env *env_list, t_token *element)
 	data->pos++;
 	i = data->pos;
 	len = 0;
-	while (not_operator_dollar(data->input[i]))
+	while (ft_isalpha(data->input[i]))
 	{
 		i++;
 		len++;
@@ -189,7 +189,7 @@ void	len_double_quote(t_data *data, t_env *env_list, t_token *element)
 void	len_no_quote(t_data *data, t_env *env_list, t_token *element)
 {
 	// printf("good\n");
-	while (not_operator(data->input[data->pos]))
+	while (not_meta_quote(data->input[data->pos]))
 	{
 		// printf("o");
 		if (data->input[data->pos] == '$' && data->input[data->pos] == '?')
@@ -201,7 +201,7 @@ void	len_no_quote(t_data *data, t_env *env_list, t_token *element)
 		{
 			data->pos = data->pos + 1;
 		}
-		else if (data->input[data->pos] == '$' && is_separator(data->input[data->pos + 1]))
+		else if (data->input[data->pos] == '$' && is_space_double_quote(data->input[data->pos + 1]))
 		{
 			element->len = element->len + 1;
 			data->pos = data->pos + 1;
@@ -234,8 +234,9 @@ void	get_len_pos(t_data *data, t_env *env_list, t_token *element)
 	}
 	else
 	{
-		while (not_space_pipe(data->input[data->pos]))
+		while (not_meta(data->input[data->pos]))
 		{
+			// printf("%c\n", data->input[data->pos]);
 			if (data->input[data->pos] == 39)
 				len_single_quote(data, element);
 			else if (data->input[data->pos] == '"')
@@ -258,7 +259,7 @@ int	get_len_src(char *str)
 	int	i;
 
 	i = 0;
-	while (not_operator_dollar(str[i]))
+	while (ft_isalpha(str[i]))
 	{
 		i++;
 	}
@@ -343,13 +344,13 @@ void	store_double_quote(t_token *element, char *str, t_env *env_list, t_data *da
 
 void	store_no_quote(t_token *element, char *str, t_env *env_list, t_data *data)
 {
-	while (not_operator(str[element->i]))
+	while (not_meta_quote(str[element->i]))
 	{
 		if (str[element->i] == '$' && str[element->i + 1] == '?')
 			copy_exit(element, data);
 		else if (str[element->i] == '$' && is_single_quote(str[element->i + 1]))
 			element->i++;
-		else if (str[element->i] == '$' && is_separator(str[element->i + 1]))
+		else if (str[element->i] == '$' && is_space_double_quote(str[element->i + 1]))
 			copy_word(element, str);
 		else if (str[element->i] == '$')
 			expand_word(element, str, env_list);
@@ -360,13 +361,13 @@ void	store_no_quote(t_token *element, char *str, t_env *env_list, t_data *data)
 
 void	store_string(t_token *element, char *str, t_env *env_list, t_data *data)
 {
-	if (is_operator(str[0]))
+	if (is_meta(str[0]))
 		store_operator(element, str);
 	else
 	{
 		element->word = malloc(element->len + 1);
 		element->operator = NULL;
-		while (not_space_pipe(str[element->i]))
+		while (not_meta(str[element->i]))
 		{
 			if (str[element->i] == 39)
 				store_single_quote(element, str);
@@ -456,7 +457,7 @@ int	check_bracket_error(t_token *tok_list, t_data *data)
 	{
 		while (tok_list->operator[i])
 			i++;
-		if (i == 1 && is_operator(tok_list->operator[0]))
+		if (i == 1 && is_meta(tok_list->operator[0]))
 		{
 			printf("Error : Invalid cmd\n");
 			return (1);

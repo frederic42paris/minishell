@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/24 11:34:21 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/24 14:17:22 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ int	check_bracket_empty(t_token *tok_list)
 {
 	while (tok_list)
 	{
-		if (tok_list->operator && tok_list->operator[0] == '>')
+		if (tok_list->operator && (tok_list->operator[0] == '>' || tok_list->operator[0] == '<'))
 		{
 			tok_list = tok_list->next;
 			if (!tok_list || (tok_list->operator && tok_list->operator[0] == '|'))
@@ -210,27 +210,6 @@ int	check_bracket_empty(t_token *tok_list)
 		}
 		if (tok_list)
 			tok_list = tok_list->next;
-		// i = 0;
-		// k = 0;
-		// i = count_words_pipe_create(tok_list);
-		// string1 = tok_list->operator;
-		// while (k < i - 1)
-		// {
-		// 	tok_list = tok_list->next;
-		// 	k++;
-		// }
-		// string2 = tok_list->operator;
-		// tok_list = tok_list->next;
-		// if (string2 && string1)
-		// {
-		// 	if (string_is_bracket(string1) && string_is_bracket(string2))
-		// 	{
-		// 		printf("Error : invalid cmd\n");
-		// 		return (1);
-		// 	}
-		// }
-		// if (tok_list && tok_list->operator && tok_list->operator[0] == '|')
-		// 	tok_list = tok_list->next;
 	}
 	return (0);
 }
