@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/23 15:52:57 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:17:51 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	expand_len_pos(t_data *data, t_env *env_list, t_token *element)
 	char	*string;
 	char	*result;
 
+	(void)env_list;
 	data->pos++;
 	i = data->pos;
 	len = 0;
@@ -188,30 +189,22 @@ void	len_double_quote(t_data *data, t_env *env_list, t_token *element)
 
 void	len_no_quote(t_data *data, t_env *env_list, t_token *element)
 {
-	// printf("good\n");
 	while (not_operator(data->input[data->pos]))
 	{
-		// printf("o");
 		if (data->input[data->pos] == '$' && data->input[data->pos] == '?')
 		{
 			element->len = element->len + data->exit_len;
 			data->pos = data->pos + data->exit_len;
 		}
 		else if (data->input[data->pos] == '$' && is_single_quote(data->input[data->pos + 1]))
-		{
 			data->pos = data->pos + 1;
-		}
 		else if (data->input[data->pos] == '$' && is_separator(data->input[data->pos + 1]))
 		{
 			element->len = element->len + 1;
 			data->pos = data->pos + 1;
 		}
 		else if (data->input[data->pos] == '$')
-		{
-			// printf("before %d\n", data->pos);
 			expand_len_pos(data, env_list, element);
-			// printf("after %d\n", data->pos);
-		}
 		else
 		{
 			element->len++;
@@ -346,7 +339,7 @@ void	store_no_quote(t_token *element, char *str, t_env *env_list, t_data *data)
 	while (not_operator(str[element->i]))
 	{
 		if (str[element->i] == '$' && str[element->i + 1] == '?')
-			copy_exit(element, data);
+			element->word = ft_strdup(data->exit_string);
 		else if (str[element->i] == '$' && is_single_quote(str[element->i + 1]))
 			element->i++;
 		else if (str[element->i] == '$' && is_separator(str[element->i + 1]))

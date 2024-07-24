@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 18:17:38 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:21:00 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || argv[1] != NULL)
 		exit_program("Minishell does not take arguments.");
 	data = malloc(sizeof(t_data));
-	data->all_paths = (char **)ft_calloc(2, sizeof(char *));
 	data->exit_status = 0;
 	tok_list = NULL;
 	par_list = NULL;
@@ -61,14 +60,14 @@ int	main(int argc, char **argv, char **envp)
 	environ = copy_envp(envp);
 	while (1)
 	{
-		data->exit_len = ft_strlen(ft_itoa(data->exit_status));
-		data->exit_string = ft_strdup(ft_itoa(data->exit_status));
+		data->exit_string = ft_itoa(data->exit_status);
+		data->exit_len = ft_strlen(data->exit_string);
 		disable_signal();
-		if (take_input(data, env_list))
+		if (take_input(data))
 			continue ;
 		if (check_input(data->input))
 			continue ;
-		store_path(env_list, data);
+		store_path(environ, data);
 		create_token_list(data, &tok_list, env_list);
 		display_token_list(tok_list);
 
@@ -81,8 +80,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 
-		create_parse_list(tok_list, &par_list);
-		store_redirection(tok_list, par_list);
+		create_parse_list(tok_list, &par_list, environ);
+		store_redirection(tok_list, &par_list);
 		store_command(tok_list, par_list);
 		free_token_list(&tok_list);
 		check_infile(par_list->redirection);
@@ -96,9 +95,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		if (data->has_pipe < 1)
-			exec_shell(par_list, &environ, data);
-		// else
-			// runtime_shell(par_list, environ, data, &env_list);
+			exec_single_cmd(par_list, &environ, data);
+		free(data->exit_string);
 		free_parse_list(&par_list);
 	}
 	return (0);

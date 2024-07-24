@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/23 18:17:05 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:42:53 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,43 +44,32 @@ int	count_words_pipe_redirect(t_token *tok_list)
 	return (len);
 }
 
-void	push_redirection(t_redir **redir_list, t_token *tok_list)
+t_redir	*push_redirection(t_redir *redir_list, t_token *tok_list)
 {
 	t_redir	*element;
 	t_redir	*last;
-	int		len;
 
-	last = *redir_list;
 	element = malloc(sizeof(t_redir));
-	element->type = 0;
-	element->name = NULL;
-	element->token = NULL;
-	element->exist = 0;
-	element->access = 0;
-	element->next = NULL;
-
+	ft_memset(element, 0, sizeof(t_redir));
 	if (tok_list->operator[0] == '<')
 		element->type = 0;
 	else if (tok_list->operator[0] == '>')
 		element->type = 1;
-	len = ft_strlen(tok_list->operator);
-	element->token = (char *)malloc(sizeof(char) * (len + 1));
-	ft_strlcpy(element->token, tok_list->operator, len + 1);
+	element->token = ft_strdup(tok_list->operator);
 	tok_list = tok_list->next;
-	len = ft_strlen(tok_list->word);
-	element->name = (char *)malloc(sizeof(char) * (len + 1));
-	ft_strlcpy(element->name, tok_list->word, len + 1);
-
-	if (*redir_list == NULL)
+	if (tok_list)
+		element->name = ft_strdup(tok_list->word);
+	if (redir_list == NULL)
 	{
-		*redir_list = element;
 		element->prev = NULL;
-		return ;
+		return (element);
 	}
+	last = redir_list;
 	while (last->next != NULL)
 		last = last->next;
 	last->next = element;
 	element->prev = last;
+	return (redir_list);
 }
 
 void	split_redirection(t_token *tok_list, t_parse *par_list)
@@ -91,7 +80,7 @@ void	split_redirection(t_token *tok_list, t_parse *par_list)
 			break ;
 		if (tok_list->operator)
 		{
-			push_redirection(&par_list->redirection, tok_list);
+			par_list->redirection = push_redirection(par_list->redirection, tok_list);
 			if (tok_list->operator[0] == '<')
 				par_list->infile_nb++;
 			else if (tok_list->operator[0] == '>')
@@ -104,17 +93,19 @@ void	split_redirection(t_token *tok_list, t_parse *par_list)
 	}
 }
 
-void	store_redirection(t_token *tok_list, t_parse *par_list)
+void	store_redirection(t_token *tok_list, t_parse **par_list)
 {
 	int	i;
 	int	k;
+	t_parse	*current;
 
-	while (par_list)
+	current = *par_list;
+	while (current)
 	{
 		i = 0;
 		k = 0;
 		i = count_words_pipe_redirect(tok_list);
-		split_redirection(tok_list, par_list);
+		split_redirection(tok_list, current);
 		while (k < i)
 		{
 			tok_list = tok_list->next;
@@ -122,6 +113,6 @@ void	store_redirection(t_token *tok_list, t_parse *par_list)
 		}
 		if (tok_list && tok_list->operator && tok_list->operator[0] == '|')
 			tok_list = tok_list->next;
-		par_list = par_list->next;
+		current = current->next;
 	}
 }

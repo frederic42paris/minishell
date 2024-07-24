@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/23 15:54:10 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:19:54 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,14 @@ void	split_command(t_token *tok_list, t_parse *par_list)
 {
 	int	i;
 	int	j;
-	int	len;
 
-	len = 0;
 	j = 0;
 	i = count_words_operator(tok_list);
-	free_array(par_list->cmd_array);
 	par_list->cmd_array = (char **)malloc(sizeof(char *) * (i + 1));
 	while (tok_list)
 	{
 		if (tok_list->operator && tok_list->operator[0] == '|')
 			break ;
-		i = 0;
 		if (tok_list->operator && (tok_list->operator[0] == '>'
 				|| tok_list->operator[0] == '<'))
 		{
@@ -78,10 +74,7 @@ void	split_command(t_token *tok_list, t_parse *par_list)
 					|| tok_list->operator[0] == '>'
 					|| tok_list->operator[0] == '<'))
 				break ;
-			len = ft_strlen(tok_list->word);
-			par_list->cmd_array[j] = (char *)malloc(sizeof(char) * (len
-						+ 1));
-			ft_strlcpy(par_list->cmd_array[j], tok_list->word, len + 1);
+			par_list->cmd_array[j] = ft_strdup(tok_list->word);
 			j++;
 			tok_list = tok_list->next;
 		}

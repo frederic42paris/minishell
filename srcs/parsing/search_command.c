@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/23 15:54:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:40:24 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ char	*find_path(char *single_path, char **command)
 {
 	char	*joined;
 	char	*path;
+	char	*tmp;
 
 	joined = ft_strjoin(single_path, "/");
-	path = ft_strjoin(joined, command[0]);
+	tmp = ft_strjoin(joined, command[0]);
+	path = ft_strdup(tmp);
+	free(tmp);
 	if (access(path, R_OK) == 0)
 	{
 		free(joined);
@@ -32,7 +35,7 @@ char	*find_path(char *single_path, char **command)
 void	search_command(t_parse *par_list, t_data *data)
 {
 	int		i;
-	
+
 	while (par_list)
 	{
 		i = 0;
@@ -46,7 +49,7 @@ void	search_command(t_parse *par_list, t_data *data)
 		{
 			while (data->all_paths[i])
 			{
-				par_list->path = find_path(data->all_paths[i], par_list->cmd_array);
+				par_list->path = find_path(data->all_paths[i], par_list->cmd_array);				
 				if (par_list->path != NULL)
 					break ;
 				i++;

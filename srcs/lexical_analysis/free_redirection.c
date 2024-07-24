@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:40:18 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/22 16:37:28 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/24 11:22:08 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 // void	free_redirection(t_token	**tok_list)
 // {

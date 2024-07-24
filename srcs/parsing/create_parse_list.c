@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/23 18:17:51 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:49:21 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,26 @@ int	count_words_pipe_create(t_token *tok_list)
 	return (len);
 }
 
-void	push_parse_list(t_parse **par_list, int i)
+void	push_parse_list(t_parse **par_list, int i, char **environ)
 {
 	t_parse	*element;
 	t_parse	*last;
 
 	last = *par_list;
 	element = malloc(sizeof(t_parse));
+	ft_bzero(element, sizeof(t_parse));
 	element->index = i;
-	// element->infile_name = NULL;
-	// element->infile_token = NULL;
-	// element->infile_exist = 0;
-	// element->infile_access = 0;
-	// element->outfile_name = NULL;
-	// element->outfile_token = NULL;
-	// element->outfile_exist = 0;
-	// element->outfile_access = 0;
-	element->infile_nb = 0;
-	element->outfile_nb = 0;
-	element->path = NULL;
-	element->builtin = 0;
-	element->next = NULL;
+	// element->infile_nb = 0;
+	// element->outfile_nb = 0;
+	// element->path = NULL;
+	// element->builtin = 0;
+	// element->next = NULL;
 	element->old_stdin = -1;
 	element->old_stdout = -1;
-	element->cmd_array = (char **)ft_calloc(2, sizeof(char *));
-	element->cmd_array[0] = (char *)ft_calloc(1, sizeof(char));
+	element->environ = environ;
+	// element->num_redirections = 0;
+	// element->cmd_array = (char **)ft_calloc(2, sizeof(char *));
+	// element->cmd_array[0] = (char *)ft_calloc(1, sizeof(char));
 	if (*par_list == NULL)
 	{
 		*par_list = element;
@@ -64,7 +59,7 @@ void	push_parse_list(t_parse **par_list, int i)
 	element->prev = last;
 }
 
-void	create_parse_list(t_token *tok_list, t_parse **par_list)
+void	create_parse_list(t_token *tok_list, t_parse **par_list, char **environ)
 {
 	int	i;
 	int	k;
@@ -77,7 +72,7 @@ void	create_parse_list(t_token *tok_list, t_parse **par_list)
 		i = 0;
 		k = 0;
 		i = count_words_pipe_create(tok_list);
-		push_parse_list(par_list, index);
+		push_parse_list(par_list, index, environ);
 		while (k < i)
 		{
 			tok_list = tok_list->next;

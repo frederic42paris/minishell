@@ -56,7 +56,7 @@ SRCS_FILES =	minishell.c \
 				builtin/pwd.c \
 				builtin/unset.c \
 				error_handler/error_controler.c \
-				execution/exec_utils.c \
+				execution/exec_single.c \
 				execution/exit_status.c \
 				execution/heredoc.c \
 				execution/pipe_init.c \
