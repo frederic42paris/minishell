@@ -57,12 +57,7 @@ SRCS_FILES =	minishell.c \
 				builtin/unset.c \
 				error_handler/error_controler.c \
 				execution/exec_single.c \
-				execution/exit_status.c \
-				execution/heredoc.c \
-				execution/pipe_init.c \
-				execution/pipe_utils.c \
-				execution/redirect_init.c \
-				execution/runtime.c \
+				execution/exec_multiple.c \
 				input_handler/input_handler.c \
 				lexical_analysis/check_input.c \
 				lexical_analysis/count_nb_pipe.c \
@@ -74,13 +69,12 @@ SRCS_FILES =	minishell.c \
 				parsing/free_parse_list.c \
 				parsing/search_command.c \
 				parsing/store_command.c \
+				parsing/store_redirection.c \
 				signals/signals.c \
 				store_env/env_utils.c \
 				store_env/free_env_list.c \
 				store_env/store_env_list.c \
 				store_env/store_path.c \
-				utils_display/display.c \
-				parsing/store_redirection.c \
 
 
 ################################################################################

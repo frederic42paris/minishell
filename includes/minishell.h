@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/24 17:20:38 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:30:02 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,21 +128,25 @@ void				execution(t_parse *cmds_list, char **env_copy,
 						t_pipe *pipe_info);
 void				execute_pipeline(t_parse *cmds_list, char **env_copy,
 						t_data *data);
-void				execute_cmds(char **parsed_args, char **env);
 int					count_cmds(t_parse *cmds_list);
 
 // execution
-void	exec_single_cmd(t_parse *cmds_list, char ***environ, t_data *data);
+void				runtime_shell(t_parse *cmds_list, char **env_copy,
+						t_data *data, t_env **env_list);
+void				exec_shell(t_parse *cmds_list, char ***environ, t_data *data);
 
 // pipex
 void				free_array(char **line);
-
+void				exec_multiple_cmd(t_parse *cmds, char **environ, t_data *data);
+void				exec_single_cmd(t_parse *cmds_list, char ***environ, t_data *data);
+void				execute_cmd(t_parse cmd, char **environ, int std_in, int std_out);
+t_bool				prepare_file_descriptors(int *std_in, int *std_out, t_parse *cmds);
 
 // built-in
 int					is_builtin(t_parse *cmds);
-int					exec_builtin(int func, t_parse *cmds, char ***environ);
+int					exec_builtin(int func, t_parse *cmds, char ***environ, t_data *data);
 int					func_echo(t_parse *cmds);
-int					func_pwd(t_parse *cmds);
+int					func_pwd(t_parse *cmds, t_data *data);
 int					func_cd(char *path);
 int					func_exit(t_parse *cmds);
 int					func_env(t_parse *cmds, char **environ);

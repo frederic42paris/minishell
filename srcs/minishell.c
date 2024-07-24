@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/24 17:21:00 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:13:52 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (data->has_pipe < 1)
 			exec_single_cmd(par_list, &environ, data);
+		else if (data->has_pipe >= 1)
+			exec_multiple_cmd(par_list, environ, data);
 		free(data->exit_string);
 		free_parse_list(&par_list);
 	}

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/24 17:26:58 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:21:49 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ t_bool	prepare_file_descriptors(int *std_in, int *std_out, t_parse *cmds)
 		cmds->redirection = cmds->redirection->next;
 	}
 	if (cmds->redirection)
-		*std_out = open(cmds->redirection->name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		*std_out = open(cmds->redirection->name,
+				O_CREAT | O_RDWR | O_TRUNC, 0644);
 	return (EXIT_SUCCESS);
 }
 
@@ -105,7 +106,7 @@ void	exec_single_cmd(t_parse *cmds_list, char ***environ, t_data *data)
 		return ;
 	builtin_check = is_builtin(cmds_list);
 	if (builtin_check > 0)
-		data->exit_status = exec_builtin(builtin_check, cmds_list, environ);
+		data->exit_status = exec_builtin(builtin_check, cmds_list, environ, data);
 	else
 	{
 		if (cmds_list->path)
@@ -115,7 +116,8 @@ void	exec_single_cmd(t_parse *cmds_list, char ***environ, t_data *data)
 			cmds_list->cmd_array[0] = tmp;
 		}
 		else
-			return ((void)printf("minishell: command not found: %s\n", cmds_list->cmd_array[0]));
+			return ((void)printf("minishell: command not found: %s\n",
+					cmds_list->cmd_array[0]));
 		single_cmd(cmds_list, *environ, data);
 	}
 }

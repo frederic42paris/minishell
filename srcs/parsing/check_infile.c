@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:54:51 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/23 16:26:33 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:44:32 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,34 +52,31 @@ void	check_infile(t_redir *redir_list)
 
 ////////////////////////////////////////////// OPEN INFILE
 
-int	receive_input(char *argv)
-{
-	char	*string;
-	int		temp_fd;
-	size_t	len;
+// int	receive_input(char *argv)
+// {
+// 	char	*string;
+// 	int		temp_fd;
+// 	size_t	len;
 
-	temp_fd = open("temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	while (1)
-	{
-		string = get_next_line(0);
-		if (!string)
-			perror("get _next_line");
-		len = ft_strlen(string);
-		if (len > 0 && string[len - 1] == '\n')
-			string[len - 1] = '\0';
-		if (ft_strncmp(string, argv, ft_strlen(argv)) == 0
-			&& ft_strlen(string) == ft_strlen(argv))
-		{
-			free(string);
-			break ;
-		}
-		// ft_putstr_fd(string, );
-		// write(temp_fd, string, ft_strlen(string));
-		// ft_putstr_fd("\n", );
-		free(string);
-	}
-	return (temp_fd);
-}
+// 	temp_fd = open("temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
+// 	while (1)
+// 	{
+// 		string = get_next_line(0);
+// 		if (!string)
+// 			perror("get _next_line");
+// 		len = ft_strlen(string);
+// 		if (len > 0 && string[len - 1] == '\n')
+// 			string[len - 1] = '\0';
+// 		if (ft_strncmp(string, argv, ft_strlen(argv)) == 0
+// 			&& ft_strlen(string) == ft_strlen(argv))
+// 		{
+// 			free(string);
+// 			break ;
+// 		}
+// 		free(string);
+// 	}
+// 	return (temp_fd);
+// }
 
 // int	open_infile(t_parse *parser)
 // {
