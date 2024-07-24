@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/23 18:35:35 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/24 11:34:21 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	push_parse_list(t_parse **par_list, int i)
 	// element->outfile_token = NULL;
 	// element->outfile_exist = 0;
 	// element->outfile_access = 0;
+	element->redirection = NULL;
+
 	element->infile_nb = 0;
 	element->outfile_nb = 0;
 	element->path = NULL;
@@ -200,13 +202,14 @@ int	check_bracket_empty(t_token *tok_list)
 		if (tok_list->operator && tok_list->operator[0] == '>')
 		{
 			tok_list = tok_list->next;
-			if (!tok_list || tok_list->operator[0] == '|')
+			if (!tok_list || (tok_list->operator && tok_list->operator[0] == '|'))
 			{
 				printf("Error : invalid cmd\n");
 				return (1);
 			}
 		}
-		tok_list = tok_list->next;
+		if (tok_list)
+			tok_list = tok_list->next;
 		// i = 0;
 		// k = 0;
 		// i = count_words_pipe_create(tok_list);
