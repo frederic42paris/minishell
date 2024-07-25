@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/24 16:33:50 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/25 14:24:43 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ int	main(int argc, char **argv, char **envp)
 		count_nb_pipe(tok_list, data);
 		get_num_token(tok_list, data);
 		free(data->input);
-		if (check_bracket_dup(tok_list))
-		{
-			free_token_list(&tok_list);
-			continue ;
-		}
-		if (check_bracket_error(tok_list, data))
-		{
-			free_token_list(&tok_list);
-			continue ;
-		}
+		// if (check_bracket_dup(tok_list))
+		// {
+		// 	free_token_list(&tok_list);
+		// 	continue ;
+		// }
+		// if (check_bracket_error(tok_list, data))
+		// {
+		// 	free_token_list(&tok_list);
+		// 	continue ;
+		// }
 		if (check_bracket_empty(tok_list))
 		{
 			free_token_list(&tok_list);

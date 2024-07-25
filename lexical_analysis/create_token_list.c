@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/24 15:54:52 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/25 15:08:34 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ int	not_meta_quote(char c)
 		return (0);
 }
 
-int	is_space_double_quote(char c)
-{
-	if (c == ' ' || c == '"')
-		return (1);
-	else
-		return (0);
-}
+// int	is_space_double_quote(char c)
+// {
+// 	if (c == ' ' || c == '"')
+// 		return (1);
+// 	else
+// 		return (0);
+// }
 
 int	not_meta(char c)
 {
@@ -99,6 +99,14 @@ int	is_space(char c)
 int	is_single_quote(char c)
 {
 	if (c == 39 && c != '\0')
+		return (1);
+	else
+		return (0);
+}
+
+int	is_quote(char c)
+{
+	if (c == 39 || c == '"')
 		return (1);
 	else
 		return (0);
@@ -197,11 +205,11 @@ void	len_no_quote(t_data *data, t_env *env_list, t_token *element)
 			element->len = element->len + data->exit_len;
 			data->pos = data->pos + data->exit_len;
 		}
-		else if (data->input[data->pos] == '$' && is_single_quote(data->input[data->pos + 1]))
+		else if (data->input[data->pos] == '$' && is_quote(data->input[data->pos + 1]))
 		{
 			data->pos = data->pos + 1;
 		}
-		else if (data->input[data->pos] == '$' && is_space_double_quote(data->input[data->pos + 1]))
+		else if (data->input[data->pos] == '$' && is_space(data->input[data->pos + 1]))
 		{
 			element->len = element->len + 1;
 			data->pos = data->pos + 1;
@@ -348,9 +356,9 @@ void	store_no_quote(t_token *element, char *str, t_env *env_list, t_data *data)
 	{
 		if (str[element->i] == '$' && str[element->i + 1] == '?')
 			copy_exit(element, data);
-		else if (str[element->i] == '$' && is_single_quote(str[element->i + 1]))
+		else if (str[element->i] == '$' && is_quote(str[element->i + 1]))
 			element->i++;
-		else if (str[element->i] == '$' && is_space_double_quote(str[element->i + 1]))
+		else if (str[element->i] == '$' && is_space(str[element->i + 1]))
 			copy_word(element, str);
 		else if (str[element->i] == '$')
 			expand_word(element, str, env_list);
