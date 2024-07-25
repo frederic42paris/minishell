@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/07/25 20:44:56 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/25 22:02:13 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ void	exec_out(int *fd, int *stdin_out, pid_t pid, t_parse cmds)
 		exit(EXIT_SUCCESS);
 	}
 	close(fd[0]);
-	// waitpid(pid, NULL, 0);
 }
 
 void	exec_multiple_cmd(t_parse *cmds, char **environ, t_data *data)
@@ -136,6 +135,8 @@ void	exec_multiple_cmd(t_parse *cmds, char **environ, t_data *data)
 
 	data->num_cmd = count_cmds(cmds);
 	stdin_out = prepare_in_out(cmds, data);
+	if (stdin_out[0] < 0 || stdin_out[1] < 0)
+		return (perror("open"));
 	pid = malloc(sizeof(pid_t) * data->num_cmd);
 	fd = malloc(sizeof(int *) * data->has_pipe);
 	i = 0;

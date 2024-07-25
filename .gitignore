@@ -1,1 +1,5 @@
 .obj/
+minishell
+dump/
+outfile
+infile

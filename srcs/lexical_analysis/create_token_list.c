@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/24 17:17:51 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/25 21:25:36 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,7 +339,7 @@ void	store_no_quote(t_token *element, char *str, t_env *env_list, t_data *data)
 	while (not_operator(str[element->i]))
 	{
 		if (str[element->i] == '$' && str[element->i + 1] == '?')
-			element->word = ft_strdup(data->exit_string);
+			copy_exit(element, data);
 		else if (str[element->i] == '$' && is_single_quote(str[element->i + 1]))
 			element->i++;
 		else if (str[element->i] == '$' && is_separator(str[element->i + 1]))
