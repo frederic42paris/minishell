@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/07/25 19:18:46 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/25 20:44:56 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,37 +24,6 @@ t_bool	check_paths(t_parse *cmds)
 	}
 	return (EXIT_SUCCESS);
 }
-
-// void	exec_first_cmd(t_parse *cmds, int pid, int *fd_in, int (*fd)[2])
-// {
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		close(fd[0][0]);
-// 		// execute_cmd(**cmds, (*cmds)->environ, *fd_in, fd[1]);
-// 		if (*fd_in != STDIN_FILENO)
-// 		{
-// 			dup2(*fd_in, STDIN_FILENO);
-// 			close(*fd_in);
-// 		}
-// 		if (fd[0][1] != STDOUT_FILENO)
-// 		{
-// 			dup2(*fd[1], STDOUT_FILENO);
-// 			close(fd[0][1]);
-// 		}
-// 		if (execve(cmds->cmd_array[0], cmds->cmd_array, cmds->environ) == -1)
-// 		{
-// 			perror("execve");
-// 			exit(EXIT_FAILURE);
-// 		}
-// 		//close fd_out
-// 		//close all fds opened with pipe
-// 		exit(EXIT_SUCCESS);
-// 	}
-// 	if (*fd_in != STDIN_FILENO)
-// 		close(*fd_in);
-// 	close(fd[0][1]);
-// }
 
 int	count_cmds(t_parse *cmds)
 {
@@ -108,7 +77,6 @@ int	*prepare_in_out(t_parse *cmds, t_data *data)
 
 	i = 0;
 	stdin_out = malloc(sizeof(int) * 2);
-	printf("data->numcmd = %d\n", data->num_cmd);
 	check = exec_check_redirection(cmds, data->num_cmd);
 	if (check == 3)
 	{
@@ -146,21 +114,8 @@ int	*prepare_in_out(t_parse *cmds, t_data *data)
 	}
 }
 
-void	waitpid_loop(pid_t *pid, t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->num_cmd - 1)
-	{
-		waitpid(pid[i], NULL, 0);
-		i++;
-	}
-}
-
 void	exec_out(int *fd, int *stdin_out, pid_t pid, t_parse cmds)
 {
-	printf("just in case : %s\n", cmds.cmd_array[0]);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -168,25 +123,23 @@ void	exec_out(int *fd, int *stdin_out, pid_t pid, t_parse cmds)
 		exit(EXIT_SUCCESS);
 	}
 	close(fd[0]);
-	waitpid(pid, NULL, 0);
+	// waitpid(pid, NULL, 0);
 }
 
 void	exec_multiple_cmd(t_parse *cmds, char **environ, t_data *data)
 {
 	int		(*fd)[2];
 	int		i;
+	int		status;
 	pid_t	*pid;
-	// int		status;
-	int	*stdin_out;
-	// int		fd_in;
-	// int		fd_out;
+	int		*stdin_out;
 
 	data->num_cmd = count_cmds(cmds);
 	stdin_out = prepare_in_out(cmds, data);
 	pid = malloc(sizeof(pid_t) * data->num_cmd);
 	fd = malloc(sizeof(int *) * data->has_pipe);
 	i = 0;
-	// status = 0;
+	status = 0;
 	if (!check_paths(cmds))
 	{
 		while (i < data->has_pipe)
@@ -217,12 +170,15 @@ void	exec_multiple_cmd(t_parse *cmds, char **environ, t_data *data)
 			cmds = cmds->next;
 			i++;
 		}
-		// pid[i] = fork();
-		// if (pid == 0)
-		// 	execute_cmd(*cmds, environ, fd[i - 1][0], stdin_out[1]);
-		// close(fd[i - 1][0]);
 		exec_out(fd[i - 1], stdin_out, pid[i], *cmds);
-		waitpid_loop(pid, data);
+		i = 0;
+		while (i < data->num_cmd)
+		{
+			waitpid(pid[i], &status, 0);
+			if (i == data->num_cmd - 1)
+				data->exit_status = WEXITSTATUS(status);
+			i++;
+		}
 		if (stdin_out[0] != STDIN_FILENO)
 			close(stdin_out[0]);
 		if (stdin_out[1] != STDOUT_FILENO)
