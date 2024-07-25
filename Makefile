@@ -47,7 +47,7 @@ OBJDIR = obj
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 
 #FLAGS 
-CC = clang
+CC = cc
 CFLAGS = -Wall -Werror -Wextra
 LDFLAGS = -lreadline
 CLIB = -L libft/ -l libft
