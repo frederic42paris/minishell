@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/24 21:21:49 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:23:19 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	free_array(char **line)
 
 void	execute_cmd(t_parse cmd, char **environ, int std_in, int std_out)
 {
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDOUT_FILENO);
 	if (std_in != STDIN_FILENO)
 	{
-		dup2(std_in, STDIN_FILENO);
 		close(std_in);
 	}
 	if (std_out != STDOUT_FILENO)
 	{
-		dup2(std_out, STDOUT_FILENO);
 		close(std_out);
 	}
 	if (execve(cmd.cmd_array[0], cmd.cmd_array, environ) == -1)
