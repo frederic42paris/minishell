@@ -58,6 +58,7 @@ SRCS_FILES =	minishell.c \
 				error_handler/error_controler.c \
 				execution/exec_single.c \
 				execution/exec_multiple.c \
+				execution/prepare_multipipe.c \
 				input_handler/input_handler.c \
 				lexical_analysis/check_input.c \
 				lexical_analysis/count_nb_pipe.c \

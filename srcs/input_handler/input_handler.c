@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/24 13:43:09 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/26 12:23:36 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	take_input(t_data *data)
 	if (data->input == NULL)
 	{
 		free(data->exit_string);
-		free_array(data->all_paths);
+		if (data->all_paths)
+			free_array(data->all_paths);
 		free(data);
 		exit(0);
 	}
