@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/07/26 16:09:27 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/27 18:47:23 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,24 @@
 
 int	exec_check_redirection(t_parse *cmds, int ncmds)
 {
+	int	result;
 	int	n;
-	int	infile;
-	int	outfile;
 
 	n = 1;
-	infile = 0;
-	outfile = 0;
+	result = 0;
 	while (cmds)
 	{
 		if (cmds->redirection)
 		{
 			if (n == 1 && cmds->redirection->type == 0)
-				infile = 1;
+				result |= 1;
 			else if (n == ncmds && cmds->redirection->type == 1)
-				outfile = 1;
+				result |= 2;
 		}
 		n++;
 		cmds = cmds->next;
 	}
-	if (infile == 1 && outfile == 1)
-		return (3);
-	else if (infile == 0 && outfile == 1)
-		return (2);
-	else if (infile == 1 && outfile == 0)
-		return (1);
-	return (0);
+	return (result);
 }
 
 void	exec_out(int (*fd)[2], pid_t *pid, t_parse cmds, t_data *data)
@@ -66,6 +58,8 @@ void	exec_out(int (*fd)[2], pid_t *pid, t_parse cmds, t_data *data)
 			data->exit_status = WEXITSTATUS(status);
 		i++;
 	}
+	if (fd[0][1] != STDOUT_FILENO)
+		close(fd[0][1]);
 }
 
 void	close_child(t_data *data, int (*fd)[2], int i)
@@ -114,36 +108,33 @@ void	exec_pipes(t_parse *cmds, t_data *data, int (*fd)[2], pid_t *pid)
 		i++;
 	}
 	exec_out(fd, pid, *cmds, data);
+	if (fd[0][0] != STDIN_FILENO)
+		close(fd[0][0]);
 }
 
-void	exec_multiple_cmd(t_parse *cmds, t_data *data, char **environ)
+void	exec_multiple_cmd(t_parse *cmds, t_data *data)
 {
 	int		(*fd)[2];
 	pid_t	*pid;
 	int		i;
 
-	(void)environ;
-	data->num_cmd = count_cmds(cmds);
 	fd = malloc(sizeof(int [2]) * (data->has_pipe + 1));
 	prepare_in_out(cmds, data, &fd);
 	if (fd[0][0] < 0 || fd[0][1] < 0 || check_paths(cmds))
 		return ;
 	pid = malloc(sizeof(pid_t) * data->num_cmd);
+	if (!pid)
+	{
+		free(fd);
+		return ((void)printf("Malloc error\n"));
+	}
 	i = 1;
 	while (i <= data->has_pipe)
 	{
 		if (pipe(fd[i]) == -1)
-		{
-			free(pid);
-			free(fd);
-			perror("pipe failed");
-			return ;
-		}
+			free_exec(&fd, &pid, "pipe failed");
 		i++;
 	}
 	exec_pipes(cmds, data, fd, pid);
-	if (fd[0][0] != STDIN_FILENO)
-		close(fd[0][0]);
-	if (fd[0][1] != STDOUT_FILENO)
-		close(fd[0][1]);
+	free_exec(&fd, &pid, NULL);
 }

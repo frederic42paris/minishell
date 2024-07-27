@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/26 16:05:12 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/27 18:31:02 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_data
 	int				has_pipe;
 	int				pos;
 	char			*input;
-	int				total_cmds;
 	int				num_cmd;
 	int				exit_status;
 	int				num_token;
@@ -132,13 +131,15 @@ int					count_cmds(t_parse *cmds_list);
 
 // execution
 void				free_array(char **line);
-void				exec_multiple_cmd(t_parse *cmds, t_data *data, char **environ);
+void				exec_multiple_cmd(t_parse *cmds, t_data *data);
 void				exec_single_cmd(t_parse *cmds_list, char ***environ, t_data *data);
 void				execute_cmd(t_parse cmd, char **environ, int std_in, int std_out);
 t_bool				prepare_file_descriptors(int *std_in, int *std_out, t_parse *cmds);
 t_bool				check_paths(t_parse *cmds);
 int					count_cmds(t_parse *cmds);
 void				prepare_in_out(t_parse *cmds, t_data *data, int (**fd)[2]);
+int					exec_check_redirection(t_parse *cmds, int ncmds);
+void				free_exec(int (**fd)[2], pid_t **pid, char *str);
 
 // built-in
 int					is_builtin(t_parse *cmds);

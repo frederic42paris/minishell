@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/26 12:27:41 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/27 18:48:14 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	main(int argc, char **argv, char **envp)
 		disable_signal();
 		if (take_input(data))
 			continue ;
+		printf("%s\n", data->input);
 		if (check_input(data->input))
 			continue ;
 		store_path(environ, data);
@@ -94,10 +95,11 @@ int	main(int argc, char **argv, char **envp)
 			free_token_list(&tok_list);
 			continue ;
 		}
+		data->num_cmd = count_cmds(par_list);
 		if (data->has_pipe < 1)
-			exec_single_cmd(par_list, &environ, data);
+			exec_single_cmd(par_list, &par_list->environ, data);
 		else if (data->has_pipe >= 1)
-			exec_multiple_cmd(par_list, data, environ);
+			exec_multiple_cmd(par_list, data);
 		free(data->exit_string);
 		free_parse_list(&par_list);
 	}
