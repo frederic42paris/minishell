@@ -21,24 +21,33 @@ builtin/unset.c\
 builtin/env.c\
 builtin/export_utils.c\
 builtin/find_builtin.c\
-lexical_analysis/check_input.c\
+check_error/check_empty_redirection.c\
+check_error/check_input.c\
+lexical_analysis/store_string_utils.c\
 lexical_analysis/create_token_list.c\
-lexical_analysis/count_nb_pipe.c\
-lexical_analysis/free_redirection.c\
+lexical_analysis/display_token_list.c\
 lexical_analysis/free_token_list.c\
+lexical_analysis/get_len_pos.c\
+lexical_analysis/store_string.c\
 parsing/create_parse_list.c\
 parsing/check_infile.c\
 parsing/check_outfile.c\
+parsing/display_parse_list.c\
 parsing/free_parse_list.c\
 parsing/search_command.c\
 parsing/store_command.c\
 parsing/store_redirection.c\
 signals/signals.c\
+store_data/count_nb_pipe.c\
+store_data/get_num_token.c\
+store_data/store_path.c\
 store_env/free_env_list.c\
 store_env/store_env_list.c\
-store_env/store_path.c\
 store_env/env_utils.c\
 utils_display/display.c\
+utils_parsing/count_words.c\
+utils_parsing/check_c_is.c\
+utils_parsing/check_c_isnot.c\
 get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 
 INCLUDES = libft/

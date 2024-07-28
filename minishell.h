@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 18:20:16 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/28 18:09:00 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,7 @@ typedef struct s_redir
 
 typedef struct s_parse
 {
-	int				index;
-	// char			*infile_name;
-	// char			*infile_token;
-	// int				infile_exist;
-	// int				infile_access;
 	char			**cmd_array;
-	// char			*outfile_name;
-	// char			*outfile_token;
-	// int				outfile_exist;
-	// int				outfile_access;
 	int				infile_nb;
 	int				outfile_nb;
 	t_redir			*redirection;
@@ -188,8 +179,14 @@ void				free_token_list(t_token **tok_list);
 void				get_num_token(t_token *tok_list, t_data *data);
 int					check_bracket_error(t_token *tok_list, t_data *data);
 int					check_bracket_dup(t_token *tok_list);
-int					check_bracket_empty(t_token *tok_list);
+int					check_empty_redirection(t_token *tok_list);
 void				free_redirection(t_token	**tok_list);
+void				get_len_pos(t_data *data, t_env *env_list, t_token *element);
+void				store_string(t_token *element, char *str, t_env *env_list, t_data *data);
+void				copy_word(t_token *element, char *str);
+void				expand_word(t_token *element, char *str, t_env *env_list);
+char				*env_path(t_env *env_list, int len, char *string);
+void				copy_exit(t_token *element, t_data *data);
 
 //  parsing
 void				create_parse_list(t_token *tok_list, t_parse **par_list);
@@ -201,6 +198,8 @@ void				check_infile(t_redir *par_list);
 void				search_command(t_parse *par_list, t_data *data);
 void				count_nb_pipe(t_token *tok_list, t_data *data);
 void				store_redirection(t_token *tok_list, t_parse *par_list);
+void				display_parse_list(t_parse *par_list);
+
 
 //  env
 void				store_env_list(char **envp, t_env **env_list);
@@ -216,6 +215,20 @@ void				display_array(char **array);
 void				display_path(t_data *data);
 void				display_env_list(t_env *env_list);
 void				display_token_list(t_token *tok_list);
+
+// utils parsing
+int					is_meta(char c);
+int					is_bracket(char c);
+int					count_words_pipe(t_token *tok_list);
+int					not_meta_quote(char c);
+int					not_meta(char c);
+int					not_double_quote(char c);
+int					not_single_quote(char c);
+int					is_double_bracket(char c, char d);
+int					is_space(char c);
+int					is_single_quote(char c);
+int					is_quote(char c);
+int					is_alnum(char c);
 
 // gnl
 char				*get_next_line(int fd);
