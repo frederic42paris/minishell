@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/30 17:19:43 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 18:39:25 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,10 +181,10 @@ int					check_bracket_error(t_token *tok_list, t_data *data);
 int					check_bracket_dup(t_token *tok_list);
 int					check_empty_redirection(t_token *tok_list);
 void				free_redirection(t_token	**tok_list);
-int					get_len_pos(t_data *data, t_env *env_list, t_token *element);
+void				get_len_pos(t_data *data, t_env *env_list, t_token *element);
 int					store_string(t_token *element, char *str, t_env *env_list, t_data *data);
 void				copy_word(t_token *element, char *str);
-int					expand_word(t_token *element, char *str, t_env *env_list);
+void				expand_word(t_token *element, char *str, t_env *env_list);
 char				*env_path(t_env *env_list, int len, char *string);
 void				copy_exit(t_token *element, t_data *data);
 

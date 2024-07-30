@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/30 17:43:27 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 18:12:42 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	find_path(char *single_path, t_parse *par_list)
 	if (access(path, R_OK) == 0)
 	{
 		par_list->path = ft_strdup(path);
+		if (path == NULL)
+			return (1);
 		free(joined);
 		free(path);
 		return (2);

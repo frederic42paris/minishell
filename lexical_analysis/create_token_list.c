@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/30 16:37:30 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 18:35:51 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 	element->len = 0;
 	element->j = 0;
 	element->i = 0;
-	if (get_len_pos(data, env, element))
-		return (1);
+	get_len_pos(data, env, element);
 	if (store_string(element, str, env, data))
 		return (1);
 	element->next = NULL;

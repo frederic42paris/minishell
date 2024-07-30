@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/30 16:00:51 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 18:02:55 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	store_env_list(char **envp, t_env **env_list)
 	i = 0;
 	while (envp[i])
 	{
-		if (push_env_list(env_list, envp[i]) == 1)
+		if (push_env_list(env_list, envp[i]))
 			return (1);
 		i++;
 	}
