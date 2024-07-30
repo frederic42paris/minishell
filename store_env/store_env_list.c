@@ -3,24 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   store_env_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/23 21:38:27 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/07/30 15:19:42 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	push_env_list(t_env **env_list, const char *str, int len)
+void	push_env_list(t_env **env_list, const char *str)
 {
 	t_env	*element;
 	t_env	*last;
 
 	last = *env_list;
 	element = malloc(sizeof(t_env));
-	element->env_var = malloc(len + 1);
-	ft_strlcpy(element->env_var, str, len + 1);
+	element->env_var = ft_strdup(str);
 	element->next = NULL;
 	if (*env_list == NULL)
 	{
@@ -36,13 +35,11 @@ void	push_env_list(t_env **env_list, const char *str, int len)
 void	store_env_list(char **envp, t_env **env_list)
 {
 	int	i;
-	int	len;
 
 	i = 0;
 	while (envp[i])
 	{
-		len = ft_strlen(envp[i]);
-		push_env_list(env_list, envp[i], len);
+		push_env_list(env_list, envp[i]);
 		i++;
 	}
 }

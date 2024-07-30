@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/30 14:06:13 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 15:19:34 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,6 @@ void				display_parse_list(t_parse *par_list);
 //  env
 void				store_env_list(char **envp, t_env **env_list);
 void				store_path(t_env *env_list, t_data *data);
-void				push_env_list(t_env **env_list, const char *str, int len);
 void				delete_one_env(t_env **env_list, char *variable);
 void				replace_one_env(t_env **env_list, char *env_val,
 						char *variable, char *value);

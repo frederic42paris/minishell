@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/30 14:07:16 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 15:14:48 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		data->exit_len = ft_strlen(ft_itoa(data->exit_status));
-		data->exit_string = malloc((data->exit_len + 1) * sizeof(char));
-		ft_strlcpy(data->exit_string, ft_itoa(data->exit_status), data->exit_len + 1);
+		data->exit_string = ft_strdup(ft_itoa(data->exit_status));
 		// printf("exit status : %d\n", data->exit_status);
 		// disable_signal();
 		if (take_input(data))

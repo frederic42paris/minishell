@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/28 12:30:19 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 15:17:21 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,10 @@ void	store_str(t_token *tok_list, t_redir	*element)
 	else if (tok_list->operator[0] == '>')
 		element->type = 1;
 	len = ft_strlen(tok_list->operator);
-	element->token = (char *)malloc(sizeof(char) * (len + 1));
-	ft_strlcpy(element->token, tok_list->operator, len + 1);
+	element->token = ft_strdup(tok_list->operator);
 	tok_list = tok_list->next;
 	len = ft_strlen(tok_list->word);
-	element->name = (char *)malloc(sizeof(char) * (len + 1));
-	ft_strlcpy(element->name, tok_list->word, len + 1);
+	element->name = ft_strdup(tok_list->word);
 }
 
 void	push_redirection(t_redir **redir_list, t_token *tok_list)
