@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/28 12:30:52 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 13:56:44 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ void	split_command(t_token *tok_list, t_parse *par_list)
 {
 	int	i;
 	int	j;
-	int	len;
 
-	len = 0;
 	j = 0;
 	i = count_words_meta(tok_list);
 	free_array(par_list->cmd_array);

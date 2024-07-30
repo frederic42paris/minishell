@@ -46,8 +46,8 @@ store_env/store_env_list.c\
 store_env/env_utils.c\
 utils_display/display.c\
 utils_parsing/count_words.c\
-utils_parsing/check_c_is.c\
-utils_parsing/check_c_isnot.c\
+utils_parsing/check_char.c\
+utils_parsing/check_meta.c\
 get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 
 INCLUDES = libft/
@@ -59,7 +59,7 @@ OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 LDFLAGS = -lreadline
-CLIB = -L libft/ -l libft
+CLIB = ./libft/liblibft.a
 DEBUGGER = -g3
 
 all : $(NAME)

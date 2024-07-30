@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_c_isnot.c                                    :+:      :+:    :+:   */
+/*   check_meta.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:43:22 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/28 15:46:32 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 13:59:35 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,27 @@ int	not_meta(char c)
 		return (0);
 }
 
-int	not_double_quote(char c)
+int	is_meta(char c)
 {
-	if (c != '"' && c != '\0')
+	if (c == '>' || c == '<' || c == '|')
 		return (1);
 	else
 		return (0);
 }
 
-int	not_single_quote(char c)
+int	is_bracket(char c)
 {
-	if (c != 39 && c != '\0')
+	if (c == '>' || c == '<')
+		return (1);
+	else
+		return (0);
+}
+
+int	is_double_bracket(char c, char d)
+{
+	if (c == '>' && d == '>')
+		return (1);
+	else if (c == '<' && d == '<')
 		return (1);
 	else
 		return (0);

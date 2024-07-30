@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/28 18:09:00 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 14:06:13 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void				exit_program(char *s);
 void				create_prompt(char **env);
 
 // minishell
-int					take_input(t_data *data, t_env *env_list);
+int					take_input(t_data *data);
 void				print_dir(void);
 int					process_string(char *str, char **parsed, char **parsedpipe);
 void				exec_args(char **parsed);
