@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/28 17:17:22 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 14:07:16 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_strlcpy(data->exit_string, ft_itoa(data->exit_status), data->exit_len + 1);
 		// printf("exit status : %d\n", data->exit_status);
 		// disable_signal();
-		if (take_input(data, env_list))
+		if (take_input(data))
 			continue ;
 		if (check_input(data->input))
 			continue ;
