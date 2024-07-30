@@ -46,13 +46,13 @@ int	is_space(char c)
 		return (0);
 }
 
-int	is_single_quote(char c)
-{
-	if (c == 39 && c != '\0')
-		return (1);
-	else
-		return (0);
-}
+// int	is_single_quote(char c)
+// {
+// 	if (c == 39 && c != '\0')
+// 		return (1);
+// 	else
+// 		return (0);
+// }
 
 int	is_quote(char c)
 {
