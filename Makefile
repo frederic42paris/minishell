@@ -59,7 +59,7 @@ OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 LDFLAGS = -lreadline
-CLIB = -L libft/ -l libft
+CLIB = ./libft/liblibft.a
 DEBUGGER = -g3
 
 all : $(NAME)
@@ -73,6 +73,7 @@ $(OBJDIR)/%.o : %.c
 		$(CC) $(CFLAGS) $(DEBUGGER) -c $< -o $@
 
 clean :
+		make clean -C ./libft
 		rm -rf $(OBJDIR)
 
 fclean : clean

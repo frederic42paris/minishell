@@ -18,11 +18,11 @@ int	main(int argc, char **argv, char **envp)
 	t_parse	*par_list;
 	t_env	*env_list;
 	t_data	*data;
-	int		builtin_check;
-	char	**copy;
+	// int		builtin_check;
+	// char	**copy;
 
-	copy = envp;
-	builtin_check = 0;
+	// copy = envp;
+	// builtin_check = 0;
 	data = malloc(sizeof(t_data));
 	data->all_paths = (char **)ft_calloc(2, sizeof(char *));
 	data->exit_status = 0;

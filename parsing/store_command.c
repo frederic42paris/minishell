@@ -38,9 +38,9 @@ void	split_command(t_token *tok_list, t_parse *par_list)
 {
 	int	i;
 	int	j;
-	int	len;
+	// int	len;
 
-	len = 0;
+	// len = 0;
 	j = 0;
 	i = count_words_meta(tok_list);
 	free_array(par_list->cmd_array);

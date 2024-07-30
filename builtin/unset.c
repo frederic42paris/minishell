@@ -33,12 +33,12 @@ int	is_unset(char *str)
 
 void	func_unset(t_parse *cmds, t_env **env)
 {
-	int		i;
+	// int		i;
 	char	*found_value;
 	t_env	*current;
 
 	current = *env;
-	i = 0;
+	// i = 0;
 	if (!cmds->cmd_array[1])
 		return ;
 	// else if (!ft_strcmp(cmds->cmd_array[1], "PATH"))

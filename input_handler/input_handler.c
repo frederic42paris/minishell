@@ -14,11 +14,11 @@
 
 int	take_input(t_data *data, t_env *env_list)
 {
-	int		size;
+	// int		size;
 	char	cwd[1024];
 	char	*pretty_prompt;
 
-	size = 0;
+	// size = 0;
 	(void)env_list;
 	getcwd(cwd, sizeof(cwd));
 	pretty_prompt = ft_strjoin(cwd, ">");
