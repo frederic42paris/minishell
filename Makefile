@@ -21,8 +21,8 @@ builtin/unset.c\
 builtin/env.c\
 builtin/export_utils.c\
 builtin/find_builtin.c\
-check_error/check_empty_redirection.c\
-check_error/check_input.c\
+input_error/check_empty_redirection.c\
+input_error/check_input.c\
 lexical_analysis/store_string_utils.c\
 lexical_analysis/create_token_list.c\
 lexical_analysis/display_token_list.c\

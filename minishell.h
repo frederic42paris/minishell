@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/30 15:19:34 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 17:19:43 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ int					ft_strcmp(const char *s1, const char *s2);
 int					check_export_variable(char s);
 //  lexical analysis
 int					check_input(char const *str);
-void				create_token_list(t_data *data, t_token **tok_list,
+int					create_token_list(t_data *data, t_token **tok_list,
 						t_env *env_list);
 void				free_token_list(t_token **tok_list);
 void				get_num_token(t_token *tok_list, t_data *data);
@@ -181,33 +181,34 @@ int					check_bracket_error(t_token *tok_list, t_data *data);
 int					check_bracket_dup(t_token *tok_list);
 int					check_empty_redirection(t_token *tok_list);
 void				free_redirection(t_token	**tok_list);
-void				get_len_pos(t_data *data, t_env *env_list, t_token *element);
-void				store_string(t_token *element, char *str, t_env *env_list, t_data *data);
+int					get_len_pos(t_data *data, t_env *env_list, t_token *element);
+int					store_string(t_token *element, char *str, t_env *env_list, t_data *data);
 void				copy_word(t_token *element, char *str);
-void				expand_word(t_token *element, char *str, t_env *env_list);
+int					expand_word(t_token *element, char *str, t_env *env_list);
 char				*env_path(t_env *env_list, int len, char *string);
 void				copy_exit(t_token *element, t_data *data);
 
 //  parsing
-void				create_parse_list(t_token *tok_list, t_parse **par_list);
+int					create_parse_list(t_token *tok_list, t_parse **par_list);
 void				free_parse_list(t_parse **par_list);
 void				display_parse_list(t_parse *par_list);
-void				store_command(t_token *tok_list, t_parse *par_list);
+int					store_command(t_token *tok_list, t_parse *par_list);
 void				check_outfile(t_redir *par_list);
 void				check_infile(t_redir *par_list);
-void				search_command(t_parse *par_list, t_data *data);
+int					search_command(t_parse *par_list, t_data *data);
 void				count_nb_pipe(t_token *tok_list, t_data *data);
-void				store_redirection(t_token *tok_list, t_parse *par_list);
+int					store_redirection(t_token *tok_list, t_parse *par_list);
 void				display_parse_list(t_parse *par_list);
 
 
 //  env
-void				store_env_list(char **envp, t_env **env_list);
-void				store_path(t_env *env_list, t_data *data);
+int					store_env_list(char **envp, t_env **env_list);
+int				store_path(t_env *env_list, t_data *data);
 void				delete_one_env(t_env **env_list, char *variable);
 void				replace_one_env(t_env **env_list, char *env_val,
 						char *variable, char *value);
 void				free_env_list(t_env **env_list);
+int					push_env_list(t_env **env_list, const char *str);
 
 // display
 void				display_array(char **array);

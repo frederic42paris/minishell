@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/30 15:14:48 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 17:20:17 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ int	main(int argc, char **argv, char **envp)
 	copy = envp;
 	builtin_check = 0;
 	data = malloc(sizeof(t_data));
+	if (data == NULL)
+		return (1);
 	data->all_paths = (char **)ft_calloc(2, sizeof(char *));
+	if (data->all_paths == NULL)
+		return (1);
 	data->exit_status = 0;
 	tok_list = NULL;
 	par_list = NULL;
@@ -33,19 +37,24 @@ int	main(int argc, char **argv, char **envp)
 		exit_program("Minishell does not take arguments.");
 	if (argv[1] != NULL)
 		exit_program("Minishell does not take arguments.");
-	store_env_list(envp, &env_list);
+	if (store_env_list(envp, &env_list) == 1)
+		return (1);
 	while (1)
 	{
 		data->exit_len = ft_strlen(ft_itoa(data->exit_status));
 		data->exit_string = ft_strdup(ft_itoa(data->exit_status));
+		if (data->exit_string == NULL)
+			return (1);
 		// printf("exit status : %d\n", data->exit_status);
 		// disable_signal();
 		if (take_input(data))
 			continue ;
 		if (check_input(data->input))
 			continue ;
-		store_path(env_list, data);
-		create_token_list(data, &tok_list, env_list);
+		if (store_path(env_list, data))
+			return (1);
+		if (create_token_list(data, &tok_list, env_list))
+			return (1);
 		display_token_list(tok_list);
 		count_nb_pipe(tok_list, data);
 		get_num_token(tok_list, data);
@@ -55,13 +64,17 @@ int	main(int argc, char **argv, char **envp)
 			free_token_list(&tok_list);
 			continue ;
 		}
-		create_parse_list(tok_list, &par_list);
-		store_redirection(tok_list, par_list);
-		store_command(tok_list, par_list);
+		if (create_parse_list(tok_list, &par_list))
+			return (1);
+		if (store_redirection(tok_list, par_list))
+			return (1);
+		if (store_command(tok_list, par_list))
+			return (1);
 		free_token_list(&tok_list);
 		check_infile(par_list->redirection);
 		check_outfile(par_list->redirection);
-		search_command(par_list, data);
+		if (search_command(par_list, data))
+			return (1);
 		display_parse_list(par_list);
 
 		// enable_signal();

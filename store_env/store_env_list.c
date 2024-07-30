@@ -6,42 +6,49 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/30 15:19:42 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 16:00:51 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	push_env_list(t_env **env_list, const char *str)
+int	push_env_list(t_env **env_list, const char *str)
 {
 	t_env	*element;
 	t_env	*last;
 
 	last = *env_list;
 	element = malloc(sizeof(t_env));
+	if (element == NULL)
+		return (1);
 	element->env_var = ft_strdup(str);
+	if (element->env_var == NULL)
+		return (1);
 	element->next = NULL;
 	if (*env_list == NULL)
 	{
 		*env_list = element;
-		return ;
+		return (0);
 	}
 	while (last->next != NULL)
 		last = last->next;
 	last->next = element;
 	element->prev = last;
+	return (0);
 }
 
-void	store_env_list(char **envp, t_env **env_list)
+int	store_env_list(char **envp, t_env **env_list)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
 	{
-		push_env_list(env_list, envp[i]);
+		if (push_env_list(env_list, envp[i]) == 1)
+			return (1);
 		i++;
 	}
+	return (0);
 }
 
 void	display_env_list(t_env *env_list)

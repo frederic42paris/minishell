@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <sumseo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:10 by sumseo            #+#    #+#             */
-/*   Updated: 2024/06/27 19:36:19 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/07/30 16:41:05 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	export_without_args(t_env **env)
 	env_copy = NULL;
 	while (current)
 	{
-		push_env_list(&env_copy, current->env_var, ft_strlen(current->env_var));
+		push_env_list(&env_copy, current->env_var);
 		current = current->next;
 	}
 	current = sort_env(env_copy, current);

@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:57:00 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/28 18:09:28 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 17:07:29 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*env_path(t_env *env_list, int len, char *string)
 	return (NULL);
 }
 
-void	expand_word(t_token *element, char *str, t_env *env_list)
+int	expand_word(t_token *element, char *str, t_env *env_list)
 {
 	int		src_len;
 	int		k;
@@ -51,6 +51,8 @@ void	expand_word(t_token *element, char *str, t_env *env_list)
 	element->i++;
 	src_len = get_len_src(str + element->i);
 	src = malloc(sizeof(char) * (src_len + 1));
+	if (src == NULL)
+		return (1);
 	ft_strlcpy(src, str + element->i, src_len + 1);
 	dst = env_path(env_list, src_len, str + element->i);
 	if (dst == NULL)
@@ -67,6 +69,7 @@ void	expand_word(t_token *element, char *str, t_env *env_list)
 	}
 	free(src);
 	element->i = element->i + src_len;
+	return (0);
 }
 
 void	copy_exit(t_token *element, t_data *data)

@@ -6,13 +6,13 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:41:01 by ftanon            #+#    #+#             */
-/*   Updated: 2024/06/27 17:16:43 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 16:20:26 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	store_path(t_env *env_list, t_data *data)
+int	store_path(t_env *env_list, t_data *data)
 {
 	while (env_list)
 	{
@@ -20,10 +20,13 @@ void	store_path(t_env *env_list, t_data *data)
 		{
 			free(data->all_paths);
 			data->all_paths = ft_split(env_list->env_var + 5, ':');
+			if (data->all_paths == NULL)
+				return (1);
 			break ;
 		}
 		env_list = env_list->next;
 	}
+	return (0);
 }
 
 void	display_path(t_data *data)

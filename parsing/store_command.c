@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/30 13:56:44 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 17:29:34 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	count_words_meta(t_token *tok_list)
 	return (len);
 }
 
-void	split_command(t_token *tok_list, t_parse *par_list)
+int	split_command(t_token *tok_list, t_parse *par_list)
 {
 	int	i;
 	int	j;
@@ -43,6 +43,8 @@ void	split_command(t_token *tok_list, t_parse *par_list)
 	i = count_words_meta(tok_list);
 	free_array(par_list->cmd_array);
 	par_list->cmd_array = (char **)malloc(sizeof(char *) * (i + 1));
+	if (par_list->cmd_array == NULL)
+		return (1);
 	while (tok_list)
 	{
 		if (tok_list->operator && tok_list->operator[0] == '|')
@@ -54,13 +56,16 @@ void	split_command(t_token *tok_list, t_parse *par_list)
 			continue ;
 		}
 		par_list->cmd_array[j] = ft_strdup(tok_list->word);
+		if (par_list->cmd_array[j] == NULL)
+			return (1);
 		j++;
 		tok_list = tok_list->next;
 	}
 	par_list->cmd_array[j] = NULL;
+	return (0);
 }
 
-void	store_command(t_token *tok_list, t_parse *par_list)
+int	store_command(t_token *tok_list, t_parse *par_list)
 {
 	int	i;
 	int	k;
@@ -70,7 +75,8 @@ void	store_command(t_token *tok_list, t_parse *par_list)
 		i = 0;
 		k = 0;
 		i = count_words_pipe(tok_list);
-		split_command(tok_list, par_list);
+		if (split_command(tok_list, par_list))
+			return (1);
 		while (k < i)
 		{
 			tok_list = tok_list->next;
@@ -80,4 +86,5 @@ void	store_command(t_token *tok_list, t_parse *par_list)
 			tok_list = tok_list->next;
 		par_list = par_list->next;
 	}
+	return (0);
 }

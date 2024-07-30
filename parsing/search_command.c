@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/28 12:53:35 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/30 17:43:27 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,39 +31,53 @@ int	is_builtin_function(char *str)
 		return (0);
 }
 
-char	*find_path(char *single_path, char **command)
+int	find_path(char *single_path, t_parse *par_list)
 {
 	char	*joined;
 	char	*path;
 
 	joined = ft_strjoin(single_path, "/");
-	path = ft_strjoin(joined, command[0]);
+	if (joined == NULL)
+		return (1);
+	path = ft_strjoin(joined, par_list->cmd_array[0]);
+	if (path == NULL)
+		return (1);
 	if (access(path, R_OK) == 0)
 	{
+		par_list->path = ft_strdup(path);
 		free(joined);
-		return (path);
+		free(path);
+		return (2);
 	}
 	free(joined);
 	free(path);
-	return (NULL);
+	return (0);
 }
 
-void	compare_path(t_parse *par_list, t_data *data)
+int	compare_path(t_parse *par_list, t_data *data)
+{
+	int		i;
+	int		result;
+
+	i = 0;
+	result = 0;
+	while (data->all_paths[i])
+	{
+		result = find_path(data->all_paths[i], par_list);
+		if (result == 2)
+			break ;
+		else if (result == 1)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	search_command(t_parse *par_list, t_data *data)
 {
 	int		i;
 
 	i = 0;
-	while (data->all_paths[i])
-	{
-		par_list->path = find_path(data->all_paths[i], par_list->cmd_array);
-		if (par_list->path != NULL)
-			break ;
-		i++;
-	}
-}
-
-void	search_command(t_parse *par_list, t_data *data)
-{
 	while (par_list)
 	{
 		if (!par_list->cmd_array[0])
@@ -73,7 +87,10 @@ void	search_command(t_parse *par_list, t_data *data)
 		else if (is_builtin_function(par_list->cmd_array[0]))
 			par_list->builtin = 1;
 		else
-			compare_path(par_list, data);
+			i = compare_path(par_list, data);
+		if (i == 1)
+			return (1);
 		par_list = par_list->next;
 	}
+	return (0);
 }
