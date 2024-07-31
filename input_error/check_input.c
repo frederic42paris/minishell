@@ -6,15 +6,11 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:37:19 by ftanon            #+#    #+#             */
-<<<<<<<< HEAD:srcs/lexical_analysis/check_input.c
-/*   Updated: 2024/07/23 15:52:52 by rrichard         ###   ########.fr       */
-========
-/*   Updated: 2024/07/30 14:23:40 by ftanon           ###   ########.fr       */
->>>>>>>> 16939a04bd97ccc16f423952e771f611d521774d:input_error/check_input.c
+/*   Updated: 2024/07/31 14:47:04 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check_empty_string(char const *str)
 {

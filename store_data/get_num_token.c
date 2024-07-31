@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   store_path.c                                       :+:      :+:    :+:   */
+/*   get_num_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 15:41:01 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 15:05:37 by rrichard         ###   ########.fr       */
+/*   Created: 2024/07/28 15:37:32 by ftanon            #+#    #+#             */
+/*   Updated: 2024/07/28 15:38:29 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	store_path(char **environ, t_data *data)
+void	get_num_token(t_token *tok_list, t_data *data)
 {
-	int		i;
-	char	*env_var;
+	int	i;
 
 	i = 0;
-	while (environ[i])
+	while (tok_list)
 	{
-		if (ft_strncmp(environ[i], "PATH=", 5) == 0)
-		{
-			env_var = environ[i] + 5;
-			data->all_paths = ft_split(env_var, ':');
-			break ;
-		}
 		i++;
+		tok_list = tok_list->next;
 	}
+	data->num_token = i;
 }

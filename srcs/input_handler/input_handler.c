@@ -6,12 +6,13 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 11:20:36 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:00:42 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	take_input(t_data *data)
 int	take_input(t_data *data)
 {
 	char	cwd[1024];

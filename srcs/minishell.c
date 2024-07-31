@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 13:21:56 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:48:25 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,26 +64,30 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		if (check_input(data->input))
 			continue ;
-		store_path(environ, data);
-		create_token_list(data, &tok_list, environ);
-		display_token_list(tok_list);
-
+		if (store_path(env_list, data))
+			return (1);
+		if (create_token_list(data, &tok_list, env_list))
+			return (1);
+		// display_token_list(tok_list);
 		count_nb_pipe(tok_list, data);
 		get_num_token(tok_list, data);
 		free(data->input);
-		if (check_bracket_dup(tok_list) || check_bracket_error(tok_list, data))
+		if (check_empty_redirection(tok_list))
 		{
 			free_token_list(&tok_list);
 			continue ;
 		}
-
-		create_parse_list(tok_list, &par_list, environ);
-		store_redirection(tok_list, &par_list);
-		store_command(tok_list, par_list);
+		if (create_parse_list(tok_list, &par_list))
+			return (1);
+		if (store_redirection(tok_list, par_list))
+			return (1);
+		if (store_command(tok_list, par_list))
+			return (1);
 		free_token_list(&tok_list);
 		check_infile(par_list->redirection);
 		check_outfile(par_list->redirection);
-		search_command(par_list, data);
+		if (search_command(par_list, data))
+			return (1);
 		display_parse_list(par_list);
 		enable_signal();
 		if (par_list->builtin && data->has_pipe)
