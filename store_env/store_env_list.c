@@ -6,46 +6,50 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:15:27 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	push_env_list(t_env **env_list, const char *str, int len)
-// {
-// 	t_env	*element;
-// 	t_env	*last;
+int	push_env_list(t_env **env_list, const char *str)
+{
+	t_env	*element;
+	t_env	*last;
 
-// 	last = *env_list;
-// 	element = malloc(sizeof(t_env));
-// 	element->env_var = malloc(len + 1);
-// 	ft_strlcpy(element->env_var, str, len + 1);
-// 	element->next = NULL;
-// 	if (*env_list == NULL)
-// 	{
-// 		*env_list = element;
-// 		return ;
-// 	}
-// 	while (last->next != NULL)
-// 		last = last->next;
-// 	last->next = element;
-// 	element->prev = last;
-// }
+	last = *env_list;
+	element = malloc(sizeof(t_env));
+	if (element == NULL)
+		return (1);
+	element->env_var = ft_strdup(str);
+	if (element->env_var == NULL)
+		return (1);
+	element->next = NULL;
+	if (*env_list == NULL)
+	{
+		*env_list = element;
+		return (0);
+	}
+	while (last->next != NULL)
+		last = last->next;
+	last->next = element;
+	element->prev = last;
+	return (0);
+}
 
-// void	store_env_list(char **envp, t_env **env_list)
-// {
-// 	int	i;
-// 	int	len;
+int	store_env_list(char **envp, t_env **env_list)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		len = ft_strlen(envp[i]);
-// 		push_env_list(env_list, envp[i], len);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (envp[i])
+	{
+		if (push_env_list(env_list, envp[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 // void	display_env_list(t_env *env_list)
 // {

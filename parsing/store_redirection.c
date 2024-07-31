@@ -6,73 +6,64 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:15:01 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_words_operator_redirect(t_token *tok_list)
+int	store_str(t_token *tok_list, t_redir	*element)
 {
-	int	len;
-
-	len = 0;
-	while (tok_list)
-	{
-		if (tok_list->operator && (tok_list->operator[0] == '|'
-				|| tok_list->operator[0] == '>'
-				|| tok_list->operator[0] == '<'))
-			break ;
-		len++;
-		tok_list = tok_list->next;
-	}
-	return (len);
-}
-
-int	count_words_pipe_redirect(t_token *tok_list)
-{
-	int	len;
-
-	len = 0;
-	while (tok_list)
-	{
-		if (tok_list->operator && tok_list->operator[0] == '|')
-			break ;
-		len++;
-		tok_list = tok_list->next;
-	}
-	return (len);
-}
-
-t_redir	*push_redirection(t_redir *redir_list, t_token *tok_list)
-{
-	t_redir	*element;
-	t_redir	*last;
-
-	element = malloc(sizeof(t_redir));
-	ft_memset(element, 0, sizeof(t_redir));
 	if (tok_list->operator[0] == '<')
 		element->type = 0;
 	else if (tok_list->operator[0] == '>')
 		element->type = 1;
 	element->token = ft_strdup(tok_list->operator);
+	if (element->token == NULL)
+		return (1);
 	tok_list = tok_list->next;
-	if (tok_list)
-		element->name = ft_strdup(tok_list->word);
-	if (redir_list == NULL)
+	element->name = ft_strdup(tok_list->word);
+	if (element->name == NULL)
+		return (1);
+	return (0);
+}
+
+void	init_redir(t_redir	*element)
+{
+	element->type = 0;
+	element->name = NULL;
+	element->token = NULL;
+	element->exist = 0;
+	element->access = 0;
+	element->next = NULL;
+}
+
+int	push_redirection(t_redir **redir_list, t_token *tok_list)
+{
+	t_redir	*element;
+	t_redir	*last;
+
+	last = *redir_list;
+	element = malloc(sizeof(t_redir));
+	if (element == NULL)
+		return (1);
+	init_redir(element);
+	if (store_str(tok_list, element))
+		return (1);
+	if (*redir_list == NULL)
 	{
 		element->prev = NULL;
-		return (element);
+		return (0);
 	}
 	last = redir_list;
 	while (last->next != NULL)
 		last = last->next;
 	last->next = element;
 	element->prev = last;
-	return (redir_list);
+	return (0);
 }
 
-void	split_redirection(t_token *tok_list, t_parse *par_list)
+int	split_redirection(t_token *tok_list, t_parse *par_list)
 {
 	while (tok_list)
 	{
@@ -80,7 +71,8 @@ void	split_redirection(t_token *tok_list, t_parse *par_list)
 			break ;
 		if (tok_list->operator)
 		{
-			par_list->redirection = push_redirection(par_list->redirection, tok_list);
+			if (push_redirection(&par_list->redirection, tok_list))
+				return (1);
 			if (tok_list->operator[0] == '<')
 				par_list->infile_nb++;
 			else if (tok_list->operator[0] == '>')
@@ -91,9 +83,10 @@ void	split_redirection(t_token *tok_list, t_parse *par_list)
 		else
 			tok_list = tok_list->next;
 	}
+	return (0);
 }
 
-void	store_redirection(t_token *tok_list, t_parse **par_list)
+int	store_redirection(t_token *tok_list, t_parse *par_list)
 {
 	int	i;
 	int	k;
@@ -104,8 +97,9 @@ void	store_redirection(t_token *tok_list, t_parse **par_list)
 	{
 		i = 0;
 		k = 0;
-		i = count_words_pipe_redirect(tok_list);
-		split_redirection(tok_list, current);
+		i = count_words_pipe(tok_list);
+		if (split_redirection(tok_list, par_list))
+			return (1);
 		while (k < i)
 		{
 			tok_list = tok_list->next;
@@ -115,4 +109,5 @@ void	store_redirection(t_token *tok_list, t_parse **par_list)
 			tok_list = tok_list->next;
 		current = current->next;
 	}
+	return (0);
 }

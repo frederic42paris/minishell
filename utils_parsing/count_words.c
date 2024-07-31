@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   store_path.c                                       :+:      :+:    :+:   */
+/*   count_words.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 15:41:01 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Created: 2024/07/28 11:39:28 by ftanon            #+#    #+#             */
+/*   Updated: 2024/07/28 15:43:18 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	store_path(char **environ, t_data *data)
+int	count_words_pipe(t_token *tok_list)
 {
-	int		i;
-	char	*env_var;
+	int	len;
 
-	i = 0;
-	while (environ[i])
+	len = 0;
+	while (tok_list)
 	{
-		if (ft_strncmp(environ[i], "PATH=", 5) == 0)
-		{
-			env_var = environ[i] + 5;
-			data->all_paths = ft_split(env_var, ':');
+		if (tok_list->operator && tok_list->operator[0] == '|')
 			break ;
-		}
-		i++;
+		len++;
+		tok_list = tok_list->next;
 	}
+	return (len);
 }

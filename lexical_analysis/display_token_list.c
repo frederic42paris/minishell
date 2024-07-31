@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count_nb_pipe.c                                    :+:      :+:    :+:   */
+/*   display_token_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 15:43:16 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Created: 2024/07/28 15:34:55 by ftanon            #+#    #+#             */
+/*   Updated: 2024/07/28 15:36:05 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	count_nb_pipe(t_token *tok_list, t_data *data)
+void	display_token_list(t_token *tok_list)
 {
-	int	nb;
-
-	data->has_pipe = 0;
-	nb = 0;
+	printf("--------------------\n");
 	while (tok_list)
 	{
-		if (tok_list->operator && tok_list->operator[0] == '|')
-			nb++;
+		if (tok_list->word)
+			printf("[%s]\n", tok_list->word);
+		if (tok_list->operator)
+			printf("%s\n", tok_list->operator);
 		tok_list = tok_list->next;
 	}
-	data->has_pipe = nb;
+	printf("--------------------\n");
 }

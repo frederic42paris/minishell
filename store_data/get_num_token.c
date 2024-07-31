@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_env_list.c                                    :+:      :+:    :+:   */
+/*   get_num_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 13:33:41 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:15:22 by rrichard         ###   ########.fr       */
+/*   Created: 2024/07/28 15:37:32 by ftanon            #+#    #+#             */
+/*   Updated: 2024/07/28 15:38:29 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	free_env_list(t_env	**env_list)
-// {
-// 	t_env	*nextnode;
+void	get_num_token(t_token *tok_list, t_data *data)
+{
+	int	i;
 
-	while (*env_list)
+	i = 0;
+	while (tok_list)
 	{
-		nextnode = (*env_list)->next;
-		free((*env_list)->env_var);
-		free(*env_list);
-		(*env_list) = nextnode;
+		i++;
+		tok_list = tok_list->next;
 	}
+	data->num_token = i;
 }

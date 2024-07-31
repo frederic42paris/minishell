@@ -5,31 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/07/31 16:12:26 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
 int	take_input(t_data *data)
 {
-	char	cwd[1024];
+	char	*cwd;
 	char	*pretty_prompt;
 
-	getcwd(cwd, sizeof(cwd));
-	pretty_prompt = ft_strjoin(cwd, "$ ");
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (1);
+	pretty_prompt = ft_strjoin(cwd, ">");
+	free(cwd);
 	if (!pretty_prompt)
 		return (1);
 	data->input = readline(pretty_prompt);
 	free(pretty_prompt);
 	if (data->input == NULL)
 	{
-		printf("exit\n");
-		free(data->exit_string);
-		if (data->all_paths)
-			free_array(data->all_paths);
-		free(data);
+		free_data(data);
+		free_env_list(&env_list);
 		exit(0);
 	}
 	if (ft_strlen(data->input) != 0)

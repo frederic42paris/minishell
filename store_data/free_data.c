@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_env_list.c                                    :+:      :+:    :+:   */
+/*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 13:33:41 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:15:22 by rrichard         ###   ########.fr       */
+/*   Created: 2024/07/31 13:16:26 by ftanon            #+#    #+#             */
+/*   Updated: 2024/07/31 13:52:23 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	free_env_list(t_env	**env_list)
-// {
-// 	t_env	*nextnode;
-
-	while (*env_list)
-	{
-		nextnode = (*env_list)->next;
-		free((*env_list)->env_var);
-		free(*env_list);
-		(*env_list) = nextnode;
-	}
+void	free_data(t_data	*data)
+{
+	// printf("%s\n", data->exit_string);
+	free_array(data->all_paths);
+	free(data);
 }

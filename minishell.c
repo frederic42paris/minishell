@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 15:48:25 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:11:22 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,52 +51,75 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || argv[1] != NULL)
 		exit_program("Minishell does not take arguments.");
 	data = malloc(sizeof(t_data));
-	ft_memset(data, 0, sizeof(t_data));
+	if (data == NULL)
+		return (1);
+	data->all_paths = (char **)ft_calloc(2, sizeof(char *));
+	if (data->all_paths == NULL)
+		return (1);
+	data->exit_status = 0;
 	tok_list = NULL;
 	par_list = NULL;
-	environ = copy_envp(envp);
+	env_list = NULL;
+	if (argc > 1)
+		exit_program("Minishell does not take arguments.");
+	if (argv[1] != NULL)
+		exit_program("Minishell does not take arguments.");
+	if (store_env_list(envp, &env_list) == 1)
+		return (1);
 	while (1)
 	{
-		data->exit_string = ft_itoa(data->exit_status);
+		// data->exit_string = ft_itoa(data->exit_status);
+		data->exit_string = ft_strdup("0");
 		data->exit_len = ft_strlen(data->exit_string);
-		disable_signal();
-		if (take_input(data))
+		if (data->exit_string == NULL)
+			return (1);
+		// printf("exit status : %d\n", data->exit_status);
+		// disable_signal();
+		// free(data->exit_string);
+
+		if (take_input(data, env_list))
 			continue ;
 		if (check_input(data->input))
 			continue ;
-		store_path(environ, data);
-		create_token_list(data, &tok_list, environ);
-		display_token_list(tok_list);
-
+		if (store_path(env_list, data))
+			return (1);
+		if (create_token_list(data, &tok_list, env_list))
+			return (1);
+		// display_token_list(tok_list);
 		count_nb_pipe(tok_list, data);
 		get_num_token(tok_list, data);
 		free(data->input);
-		if (check_bracket_dup(tok_list) || check_bracket_error(tok_list, data))
+		if (check_empty_redirection(tok_list))
 		{
 			free_token_list(&tok_list);
 			continue ;
 		}
-
-		create_parse_list(tok_list, &par_list, environ);
-		store_redirection(tok_list, &par_list);
-		store_command(tok_list, par_list);
+		if (create_parse_list(tok_list, &par_list))
+			return (1);
+		if (store_redirection(tok_list, par_list))
+			return (1);
+		if (store_command(tok_list, par_list))
+			return (1);
 		free_token_list(&tok_list);
 		check_infile(par_list->redirection);
 		check_outfile(par_list->redirection);
-		search_command(par_list, data);
+		if (search_command(par_list, data))
+			return (1);
 		display_parse_list(par_list);
-		enable_signal();
-		if (par_list->builtin && data->has_pipe)
-		{
-			free_token_list(&tok_list);
-			continue ;
-		}
-		data->num_cmd = count_cmds(par_list);
-		if (data->has_pipe < 1)
-			exec_single_cmd(par_list, &par_list->environ, data);
-		else if (data->has_pipe >= 1)
-			exec_multiple_cmd(par_list, data);
-		free(data->exit_string);
+
+		// enable_signal();
+		// if (data->has_pipe < 1)
+		// {
+		// 	exec_shell(par_list, &env_list, copy, data);
+		// }
+		// else
+		// {
+		// 	runtime_shell(par_list, copy, data, &env_list);
+		// }
+		// free_env_list(&env_list);
+		
+		// printf("chiffre %d\n", data->exit_len);
+		// printf("string %s\n", data->exit_string);
 		free_parse_list(&par_list);
 	}
 	return (0);
