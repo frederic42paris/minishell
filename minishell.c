@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 16:57:26 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:34:51 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,17 @@ int	main(int argc, char **argv, char **envp)
 		if (search_command(par_list, data))
 			return (1);
 		display_parse_list(par_list);
+		if (open_infile(par_list))
+			return (1);
+		// enable_signal();
+		// data->num_cmd = count_cmds(par_list);
+		// par_list->environ = transform_envlist(env_list);
+		// if (data->has_pipe < 1)
+		// 	exec_single_cmd(par_list, &par_list->environ, data);
+		// else if (data->has_pipe >= 1)
+		// 	exec_multiple_cmd(par_list, data);
+		// free_env_list(&env_list);
 
-		enable_signal();
-		data->num_cmd = count_cmds(par_list);
-		par_list->environ = transform_envlist(env_list);
-		if (data->has_pipe < 1)
-			exec_single_cmd(par_list, &par_list->environ, data);
-		else if (data->has_pipe >= 1)
-			exec_multiple_cmd(par_list, data);
-		free_env_list(&env_list);
-		
 		// printf("chiffre %d\n", data->exit_len);
 		// printf("string %s\n", data->exit_string);
 		free_parse_list(&par_list);

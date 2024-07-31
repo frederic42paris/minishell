@@ -44,6 +44,7 @@ execution/exec_free.c \
 execution/exec_multiple.c \
 execution/exec_single.c \
 execution/prepare_multipipe.c \
+open_infile.c \
 
 INCLUDES = libft/
 OBJDIR = .obj

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 16:19:49 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:35:14 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ typedef struct s_parse
 	int				is_heredoc;
 	int				tmp_file;
 	char			*delimiter;
-	int				old_stdin;
-	int				old_stdout;
+	int				fd_stdin;
+	int				fd_stdout;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 	char			**environ;
@@ -184,6 +184,8 @@ void				count_nb_pipe(t_token *tok_list, t_data *data);
 int					store_redirection(t_token *tok_list, t_parse *par_list);
 void				display_parse_list(t_parse *par_list);
 
+// open fd
+int					open_infile(t_parse *par_list);
 
 //  env
 int					store_env_list(char **envp, t_env **env_list);
