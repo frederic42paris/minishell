@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 13:52:34 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/31 15:10:40 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	take_input(t_data *data, t_env *env_list)
 	free(pretty_prompt);
 	if (data->input == NULL)
 	{
-		free(data->exit_string);
 		free_data(data);
 		free_env_list(&env_list);
 		exit(0);
