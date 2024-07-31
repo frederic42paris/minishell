@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:52:05 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/30 18:40:05 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/31 11:32:09 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,11 @@ void	store_no_quote(t_token *element, char *str, t_env *env_l, t_data *data)
 
 int	store_string(t_token *element, char *str, t_env *env_list, t_data *data)
 {
-	if (is_meta(str[0]) && store_operator(element, str))
-		return (1);
+	if (is_meta(str[0]))
+	{
+		if (store_operator(element, str))
+			return (1);
+	}
 	else
 	{
 		element->operator = NULL;
