@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 17:15:57 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:24:16 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	main(int argc, char **argv, char **envp)
 		data->num_cmd = count_cmds(par_list);
 		par_list->environ = transform_envlist(env_list);
 		if (data->has_pipe < 1)
-			exec_single_cmd(par_list, &par_list->environ, data);
+			exec_single_cmd(par_list, par_list->environ, data, &env_list);
 		else if (data->has_pipe >= 1)
 			exec_multiple_cmd(par_list, data);
 		free_env_list(&env_list);

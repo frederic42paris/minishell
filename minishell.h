@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 17:05:01 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:25:38 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ typedef struct s_parse
 	int				is_heredoc;
 	int				tmp_file;
 	char			*delimiter;
-	int				old_stdin;
-	int				old_stdout;
+	int				fd_stdin;
+	int				fd_stdout;
 	struct s_parse	*next;
 	struct s_parse	*prev;
 	char			**environ;
@@ -132,7 +132,7 @@ int					count_cmds(t_parse *cmds_list);
 // execution
 void				free_array(char **line);
 void				exec_multiple_cmd(t_parse *cmds, t_data *data);
-void				exec_single_cmd(t_parse *cmds_list, char ***environ, t_data *data);
+void				exec_single_cmd(t_parse *cmds_list, char **environ, t_data *data, t_env **env_list);
 void				execute_cmd(t_parse cmd, char **environ, int std_in, int std_out);
 t_bool				prepare_file_descriptors(int *std_in, int *std_out, t_parse *cmds);
 t_bool				check_paths(t_parse *cmds);
@@ -141,16 +141,17 @@ void				prepare_in_out(t_parse *cmds, t_data *data, int (**fd)[2]);
 int					exec_check_redirection(t_parse *cmds, int ncmds);
 void				free_exec(int (**fd)[2], pid_t **pid, char *str);
 char				**transform_envlist(t_env *env_list);
+int					listlen(t_env *env_list);
 
 // built-in
 int					is_builtin(t_parse *cmds);
-int					exec_builtin(int func, t_parse *cmds, char ***environ, t_data *data);
+int					exec_builtin(int func, t_parse *cmds, t_data *data, t_env **env_list);
 int					func_echo(t_parse *cmds);
 int					func_pwd(t_parse *cmds, t_data *data);
 int					func_cd(t_parse *cmds);
 int					func_exit(t_parse *cmds);
-int					func_env(t_parse *cmds, char **environ);
-int					func_export(t_parse *parser, char ***environ);
+int					func_env(t_parse *cmds, t_env *env_list);
+int					func_export(t_parse *cmds, t_env **env_list);
 void				func_unset(t_parse *parser, char ***environ);
 void				print_echo(t_parse *cmds, int i, int nextline_flag);
 int					check_export_variable(char *s);
@@ -188,7 +189,7 @@ void				display_parse_list(t_parse *par_list);
 
 //  env
 int					store_env_list(char **envp, t_env **env_list);
-int				store_path(t_env *env_list, t_data *data);
+int					store_path(t_env *env_list, t_data *data);
 void				delete_one_env(t_env **env_list, char *variable);
 void				replace_one_env(t_env **env_list, char *env_val,
 						char *variable, char *value);
