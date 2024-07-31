@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 16:19:49 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:05:01 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int					count_cmds(t_parse *cmds);
 void				prepare_in_out(t_parse *cmds, t_data *data, int (**fd)[2]);
 int					exec_check_redirection(t_parse *cmds, int ncmds);
 void				free_exec(int (**fd)[2], pid_t **pid, char *str);
+char				**transform_envlist(t_env *env_list);
 
 // built-in
 int					is_builtin(t_parse *cmds);
