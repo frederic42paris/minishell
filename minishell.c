@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 16:11:22 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:23:50 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	main(int argc, char **argv, char **envp)
 	t_token	*tok_list;
 	t_parse	*par_list;
 	t_data	*data;
-	char	**environ;
+	t_env	*env_list;
+	// char	**environ;
 
 	if (argc > 1 || argv[1] != NULL)
 		exit_program("Minishell does not take arguments.");
@@ -107,16 +108,12 @@ int	main(int argc, char **argv, char **envp)
 			return (1);
 		display_parse_list(par_list);
 
-		// enable_signal();
-		// if (data->has_pipe < 1)
-		// {
-		// 	exec_shell(par_list, &env_list, copy, data);
-		// }
-		// else
-		// {
-		// 	runtime_shell(par_list, copy, data, &env_list);
-		// }
-		// free_env_list(&env_list);
+		enable_signal();
+		if (data->has_pipe < 1)
+			exec_single_cmd(par_list, &par_list->environ, data);
+		else if (data->has_pipe >= 1)
+			exec_multiple_cmd(par_list, data);
+		free_env_list(&env_list);
 		
 		// printf("chiffre %d\n", data->exit_len);
 		// printf("string %s\n", data->exit_string);

@@ -6,14 +6,14 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 16:11:35 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:19:49 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/includes/libft.h"
+# include "./libft/includes/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -54,12 +54,12 @@ typedef struct s_token
 	struct s_token	*prev;
 }					t_token;
 
-// typedef struct s_env
-// {
-// 	char			*env_var;
-// 	struct s_env	*next;
-// 	struct s_env	*prev;
-// }					t_env;
+typedef struct s_env
+{
+	char			*env_var;
+	struct s_env	*next;
+	struct s_env	*prev;
+}					t_env;
 
 typedef struct s_data
 {
@@ -116,7 +116,7 @@ void				exit_program(char *s);
 void				create_prompt(char **env);
 
 // minishell
-int					take_input(t_data *data);
+int					take_input(t_data *data, t_env *env_list);
 void				print_dir(void);
 int					process_string(char *str, char **parsed, char **parsedpipe);
 void				exec_args(char **parsed);

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:15:01 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:25:36 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	push_redirection(t_redir **redir_list, t_token *tok_list)
 		element->prev = NULL;
 		return (0);
 	}
-	last = redir_list;
+	last = *redir_list;
 	while (last->next != NULL)
 		last = last->next;
 	last->next = element;
@@ -92,7 +92,7 @@ int	store_redirection(t_token *tok_list, t_parse *par_list)
 	int	k;
 	t_parse	*current;
 
-	current = *par_list;
+	current = par_list;
 	while (current)
 	{
 		i = 0;

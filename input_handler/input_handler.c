@@ -6,14 +6,14 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/07/31 16:12:26 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:23:09 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
 
-int	take_input(t_data *data)
+int	take_input(t_data *data, t_env *env_list)
 {
 	char	*cwd;
 	char	*pretty_prompt;
@@ -21,7 +21,7 @@ int	take_input(t_data *data)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (1);
-	pretty_prompt = ft_strjoin(cwd, ">");
+	pretty_prompt = ft_strjoin(cwd, "$ ");
 	free(cwd);
 	if (!pretty_prompt)
 		return (1);

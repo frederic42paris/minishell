@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:14:48 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:24:51 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	find_path(char *single_path, t_parse *par_list)
 {
 	char	*joined;
 	char	*path;
-	char	*tmp;
 
 	joined = ft_strjoin(single_path, "/");
 	if (joined == NULL)

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:25 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:15:06 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:25:48 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	sigint_blocking_cmd(int signal)
 {
 	if (signal == SIGINT)
 		ft_putchar_fd('\n', 1);
-	}
 }
 
 void	sigquit(int signal)

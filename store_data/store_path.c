@@ -6,11 +6,20 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:41:01 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:15:17 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:28:46 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	display_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		printf("%s\n", array[i++]);
+}
 
 int	store_path(t_env *env_list, t_data *data)
 {
