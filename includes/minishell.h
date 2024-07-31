@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 14:57:24 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:14:43 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,6 @@ int					func_export(t_parse *parser, char ***environ);
 void				func_unset(t_parse *parser, char ***environ);
 void				print_echo(t_parse *cmds, int i, int nextline_flag);
 int					check_export_variable(char *s);
-int					count_input(t_parse *cmds);
-
 //  lexical analysis
 int					check_input(char const *str);
 int					create_token_list(t_data *data, t_token **tok_list,
