@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 17:24:50 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:13:41 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,42 +34,25 @@ t_bool	ft_check_args(char *str)
 	return (TRUE);
 }
 
-void	normal_exit(t_parse *cmds_list, int exit_code)
-{
-	if (cmds_list->old_stdin != -1)
-		close(cmds_list->old_stdout);
-	if (cmds_list->old_stdout != -1)
-		close(cmds_list->old_stdin);
-	exit(exit_code);
-}
-
 int	func_exit(t_parse *cmds)
 {
-	int		num_args;
-
-	num_args = 0;
-	while (cmds->cmd_array[num_args])
-		num_args++;
 	if (cmds->cmd_array[1])
 	{
 		if (!ft_check_args(cmds->cmd_array[1]))
 		{
-			printf("exit: %s: numeric argument required\n", cmds->cmd_array[1]);
-			normal_exit(cmds, 2);
+			printf("exit\nexit: %s: numeric argument required\n", cmds->cmd_array[1]);
+			exit(2);
 		}
-		else if (num_args > 2)
-			return ((void)printf("exit: too many arguments\n"), 1);
-		else
+		else if (count_input(cmds) <= 2)
 		{
 			printf("exit\n");
-			normal_exit(cmds, ft_atoi(cmds->cmd_array[1]) % 256);
-			return (0);
+			exit(ft_atoi(cmds->cmd_array[1]) % 256);
 		}
 	}
 	else
 	{
 		printf("exit\n");
-		normal_exit(cmds, 0);
+		exit(EXIT_SUCCESS);
 	}
-	return (0);
+	return ((void)printf("exit: too many arguments\n"), EXIT_FAILURE);
 }
