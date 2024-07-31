@@ -46,7 +46,7 @@ execution/exec_single.c \
 execution/prepare_multipipe.c \
 
 INCLUDES = libft/
-OBJDIR = obj
+OBJDIR = .obj
 
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 
