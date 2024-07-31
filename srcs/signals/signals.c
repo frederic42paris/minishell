@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:25 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/24 18:26:44 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:27:59 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void	sigint_blocking_cmd(int signal)
 void	sigquit(int signal)
 {
 	if (signal == SIGQUIT)
+	{
+		ft_putstr_fd("Quit (core dumped)\n", 1);
 		ft_putchar_fd('\n', 1);
+	}
 }
 
 void	disable_signal(void)

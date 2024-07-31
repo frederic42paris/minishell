@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/27 22:16:04 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:21:56 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	main(int argc, char **argv, char **envp)
 		disable_signal();
 		if (take_input(data))
 			continue ;
-		printf("%s\n", data->input);
 		if (check_input(data->input))
 			continue ;
 		store_path(environ, data);

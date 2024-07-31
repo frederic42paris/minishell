@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/27 22:17:54 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:37:51 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int					is_builtin(t_parse *cmds);
 int					exec_builtin(int func, t_parse *cmds, char ***environ, t_data *data);
 int					func_echo(t_parse *cmds);
 int					func_pwd(t_parse *cmds, t_data *data);
-int					func_cd(char *path);
+int					func_cd(t_parse *cmds);
 int					func_exit(t_parse *cmds);
 int					func_env(t_parse *cmds, char **environ);
 int					func_export(t_parse *parser, char ***environ);
