@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/30 18:39:25 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/31 13:25:07 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void				exit_program(char *s);
 void				create_prompt(char **env);
 
 // minishell
-int					take_input(t_data *data);
+int					take_input(t_data *data, t_env *env_list);
 void				print_dir(void);
 int					process_string(char *str, char **parsed, char **parsedpipe);
 void				exec_args(char **parsed);
@@ -209,6 +209,10 @@ void				replace_one_env(t_env **env_list, char *env_val,
 						char *variable, char *value);
 void				free_env_list(t_env **env_list);
 int					push_env_list(t_env **env_list, const char *str);
+
+// data
+
+void				free_data(t_data	*data);
 
 // display
 void				display_array(char **array);

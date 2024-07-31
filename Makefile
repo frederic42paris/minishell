@@ -39,6 +39,7 @@ parsing/store_command.c\
 parsing/store_redirection.c\
 signals/signals.c\
 store_data/count_nb_pipe.c\
+store_data/free_data.c\
 store_data/get_num_token.c\
 store_data/store_path.c\
 store_env/free_env_list.c\

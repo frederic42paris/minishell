@@ -3,62 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumseo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 11:20:56 by sumseo            #+#    #+#             */
-/*   Updated: 2023/11/18 12:59:52 by sumseo           ###   ########.fr       */
+/*   Updated: 2024/07/31 13:31:24 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_length(long n)
+static int	getlength(long longnum)
 {
-	int	total;
+	int		size;
 
-	total = 0;
-	if (n == 0)
+	size = 0;
+	if (longnum == 0)
 		return (1);
-	if (n < 0)
+	else if (longnum < 0)
+		size++;
+	while (longnum != 0)
 	{
-		n *= -1;
-		total++;
+		size++;
+		longnum = longnum / 10;
 	}
-	while (n > 0)
-	{
-		total++;
-		n = n / 10;
-	}
-	return (total);
+	return (size);
 }
 
-char	*ft_itoa(int n)
+static char	*copynumber(long longnum, int length)
 {
-	int		count;
-	long	n_long;
-	char	*dest;
-	int		i;
+	char	*string;
 
-	i = 0;
-	n_long = n;
-	count = count_length(n);
-	dest = ft_calloc(count + 1, sizeof(*dest));
-	if (!dest)
+	string = (char *)malloc((length + 1) * sizeof(char));
+	if (string == NULL)
 		return (NULL);
-	if (n == 0)
-		dest[0] = '0';
-	if (n_long < 0)
+	string[length] = '\0';
+	length--;
+	if (longnum < 0)
 	{
-		dest[0] = '-';
-		n_long *= -1;
-		i++;
+		string[0] = '-';
+		longnum = -longnum;
 	}
-	while (count > i)
+	else if (longnum == 0)
+		string[0] = '0';
+	while (longnum != 0)
 	{
-		dest[--count] = (n_long % 10) + '0';
-		n_long /= 10;
+		string[length] = longnum % 10 + '0';
+		longnum = longnum / 10;
+		length--;
 	}
-	return (dest);
+	return (string);
+}
+
+char	*ft_itoa(int num)
+{
+	char	*string;
+	long	longnum;
+	int		length;
+
+	longnum = (long)num;
+	length = getlength(longnum);
+	string = copynumber(longnum, length);
+	return (string);
 }
 
 // int	main(void)

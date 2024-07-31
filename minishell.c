@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 11:28:41 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/31 13:51:03 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,16 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	while (1)
 	{
-		data->exit_len = ft_strlen(ft_itoa(data->exit_status));
-		data->exit_string = ft_strdup(ft_itoa(data->exit_status));
+		// data->exit_string = ft_itoa(data->exit_status);
+		data->exit_string = ft_strdup("0");
+		data->exit_len = ft_strlen(data->exit_string);
 		if (data->exit_string == NULL)
 			return (1);
 		// printf("exit status : %d\n", data->exit_status);
 		// disable_signal();
-		if (take_input(data))
+		// free(data->exit_string);
+
+		if (take_input(data, env_list))
 			continue ;
 		if (check_input(data->input))
 			continue ;
@@ -90,7 +93,6 @@ int	main(int argc, char **argv, char **envp)
 		
 		// printf("chiffre %d\n", data->exit_len);
 		// printf("string %s\n", data->exit_string);
-
 		free_parse_list(&par_list);
 	}
 	return (0);

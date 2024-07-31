@@ -6,13 +6,13 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/30 16:14:59 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/07/31 13:52:34 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	take_input(t_data *data)
+int	take_input(t_data *data, t_env *env_list)
 {
 	char	*cwd;
 	char	*pretty_prompt;
@@ -21,14 +21,16 @@ int	take_input(t_data *data)
 	if (!cwd)
 		return (1);
 	pretty_prompt = ft_strjoin(cwd, ">");
+	free(cwd);
 	if (!pretty_prompt)
 		return (1);
 	data->input = readline(pretty_prompt);
 	free(pretty_prompt);
 	if (data->input == NULL)
 	{
-		free_array(data->all_paths);
-		free(data);
+		free(data->exit_string);
+		free_data(data);
+		free_env_list(&env_list);
 		exit(0);
 	}
 	if (ft_strlen(data->input) != 0)
