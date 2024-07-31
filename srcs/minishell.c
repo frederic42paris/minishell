@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/27 18:48:14 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:16:04 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_token	*tok_list;
 	t_parse	*par_list;
-	t_env	*env_list;
 	t_data	*data;
 	char	**environ;
 
@@ -55,8 +54,6 @@ int	main(int argc, char **argv, char **envp)
 	ft_memset(data, 0, sizeof(t_data));
 	tok_list = NULL;
 	par_list = NULL;
-	env_list = NULL;
-	store_env_list(envp, &env_list);
 	environ = copy_envp(envp);
 	while (1)
 	{
@@ -69,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 		if (check_input(data->input))
 			continue ;
 		store_path(environ, data);
-		create_token_list(data, &tok_list, env_list);
+		create_token_list(data, &tok_list, environ);
 		display_token_list(tok_list);
 
 		count_nb_pipe(tok_list, data);

@@ -6,21 +6,21 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:41 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/24 14:43:24 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:18:54 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_env_list(t_env	**env_list)
-{
-	t_env	*nextnode;
+// void	free_env_list(t_env	**env_list)
+// {
+// 	t_env	*nextnode;
 
-	while (*env_list)
-	{
-		nextnode = (*env_list)->next;
-		free((*env_list)->env_var);
-		free(*env_list);
-		(*env_list) = nextnode;
-	}
-}
+// 	while (*env_list)
+// 	{
+// 		nextnode = (*env_list)->next;
+// 		free((*env_list)->env_var);
+// 		free(*env_list);
+// 		(*env_list) = nextnode;
+// 	}
+// }

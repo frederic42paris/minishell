@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:49:28 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/23 16:17:41 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:18:23 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,28 @@ t_bool	check_export_variable(char *s)
 	return (TRUE);
 }
 
-t_env	*sort_env(t_env *env_copy, t_env *current)
-{
-	int		swapped;
-	char	*tmp;
+// t_env	*sort_env(t_env *env_copy, t_env *current)
+// {
+// 	int		swapped;
+// 	char	*tmp;
 
-	swapped = 1;
-	while (swapped)
-	{
-		swapped = 0;
-		current = env_copy;
-		while (current && current->next != NULL)
-		{
-			if (ft_strncmp(current->env_var, current->next->env_var, 1) > 0)
-			{
-				tmp = current->env_var;
-				current->env_var = current->next->env_var;
-				current->next->env_var = tmp;
-				swapped = 1;
-			}
-			current = current->next;
-		}
-	}
-	current = env_copy;
-	return (current);
-}
+// 	swapped = 1;
+// 	while (swapped)
+// 	{
+// 		swapped = 0;
+// 		current = env_copy;
+// 		while (current && current->next != NULL)
+// 		{
+// 			if (ft_strncmp(current->env_var, current->next->env_var, 1) > 0)
+// 			{
+// 				tmp = current->env_var;
+// 				current->env_var = current->next->env_var;
+// 				current->next->env_var = tmp;
+// 				swapped = 1;
+// 			}
+// 			current = current->next;
+// 		}
+// 	}
+// 	current = env_copy;
+// 	return (current);
+// }

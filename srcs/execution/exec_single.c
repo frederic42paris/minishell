@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/26 16:06:26 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:22:31 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,12 @@ void	execute_cmd(t_parse cmd, char **environ, int std_in, int std_out)
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
 	if (std_in != STDIN_FILENO)
-	{
 		close(std_in);
-	}
 	if (std_out != STDOUT_FILENO)
-	{
 		close(std_out);
-	}
 	if (execve(cmd.cmd_array[0], cmd.cmd_array, environ) == -1)
 	{
-		perror("execve");
+		printf("%s: command not found\n", cmd.cmd_array[0]);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -74,27 +70,26 @@ t_bool	prepare_file_descriptors(int *std_in, int *std_out, t_parse *cmds)
 
 void	single_cmd(t_parse *cmds, char **environ, t_data *data)
 {
-	int		fd_in;
-	int		fd_out;
+	int		fd[2];
 	int		status;
-	pid_t	fork_id;
+	pid_t	pid;
 
-	fd_in = STDIN_FILENO;
-	fd_out = STDOUT_FILENO;
+	fd[0] = STDIN_FILENO;
+	fd[1] = STDOUT_FILENO;
 	if (cmds->redirection)
 	{
-		if (prepare_file_descriptors(&fd_in, &fd_out, cmds))
+		if (prepare_file_descriptors(&fd[0], &fd[1], cmds))
 			return ;
 	}
-	fork_id = fork();
-	if (fork_id == 0)
-		execute_cmd(*cmds, environ, fd_in, fd_out);
-	waitpid(fork_id, &status, 0);
+	pid = fork();
+	if (pid == 0)
+		execute_cmd(*cmds, environ, fd[0], fd[1]);
+	waitpid(pid, &status, 0);
 	data->exit_status = WEXITSTATUS(status);
-	if (fd_in != STDIN_FILENO)
-		close(fd_in);
-	if (fd_out != STDOUT_FILENO)
-		close(fd_out);
+	if (fd[0] != STDIN_FILENO)
+		close(fd[0]);
+	if (fd[1] != STDOUT_FILENO)
+		close(fd[1]);
 }
 
 void	exec_single_cmd(t_parse *cmds_list, char ***environ, t_data *data)
@@ -116,9 +111,6 @@ void	exec_single_cmd(t_parse *cmds_list, char ***environ, t_data *data)
 			free(cmds_list->cmd_array[0]);
 			cmds_list->cmd_array[0] = tmp;
 		}
-		else
-			return ((void)printf("minishell: command not found: %s\n",
-					cmds_list->cmd_array[0]));
 		single_cmd(cmds_list, *environ, data);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 20:58:20 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/27 18:23:36 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:20:36 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	take_input(t_data *data)
 	free(pretty_prompt);
 	if (data->input == NULL)
 	{
+		printf("exit\n");
 		free(data->exit_string);
 		if (data->all_paths)
 			free_array(data->all_paths);

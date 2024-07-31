@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/27 18:31:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:17:54 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_token
 {
 	char			*word;
 	char			*operator;
+	char			**environ;
 	int				num;
 	int				index;
 	int				j;
@@ -53,12 +54,12 @@ typedef struct s_token
 	struct s_token	*prev;
 }					t_token;
 
-typedef struct s_env
-{
-	char			*env_var;
-	struct s_env	*next;
-	struct s_env	*prev;
-}					t_env;
+// typedef struct s_env
+// {
+// 	char			*env_var;
+// 	struct s_env	*next;
+// 	struct s_env	*prev;
+// }					t_env;
 
 typedef struct s_data
 {
@@ -155,8 +156,7 @@ void				print_echo(t_parse *cmds, int i, int nextline_flag);
 int					check_export_variable(char *s);
 //  lexical analysis
 int					check_input(char const *str);
-void				create_token_list(t_data *data, t_token **tok_list,
-						t_env *env_list);
+void				create_token_list(t_data *data, t_token **tok_list, char **environ);
 void				free_token_list(t_token **tok_list);
 void				get_num_token(t_token *tok_list, t_data *data);
 int					check_bracket_error(t_token *tok_list, t_data *data);
@@ -175,18 +175,17 @@ void				count_nb_pipe(t_token *tok_list, t_data *data);
 void				store_redirection(t_token *tok_list, t_parse **par_list);
 
 //  env
-void				store_env_list(char **envp, t_env **env_list);
+// void				store_env_list(char **envp, t_env **env_list);
 void				store_path(char **environ, t_data *data);
-void				push_env_list(t_env **env_list, const char *str, int len);
-void				delete_one_env(t_env **env_list, char *variable);
-void				replace_one_env(t_env **env_list, char *env_val,
-						char *variable, char *value);
-void				free_env_list(t_env **env_list);
+// void				push_env_list(t_env **env_list, const char *str, int len);
+// void				delete_one_env(t_env **env_list, char *variable);
+// void				replace_one_env(t_env **env_list, char *env_val,
+// 						char *variable, char *value);
+// void				free_env_list(t_env **env_list);
 char				*find_env_var(char *name, char ***environ);
 
 // display
 void				display_array(char **array);
-void				display_env_list(t_env *env_list);
 void				display_token_list(t_token *tok_list);
 
 // gnl
