@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 16:23:50 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:41:13 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ int	main(int argc, char **argv, char **envp)
 	data = malloc(sizeof(t_data));
 	if (data == NULL)
 		return (1);
-	data->all_paths = (char **)ft_calloc(2, sizeof(char *));
-	if (data->all_paths == NULL)
-		return (1);
+	ft_memset(data, 0, sizeof(char **));
 	data->exit_status = 0;
 	tok_list = NULL;
 	par_list = NULL;
@@ -109,6 +107,7 @@ int	main(int argc, char **argv, char **envp)
 		display_parse_list(par_list);
 
 		enable_signal();
+		data->num_cmd = count_cmds(par_list);
 		if (data->has_pipe < 1)
 			exec_single_cmd(par_list, &par_list->environ, data);
 		else if (data->has_pipe >= 1)
