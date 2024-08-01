@@ -6,40 +6,11 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 18:24:16 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:40:16 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**copy_envp(char **envp)
-{
-	int		i;
-	int		count;
-	char	**copy;
-
-	count = 0;
-	while (envp[count] != NULL)
-		count++;
-	copy = malloc(sizeof(char *) * (count + 1));
-	if (copy == NULL)
-		exit(EXIT_FAILURE);
-	i = 0;
-	while (i < count)
-	{
-		copy[i] = ft_strdup(envp[i]);
-		if (copy[i] == NULL)
-		{
-			while (i > 0)
-				free(copy[--i]);
-			free(copy);
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-	copy[count] = NULL;
-	return (copy);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -47,7 +18,6 @@ int	main(int argc, char **argv, char **envp)
 	t_parse	*par_list;
 	t_data	*data;
 	t_env	*env_list;
-	// char	**environ;
 
 	if (argc > 1 || argv[1] != NULL)
 		exit_program("Minishell does not take arguments.");
@@ -59,10 +29,6 @@ int	main(int argc, char **argv, char **envp)
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;
-	if (argc > 1)
-		exit_program("Minishell does not take arguments.");
-	if (argv[1] != NULL)
-		exit_program("Minishell does not take arguments.");
 	if (store_env_list(envp, &env_list) == 1)
 		return (1);
 	while (1)
@@ -108,12 +74,14 @@ int	main(int argc, char **argv, char **envp)
 
 		enable_signal();
 		data->num_cmd = count_cmds(par_list);
+		if (par_list->environ)
+			free_array(par_list->environ);
 		par_list->environ = transform_envlist(env_list);
 		if (data->has_pipe < 1)
 			exec_single_cmd(par_list, par_list->environ, data, &env_list);
 		else if (data->has_pipe >= 1)
 			exec_multiple_cmd(par_list, data);
-		free_env_list(&env_list);
+		// free_env_list(&env_list);
 		
 		// printf("chiffre %d\n", data->exit_len);
 		// printf("string %s\n", data->exit_string);

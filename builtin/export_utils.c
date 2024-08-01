@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:49:28 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:47:59 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_bool	check_export_variable(char *s)
 		else if (s[i] == '\\')
 		{
 			if (ft_isspecial(s[i + 1]) || (ft_isdigit(s[i + 1] && i == 0)))
-				return (printf("export: `%s': not a valid identifier\n", s), FALSE);
+				return (printf("export: `%s': not a valid identifier\n", s),
+					FALSE);
 			i++;
 		}
 		else
@@ -47,28 +48,37 @@ t_bool	check_export_variable(char *s)
 	return (TRUE);
 }
 
-// t_env	*sort_env(t_env *env_copy, t_env *current)
-// {
-// 	int		swapped;
-// 	char	*tmp;
+int	max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
 
-// 	swapped = 1;
-// 	while (swapped)
-// 	{
-// 		swapped = 0;
-// 		current = env_copy;
-// 		while (current && current->next != NULL)
-// 		{
-// 			if (ft_strncmp(current->env_var, current->next->env_var, 1) > 0)
-// 			{
-// 				tmp = current->env_var;
-// 				current->env_var = current->next->env_var;
-// 				current->next->env_var = tmp;
-// 				swapped = 1;
-// 			}
-// 			current = current->next;
-// 		}
-// 	}
-// 	current = env_copy;
-// 	return (current);
-// }
+t_env	*sort_env(t_env *env_copy, t_env *current)
+{
+	int		swapped;
+	char	*tmp;
+
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		current = env_copy;
+		while (current && current->next != NULL)
+		{
+			if (ft_strncmp(current->env_var, current->next->env_var,
+					max(ft_strlen(current->env_var),
+						ft_strlen(current->next->env_var))) > 0)
+			{
+				tmp = current->env_var;
+				current->env_var = current->next->env_var;
+				current->next->env_var = tmp;
+				swapped = 1;
+			}
+			current = current->next;
+		}
+	}
+	current = env_copy;
+	return (current);
+}

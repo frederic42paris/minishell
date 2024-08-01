@@ -6,31 +6,46 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:49:27 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	func_unset(t_parse *cmds, char ***environ)
-// {
-// 	int		i;
-// 	char	*existing_env;
+void	delete_one_env(t_env **env_list, char *name)
+{
+	t_env	*temp;
 
-// 	i = 1;
-// 	if (environ)
-// 	{
-// 		if (!cmds->cmd_array[i])
-// 			return ((void)printf("unset: not enough arguments\n"));
-// 		else
-// 		{
-// 			while (cmds->cmd_array[i])
-// 			{
-// 				existing_env = find_env_var(cmds->cmd_array[i], environ);
-// 				if (existing_env != NULL)
-// 					delete_one_env(env, cmds->cmd_array[1]);
-// 				i++;
-// 			}
-// 		}
-// 	}
-// }
+	temp = *env_list;
+	while (temp)
+	{
+		if (!ft_strncmp(temp->env_var, name, ft_strlen(name))
+			&& (temp->env_var[ft_strlen(name)] == '='))
+			break ;
+		temp = temp->next;
+	}
+	if (!temp)
+		return ;
+	if (*env_list == temp)
+		*env_list = temp->next;
+	if (temp->next)
+		temp->next->prev = temp->prev;
+	if (temp->prev)
+		temp->prev->next = temp->next;
+	free(temp);
+}
+
+int	func_unset(t_parse *cmds, t_env **env_list)
+{
+	int		i;
+
+	i = 1;
+	if (!cmds->cmd_array[i])
+		return ((void)printf("unset: not enough arguments\n"), 1);
+	while (cmds->cmd_array[i])
+	{
+		delete_one_env(env_list, cmds->cmd_array[i]);
+		i++;
+	}
+	return (0);
+}

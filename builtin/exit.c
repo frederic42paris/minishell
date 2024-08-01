@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:49:10 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	func_exit(t_parse *cmds)
 	{
 		if (!ft_check_args(cmds->cmd_array[1]))
 		{
-			printf("exit\nexit: %s: numeric argument required\n", cmds->cmd_array[1]);
+			printf("exit\nexit: %s: numeric argument required\n",
+				cmds->cmd_array[1]);
 			exit(2);
 		}
 		else if (count_input(cmds) <= 2)

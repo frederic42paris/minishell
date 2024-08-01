@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/07/31 16:23:09 by rrichard         ###   ########.fr       */
+/*   Created: 2024/08/01 11:43:02 by rrichard          #+#    #+#             */
+/*   Updated: 2024/08/01 11:43:05 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 

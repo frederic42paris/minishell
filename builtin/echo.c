@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:49:48 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ void	print_echo(t_parse *cmds, int i, int nextline_flag)
 	if (cmds->redirection)
 	{
 		if (!ft_strcmp(">>", cmds->redirection->token))
-			fd = open(cmds->redirection->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd = open(cmds->redirection->name,
+					O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else if (!ft_strcmp(">", cmds->redirection->token))
-			fd = open(cmds->redirection->name, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+			fd = open(cmds->redirection->name,
+					O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	}
 	while (cmds->cmd_array[i])
 	{

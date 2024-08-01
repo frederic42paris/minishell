@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 18:25:38 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:36:39 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,11 @@ int					func_cd(t_parse *cmds);
 int					func_exit(t_parse *cmds);
 int					func_env(t_parse *cmds, t_env *env_list);
 int					func_export(t_parse *cmds, t_env **env_list);
-void				func_unset(t_parse *parser, char ***environ);
+int					func_unset(t_parse *cmds, t_env **env_list);
 void				print_echo(t_parse *cmds, int i, int nextline_flag);
 int					check_export_variable(char *s);
 int					count_input(t_parse *cmds);
+t_env				*find_env_var(char *name, t_env *env);
 
 //  lexical analysis
 int					check_input(char const *str);
@@ -190,7 +191,7 @@ void				display_parse_list(t_parse *par_list);
 //  env
 int					store_env_list(char **envp, t_env **env_list);
 int					store_path(t_env *env_list, t_data *data);
-void				delete_one_env(t_env **env_list, char *variable);
+// void				delete_one_env(t_env **env_list, char *variable);
 void				replace_one_env(t_env **env_list, char *env_val,
 						char *variable, char *value);
 void				free_env_list(t_env **env_list);

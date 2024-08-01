@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 17:35:22 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:44:54 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,25 @@ void	single_cmd(t_parse *cmds, char **environ, t_data *data)
 		close(fd[1]);
 }
 
-void	exec_single_cmd(t_parse *cmds_list, char **environ, t_data *data, t_env **env_list)
+void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 {
 	int		builtin_check;
 	char	*tmp;
 
-	if (!cmds_list->cmd_array[0])
+	if (!cmds->cmd_array[0])
 		return ;
-	builtin_check = is_builtin(cmds_list);
+	builtin_check = is_builtin(cmds);
 	if (builtin_check > 0)
 		data->exit_status
-			= exec_builtin(builtin_check, cmds_list, data, env_list);
+			= exec_builtin(builtin_check, cmds, data, env);
 	else
 	{
-		if (cmds_list->path)
+		if (cmds->path)
 		{
-			tmp = ft_strdup(cmds_list->path);
-			free(cmds_list->cmd_array[0]);
-			cmds_list->cmd_array[0] = tmp;
+			tmp = ft_strdup(cmds->path);
+			free(cmds->cmd_array[0]);
+			cmds->cmd_array[0] = tmp;
 		}
-		single_cmd(cmds_list, environ, data);
+		single_cmd(cmds, envp, data);
 	}
 }

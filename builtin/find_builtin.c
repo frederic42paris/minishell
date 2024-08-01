@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:41:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 17:35:57 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:36:23 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	exec_builtin(int func, t_parse *cmds, t_data *data, t_env **env_list)
 		return (func_env(cmds, *env_list));
 	else if (func == 5)
 		return (func_exit(cmds));
-	// else if (func == 6)
-	// 	func_unset(cmds, environ);
+	else if (func == 6)
+		return (func_unset(cmds, env_list));
 	else if (func == 7)
 		return (func_export(cmds, env_list));
 	return (0);

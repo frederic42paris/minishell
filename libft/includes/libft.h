@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:22:37 by rrichard          #+#    #+#             */
-/*   Updated: 2024/06/26 12:34:54 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/06/27 10:20:07 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <limits.h>
 
 typedef struct s_list
 {
@@ -23,12 +24,18 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+typedef struct s_cuts
+{
+	int				any;
+	int				cutlim;
+	unsigned long	cutoff;
+	int				neg;
+}			t_cuts;
+
 typedef int	t_bool;
 
 # define TRUE 1
 # define FALSE 0
-# define INT_MAX 2147483647
-# define INT_MIN -2147483648
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -63,7 +70,7 @@ char	*ft_strdup(const char *s1);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strtrim(const char *s1, const char *set);
-long	ft_strtol(const char *__restrict nptr, char **__restrict endptr, int base);
+long	ft_strtol(const char *nptr, char **endptr, int base);
 char	**ft_split(const char *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));

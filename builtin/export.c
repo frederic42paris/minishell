@@ -5,37 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/07/31 18:25:02 by rrichard         ###   ########.fr       */
+/*   Created: 2024/08/01 11:45:47 by rrichard          #+#    #+#             */
+/*   Updated: 2024/08/01 11:48:37 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 
 void	export_without_args(t_env *env_list)
 {
+	env_list = sort_env(env_list, env_list);
 	while (env_list)
 	{
 		printf("declare -x \"%s\"\n", env_list->env_var);
 		env_list = env_list->next;
-	}
-}
-
-void	update_existing_env(char *env_str, char *name, char ***environ)
-{
-	int	i;
-
-	i = 0;
-	while (*environ[i])
-	{
-		if (!ft_strncmp(*environ[i], name, ft_strlen(name))
-			&& *environ[i][ft_strlen(name)] == '=')
-		{
-			free(*environ[i]);
-			*environ[i] = ft_strdup(env_str);
-		}
-		i++;
 	}
 }
 
@@ -47,7 +30,7 @@ t_env	*find_env_var(char *name, t_env *env)
 	{
 		str = env->env_var;
 		if (!ft_strncmp(str, name, ft_strlen(name))
-			&& (str[ft_strlen(name)] == '=' || str[ft_strlen(name) == '\0']))
+			&& (str[ft_strlen(name)] == '='))
 			return (env);
 		env = env->next;
 	}
@@ -64,9 +47,11 @@ void	ft_setenv(char *env_str, char *name, t_env **env_list)
 		free(existing_env->env_var);
 		existing_env->env_var = ft_strdup(env_str);
 	}
+	else
+		push_env_list(env_list, env_str);
 }
 
-int	export_with_args(t_parse *cmds, t_env **env_list)
+void	export_with_args(t_parse *cmds, t_env **env_list)
 {
 	int		i;
 	char	*cmd_cpy;
@@ -93,16 +78,11 @@ int	export_with_args(t_parse *cmds, t_env **env_list)
 		free(cmd_cpy);
 		i++;
 	}
-	return (0);
 }
-
 
 int	func_export(t_parse *cmds, t_env **env_list)
 {
-	int	i;
-
-	i = 1;
-	if (!cmds->cmd_array[i])
+	if (!cmds->cmd_array[1])
 		export_without_args(*env_list);
 	else
 		export_with_args(cmds, env_list);
