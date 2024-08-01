@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 18:35:14 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/01 16:47:42 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ void				display_parse_list(t_parse *par_list);
 
 // open fd
 int					open_infile(t_parse *par_list);
+int					open_outfile(t_parse *par_list);
 
 //  env
 int					store_env_list(char **envp, t_env **env_list);

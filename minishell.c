@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 18:34:51 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/01 15:39:41 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,11 @@ int	main(int argc, char **argv, char **envp)
 		check_outfile(par_list->redirection);
 		if (search_command(par_list, data))
 			return (1);
-		display_parse_list(par_list);
 		if (open_infile(par_list))
 			return (1);
+		if (open_outfile(par_list))
+			return (1);
+		display_parse_list(par_list);
 		// enable_signal();
 		// data->num_cmd = count_cmds(par_list);
 		// par_list->environ = transform_envlist(env_list);
