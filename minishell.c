@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/01 11:40:16 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:30:02 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ int	main(int argc, char **argv, char **envp)
 		check_infile(par_list->redirection);
 		check_outfile(par_list->redirection);
 		if (search_command(par_list, data))
+			return (1);
+		if (open_infile(par_list))
+			return (1);
+		if (open_outfile(par_list))
 			return (1);
 		display_parse_list(par_list);
 

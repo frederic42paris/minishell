@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_parse_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:14:40 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:11:56 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	init_to_zero(t_parse	*element)
 	element->redirection = NULL;
 	element->infile_nb = 0;
 	element->outfile_nb = 0;
+	element->fd_stdin = 0;
+	element->fd_stdout = 1;
 	element->path = NULL;
 	element->builtin = 0;
 	element->cmd_array = (char **)ft_calloc(2, sizeof(char *));

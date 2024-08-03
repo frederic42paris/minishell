@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/01 11:36:39 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:28:20 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,9 @@ void				count_nb_pipe(t_token *tok_list, t_data *data);
 int					store_redirection(t_token *tok_list, t_parse *par_list);
 void				display_parse_list(t_parse *par_list);
 
+// open fd
+int					open_infile(t_parse *par_list);
+int					open_outfile(t_parse *par_list);
 
 //  env
 int					store_env_list(char **envp, t_env **env_list);
