@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/07/31 17:18:03 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:08:25 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,9 @@ void	exec_multiple_cmd(t_parse *cmds, t_data *data)
 	int		i;
 
 	fd = malloc(sizeof(int [2]) * (data->has_pipe + 1));
-	prepare_in_out(cmds, data, &fd);
-	if (fd[0][0] < 0 || fd[0][1] < 0 || check_paths(cmds))
+	fd[0][0] = data->fd_stdin;
+	fd[0][1] = data->fd_stdout;
+	if (check_paths(cmds))
 		return ;
 	pid = malloc(sizeof(pid_t) * data->num_cmd);
 	if (!pid)

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/01 11:44:54 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:07:57 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,65 +25,36 @@ void	free_array(char **line)
 	free(line);
 }
 
-void	execute_cmd(t_parse cmd, char **environ, int std_in, int std_out)
+void	execute_cmd(t_parse *cmd, t_data *data, int fd[2], t_env *env)
 {
-	dup2(std_in, STDIN_FILENO);
-	dup2(std_out, STDOUT_FILENO);
-	if (std_in != STDIN_FILENO)
-		close(std_in);
-	if (std_out != STDOUT_FILENO)
-		close(std_out);
-	if (execve(cmd.cmd_array[0], cmd.cmd_array, environ) == -1)
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+	if (fd[0] != STDIN_FILENO)
+		close(fd[0]);
+	if (fd[1] != STDOUT_FILENO)
+		close(fd[1]);
+	if (execve(cmd->cmd_array[0], cmd->cmd_array, cmd->environ) == -1)
 	{
-		printf("%s: command not found\n", cmd.cmd_array[0]);
+		printf("%s: command not found\n", cmd->cmd_array[0]);
+		free_array(cmd->environ);
+		free_data(data);
+		free_parse_list(&cmd);
+		free_env_list(&env);
 		exit(EXIT_FAILURE);
 	}
 }
 
-t_bool	prepare_file_descriptors(int *std_in, int *std_out, t_parse *cmds)
-{
-	int	i;
-	int	tmp;
-
-	i = 0;
-	while (i < cmds->infile_nb - 1)
-	{
-		tmp = open(cmds->redirection->name, O_RDONLY);
-		if (tmp < 0)
-			return (perror(cmds->redirection->name), EXIT_FAILURE);
-		close(tmp);
-		i++;
-		cmds->redirection = cmds->redirection->next;
-	}
-	if (!cmds->redirection->type)
-	{
-		*std_in = open(cmds->redirection->name, O_RDONLY);
-		if (*std_in < 0)
-			return (perror(cmds->redirection->name), EXIT_FAILURE);
-		cmds->redirection = cmds->redirection->next;
-	}
-	if (cmds->redirection)
-		*std_out = open(cmds->redirection->name,
-				O_CREAT | O_RDWR | O_TRUNC, 0644);
-	return (EXIT_SUCCESS);
-}
-
-void	single_cmd(t_parse *cmds, char **environ, t_data *data)
+void	single_cmd(t_parse *cmds, t_data *data, t_env *env)
 {
 	int		fd[2];
 	int		status;
 	pid_t	pid;
 
-	fd[0] = STDIN_FILENO;
-	fd[1] = STDOUT_FILENO;
-	if (cmds->redirection)
-	{
-		if (prepare_file_descriptors(&fd[0], &fd[1], cmds))
-			return ;
-	}
+	fd[0] = data->fd_stdin;
+	fd[1] = data->fd_stdout;
 	pid = fork();
 	if (pid == 0)
-		execute_cmd(*cmds, environ, fd[0], fd[1]);
+		execute_cmd(cmds, data, fd, env);
 	waitpid(pid, &status, 0);
 	data->exit_status = WEXITSTATUS(status);
 	if (fd[0] != STDIN_FILENO)
@@ -97,6 +68,7 @@ void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 	int		builtin_check;
 	char	*tmp;
 
+	(void)envp;
 	if (!cmds->cmd_array[0])
 		return ;
 	builtin_check = is_builtin(cmds);
@@ -111,6 +83,6 @@ void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 			free(cmds->cmd_array[0]);
 			cmds->cmd_array[0] = tmp;
 		}
-		single_cmd(cmds, envp, data);
+		single_cmd(cmds, data, *env);
 	}
 }

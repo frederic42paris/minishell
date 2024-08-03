@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:57:41 by rrichard          #+#    #+#             */
-/*   Updated: 2024/07/31 17:14:35 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:48:39 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**transform_envlist(t_env *env_list)
 	environ = malloc(sizeof(char *) * (listlen(env_list) + 1));
 	while (current)
 	{
-		environ[i] = current->env_var;
+		environ[i] = ft_strdup(current->env_var);
 		i++;
 		current = current->next;
 	}

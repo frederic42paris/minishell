@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/03 11:30:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:48:50 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(int argc, char **argv, char **envp)
 	if (data == NULL)
 		return (1);
 	ft_memset(data, 0, sizeof(t_data));
-	data->exit_status = 0;
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;
@@ -33,8 +32,10 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	while (1)
 	{
-		// data->exit_string = ft_itoa(data->exit_status);
-		data->exit_string = ft_strdup("0");
+		if (data->exit_string)
+			free(data->exit_string);
+		data->exit_string = ft_itoa(data->exit_status);
+		// data->exit_string = ft_strdup("0");
 		data->exit_len = ft_strlen(data->exit_string);
 		if (data->exit_string == NULL)
 			return (1);
@@ -70,21 +71,20 @@ int	main(int argc, char **argv, char **envp)
 		check_outfile(par_list->redirection);
 		if (search_command(par_list, data))
 			return (1);
-		if (open_infile(par_list))
+		if (open_infile(par_list, data))
 			return (1);
-		if (open_outfile(par_list))
+		if (open_outfile(par_list, data))
 			return (1);
 		display_parse_list(par_list);
 
 		enable_signal();
 		data->num_cmd = count_cmds(par_list);
-		if (par_list->environ)
-			free_array(par_list->environ);
 		par_list->environ = transform_envlist(env_list);
 		if (data->has_pipe < 1)
 			exec_single_cmd(par_list, par_list->environ, data, &env_list);
 		else if (data->has_pipe >= 1)
 			exec_multiple_cmd(par_list, data);
+		free_array(par_list->environ);
 		// free_env_list(&env_list);
 		
 		// printf("chiffre %d\n", data->exit_len);

@@ -6,26 +6,17 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/01 11:49:48 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:03:11 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_echo(t_parse *cmds, int i, int nextline_flag)
+void	print_echo(t_parse *cmds, int i, int nextline_flag, t_data *data)
 {
 	int	fd;
 
-	fd = STDOUT_FILENO;
-	if (cmds->redirection)
-	{
-		if (!ft_strcmp(">>", cmds->redirection->token))
-			fd = open(cmds->redirection->name,
-					O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (!ft_strcmp(">", cmds->redirection->token))
-			fd = open(cmds->redirection->name,
-					O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	}
+	fd = data->fd_stdout;
 	while (cmds->cmd_array[i])
 	{
 		ft_putstr_fd(cmds->cmd_array[i], fd);
@@ -39,7 +30,7 @@ void	print_echo(t_parse *cmds, int i, int nextline_flag)
 		close(fd);
 }
 
-int	func_echo(t_parse *cmds)
+int	func_echo(t_parse *cmds, t_data *data)
 {
 	int	nextline_flag;
 	int	i;
@@ -60,6 +51,6 @@ int	func_echo(t_parse *cmds)
 		else
 			break ;
 	}
-	print_echo(cmds, i, nextline_flag);
+	print_echo(cmds, i, nextline_flag, data);
 	return (0);
 }

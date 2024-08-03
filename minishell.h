@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/03 11:28:20 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:07:09 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct s_data
 	int				num_token;
 	int				exit_len;
 	char			*exit_string;
+	int				fd_stdin;
+	int				fd_stdout;
 }					t_data;
 
 typedef struct s_redir
@@ -133,7 +135,7 @@ int					count_cmds(t_parse *cmds_list);
 void				free_array(char **line);
 void				exec_multiple_cmd(t_parse *cmds, t_data *data);
 void				exec_single_cmd(t_parse *cmds_list, char **environ, t_data *data, t_env **env_list);
-void				execute_cmd(t_parse cmd, char **environ, int std_in, int std_out);
+// void				execute_cmd(t_parse *cmd, char **environ, int std_in, int std_out);
 t_bool				prepare_file_descriptors(int *std_in, int *std_out, t_parse *cmds);
 t_bool				check_paths(t_parse *cmds);
 int					count_cmds(t_parse *cmds);
@@ -146,17 +148,18 @@ int					listlen(t_env *env_list);
 // built-in
 int					is_builtin(t_parse *cmds);
 int					exec_builtin(int func, t_parse *cmds, t_data *data, t_env **env_list);
-int					func_echo(t_parse *cmds);
+int					func_echo(t_parse *cmds, t_data *data);
 int					func_pwd(t_parse *cmds, t_data *data);
 int					func_cd(t_parse *cmds);
 int					func_exit(t_parse *cmds);
 int					func_env(t_parse *cmds, t_env *env_list);
 int					func_export(t_parse *cmds, t_env **env_list);
 int					func_unset(t_parse *cmds, t_env **env_list);
-void				print_echo(t_parse *cmds, int i, int nextline_flag);
+void				print_echo(t_parse *cmds, int i, int nextline_flag, t_data *data);
 int					check_export_variable(char *s);
 int					count_input(t_parse *cmds);
 t_env				*find_env_var(char *name, t_env *env);
+t_env				*sort_env(t_env *env_copy, t_env *current);
 
 //  lexical analysis
 int					check_input(char const *str);
@@ -188,8 +191,8 @@ int					store_redirection(t_token *tok_list, t_parse *par_list);
 void				display_parse_list(t_parse *par_list);
 
 // open fd
-int					open_infile(t_parse *par_list);
-int					open_outfile(t_parse *par_list);
+int					open_infile(t_parse *par_list, t_data *data);
+int					open_outfile(t_parse *par_list, t_data *data);
 
 //  env
 int					store_env_list(char **envp, t_env **env_list);
