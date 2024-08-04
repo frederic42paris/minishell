@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/03 13:14:54 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 18:34:05 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	init_to_zero(t_parse	*element)
 	element->redirection = NULL;
 	element->infile_nb = 0;
 	element->outfile_nb = 0;
-	element->fd_stdin = 0;
-	element->fd_stdout = 1;
 	element->path = NULL;
 	element->environ = NULL;
 	element->builtin = 0;

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:57:41 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/03 16:48:39 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:26:22 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,18 @@ char	**transform_envlist(t_env *env_list)
 	}
 	environ[i] = NULL;
 	return (environ);
+}
+
+int	count_cmds(t_parse *cmds)
+{
+	int	res;
+
+	res = 0;
+	while (cmds)
+	{
+		if (cmds->path)
+			res++;
+		cmds = cmds->next;
+	}
+	return (res);
 }

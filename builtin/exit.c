@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/04 13:17:29 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:27:05 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ int	func_exit(t_parse *cmds, t_data *data)
 		free_exit(cmds, data);
 		exit(EXIT_SUCCESS);
 	}
-	return (ft_putendl_fd("exit: too many arguments", STDERR_FILENO), EXIT_FAILURE);
+	ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
+	return (EXIT_FAILURE);
 }

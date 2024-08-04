@@ -6,35 +6,13 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/04 09:45:38 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:26:15 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	exec_check_redirection(t_parse *cmds, int ncmds)
-{
-	int	result;
-	int	n;
-
-	n = 1;
-	result = 0;
-	while (cmds)
-	{
-		if (cmds->redirection)
-		{
-			if (n == 1 && cmds->redirection->type == 0)
-				result |= 1;
-			else if (n == ncmds && cmds->redirection->type == 1)
-				result |= 2;
-		}
-		n++;
-		cmds = cmds->next;
-	}
-	return (result);
-}
-
-void	execute_multi_cmd(t_parse *cmd, t_data *data, int std_in, int std_out)
+void	execute_multi_cmd(t_parse *cmds, t_data *data, int std_in, int std_out)
 {
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
@@ -42,13 +20,10 @@ void	execute_multi_cmd(t_parse *cmd, t_data *data, int std_in, int std_out)
 		close(std_in);
 	if (std_out != STDOUT_FILENO)
 		close(std_out);
-	if (execve(cmd->cmd_array[0], cmd->cmd_array, cmd->environ) == -1)
+	if (execve(cmds->cmd_array[0], cmds->cmd_array, cmds->environ) == -1)
 	{
-		printf("%s: command not found\n", cmd->cmd_array[0]);
-		free_array(cmd->environ);
-		free_env_list(&data->env);
-		free_data(data);
-		free_parse_list(&cmd);
+		perror(cmds->cmd_array[0]);
+		free_exit(cmds, data);
 		exit(EXIT_FAILURE);
 	}
 }
