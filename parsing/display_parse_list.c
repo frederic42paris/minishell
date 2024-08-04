@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:06:16 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/03 15:23:53 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 10:04:59 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	display_redir_list(t_redir *redir_list)
 		printf("file exist : %d\n", redir_list->exist);
 		printf("file access : %d\n", redir_list->access);
 		printf("\n");
-		redir_list = redir_list->next;
+		redir_list = redir_list->prev;
 	}
 }
 
-void	display_parse_list(t_parse *par_list)
+void	display_parse_list(t_parse *par_list, t_data *data)
 {
 	int	i;
 
@@ -58,8 +58,8 @@ void	display_parse_list(t_parse *par_list)
 		display_redir_list(par_list->redirection);
 		printf("infile_nb : %d\n", par_list->infile_nb);
 		printf("outfile_nb : %d\n", par_list->outfile_nb);
-		// printf("fd_stdin : %d\n", data->fd_stdin);
-		// printf("fd_stdout : %d\n", data->fd_stdout);
+		printf("fd_stdin : %d\n", data->fd_stdin);
+		printf("fd_stdout : %d\n", data->fd_stdout);
 		printf("command_array : ");
 		display_parser_array(par_list->cmd_array);
 		printf("\n");

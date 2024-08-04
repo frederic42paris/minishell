@@ -6,18 +6,20 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:45:47 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/01 11:48:37 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:17:43 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	export_without_args(t_env *env_list)
+void	export_without_args(t_env *env_list, t_data *data)
 {
 	env_list = sort_env(env_list, env_list);
 	while (env_list)
 	{
-		printf("declare -x \"%s\"\n", env_list->env_var);
+		ft_putstr_fd("declare -x \"", data->fd_stdout);
+		ft_putstr_fd(env_list->env_var, data->fd_stdout);
+		ft_putendl_fd("\"", data->fd_stdout);
 		env_list = env_list->next;
 	}
 }
@@ -80,10 +82,10 @@ void	export_with_args(t_parse *cmds, t_env **env_list)
 	}
 }
 
-int	func_export(t_parse *cmds, t_env **env_list)
+int	func_export(t_parse *cmds, t_env **env_list, t_data *data)
 {
 	if (!cmds->cmd_array[1])
-		export_without_args(*env_list);
+		export_without_args(*env_list, data);
 	else
 		export_with_args(cmds, env_list);
 	return (0);

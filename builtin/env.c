@@ -6,13 +6,13 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:21 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/01 11:45:00 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:12:53 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	func_env(t_parse *cmds, t_env *env_list)
+int	func_env(t_parse *cmds, t_env *env_list, t_data *data)
 {
 	if (cmds->cmd_array[1])
 		return (ft_putendl_fd("env: too many arguments",
@@ -21,7 +21,7 @@ int	func_env(t_parse *cmds, t_env *env_list)
 	{
 		while (env_list)
 		{
-			printf("%s\n", env_list->env_var);
+			ft_putendl_fd(env_list->env_var, data->fd_stdout);
 			env_list = env_list->next;
 		}
 	}

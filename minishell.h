@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/03 17:07:09 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 13:13:18 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_data
 	char			*exit_string;
 	int				fd_stdin;
 	int				fd_stdout;
+	t_env			*env;
 }					t_data;
 
 typedef struct s_redir
@@ -149,11 +150,11 @@ int					listlen(t_env *env_list);
 int					is_builtin(t_parse *cmds);
 int					exec_builtin(int func, t_parse *cmds, t_data *data, t_env **env_list);
 int					func_echo(t_parse *cmds, t_data *data);
-int					func_pwd(t_parse *cmds, t_data *data);
+int					func_pwd(t_data *data);
 int					func_cd(t_parse *cmds);
-int					func_exit(t_parse *cmds);
-int					func_env(t_parse *cmds, t_env *env_list);
-int					func_export(t_parse *cmds, t_env **env_list);
+int					func_exit(t_parse *cmds, t_data *data);
+int					func_env(t_parse *cmds, t_env *env_list, t_data *data);
+int					func_export(t_parse *cmds, t_env **env_list, t_data *data);
 int					func_unset(t_parse *cmds, t_env **env_list);
 void				print_echo(t_parse *cmds, int i, int nextline_flag, t_data *data);
 int					check_export_variable(char *s);
@@ -181,14 +182,13 @@ void				copy_exit(t_token *element, t_data *data);
 //  parsing
 int					create_parse_list(t_token *tok_list, t_parse **par_list);
 void				free_parse_list(t_parse **par_list);
-void				display_parse_list(t_parse *par_list);
+void				display_parse_list(t_parse *par_list, t_data *data);
 int					store_command(t_token *tok_list, t_parse *par_list);
 void				check_outfile(t_redir *par_list);
 void				check_infile(t_redir *par_list);
 int					search_command(t_parse *par_list, t_data *data);
 void				count_nb_pipe(t_token *tok_list, t_data *data);
 int					store_redirection(t_token *tok_list, t_parse *par_list);
-void				display_parse_list(t_parse *par_list);
 
 // open fd
 int					open_infile(t_parse *par_list, t_data *data);

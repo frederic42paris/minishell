@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/03 16:48:50 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 11:28:17 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,24 +71,21 @@ int	main(int argc, char **argv, char **envp)
 		check_outfile(par_list->redirection);
 		if (search_command(par_list, data))
 			return (1);
+		display_parse_list(par_list, data);
 		if (open_infile(par_list, data))
-			return (1);
+			continue ;
 		if (open_outfile(par_list, data))
-			return (1);
-		display_parse_list(par_list);
+			continue ;
 
 		enable_signal();
 		data->num_cmd = count_cmds(par_list);
 		par_list->environ = transform_envlist(env_list);
+		data->env = env_list;
 		if (data->has_pipe < 1)
 			exec_single_cmd(par_list, par_list->environ, data, &env_list);
 		else if (data->has_pipe >= 1)
 			exec_multiple_cmd(par_list, data);
 		free_array(par_list->environ);
-		// free_env_list(&env_list);
-		
-		// printf("chiffre %d\n", data->exit_len);
-		// printf("string %s\n", data->exit_string);
 		free_parse_list(&par_list);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/03 16:08:25 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 09:45:38 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,26 @@ int	exec_check_redirection(t_parse *cmds, int ncmds)
 	return (result);
 }
 
-void	exec_out(int (*fd)[2], pid_t *pid, t_parse cmds, t_data *data)
+void	execute_multi_cmd(t_parse *cmd, t_data *data, int std_in, int std_out)
+{
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDOUT_FILENO);
+	if (std_in != STDIN_FILENO)
+		close(std_in);
+	if (std_out != STDOUT_FILENO)
+		close(std_out);
+	if (execve(cmd->cmd_array[0], cmd->cmd_array, cmd->environ) == -1)
+	{
+		printf("%s: command not found\n", cmd->cmd_array[0]);
+		free_array(cmd->environ);
+		free_env_list(&data->env);
+		free_data(data);
+		free_parse_list(&cmd);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
 {
 	int	i;
 	int	status;
@@ -46,7 +65,7 @@ void	exec_out(int (*fd)[2], pid_t *pid, t_parse cmds, t_data *data)
 	{
 		if (fd[0][0] != STDIN_FILENO)
 			close(fd[0][0]);
-		execute_cmd(cmds, cmds.environ, fd[data->num_cmd - 1][0], fd[0][1]);
+		execute_multi_cmd(cmds, data, fd[data->num_cmd - 1][0], fd[0][1]);
 		exit(EXIT_SUCCESS);
 	}
 	close(fd[data->num_cmd - 1][0]);
@@ -96,9 +115,9 @@ void	exec_pipes(t_parse *cmds, t_data *data, int (*fd)[2], pid_t *pid)
 		{
 			close_child(data, fd, i);
 			if (i == 0)
-				execute_cmd(*cmds, cmds->environ, fd[0][0], fd[1][1]);
+				execute_multi_cmd(cmds, data, fd[0][0], fd[1][1]);
 			else
-				execute_cmd(*cmds, cmds->environ, fd[i][0], fd[i + 1][1]);
+				execute_multi_cmd(cmds, data, fd[i][0], fd[i + 1][1]);
 			exit(EXIT_SUCCESS);
 		}
 		if (i != 0)
@@ -107,7 +126,7 @@ void	exec_pipes(t_parse *cmds, t_data *data, int (*fd)[2], pid_t *pid)
 		cmds = cmds->next;
 		i++;
 	}
-	exec_out(fd, pid, *cmds, data);
+	exec_out(fd, pid, cmds, data);
 	if (fd[0][0] != STDIN_FILENO)
 		close(fd[0][0]);
 }

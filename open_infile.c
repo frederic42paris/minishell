@@ -6,61 +6,67 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:38:41 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/03 16:12:49 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:10:02 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "printf.h"
 
-// int	infile_exist_v2(char *string)
-// {
-// 	if (access(string, F_OK) == -1)
-// 	{
-// 		return (0);
-// 	}
-// 	return (1);
-// }
-
-// int	infile_rights_v2(char *string)
-// {
-// 	if (access(string, R_OK) == -1)
-// 	{
-// 		return (0);
-// 	}
-// 	return (1);
-// }
-
-char	*find_last_infile(t_redir *redir, int infile_nb)
+void	handle_heredoc(t_data *data, char *limiter)
 {
-	int		i;
+	char	*line;
+	int		fd[2];
 
-	i = 0;
-	while (redir && i != infile_nb)
+	ft_putstr_fd("heredoc> ", STDOUT_FILENO);
+	if (pipe(fd) == -1)
 	{
-		if (ft_strncmp(redir->token, "<", 1) == 0)
-			i++;
-		if (i == infile_nb)
-			break ;
-		redir = redir->next;
+		perror("pipe");
+		exit(EXIT_FAILURE);
 	}
-	return (redir->name);
+	line = get_next_line(STDIN_FILENO);
+	while (line != NULL)
+	{
+		if (!ft_strncmp(line, limiter, ft_strlen(limiter))
+			&& line[ft_strlen(limiter)] == '\n')
+		{
+			free(line);
+			break ;
+		}
+		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
+		ft_putstr_fd(line, fd[1]);
+		free(line);
+		line = get_next_line(STDIN_FILENO);
+	}
+	close(fd[1]);
+	data->fd_stdin = fd[0];
 }
 
 int	open_infile(t_parse *par_list, t_data *data)
 {
 	char	*last_infile;
+	t_redir	*current;
 
+	current = par_list->redirection;
 	last_infile = NULL;
-	if (par_list->redirection)
+	while (current)
 	{
-		if (par_list->redirection->type == 0)
-		{		
-			last_infile = find_last_infile(par_list->redirection, par_list->infile_nb);
-			printf(" TEST : [%s]\n", last_infile);
-			data->fd_stdin = open(last_infile, O_RDONLY);
-			if (data->fd_stdin < 0)
-				return (perror(last_infile), 1);
+		if (current->type == 0)
+		{
+			last_infile = current->name;
+			if (!ft_strcmp(current->token, "<<"))
+			{
+				handle_heredoc(data, last_infile);
+				return (0);
+			}
 		}
+		current = current->next;
+	}
+	if (last_infile)
+	{
+		data->fd_stdin = open(last_infile, O_RDONLY);
+		if (data->fd_stdin < 0)
+			return (perror(last_infile), 1);
 	}
 	return (0);
 }
