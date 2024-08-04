@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:25 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:25:48 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:41:42 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	sigquit(int signal)
 	if (signal == SIGQUIT)
 	{
 		ft_putstr_fd("Quit (core dumped)\n", 1);
-		ft_putchar_fd('\n', 1);
+		// ft_putchar_fd('\n', 1);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/04 14:05:56 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/04 16:40:31 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 		if (data->exit_string == NULL)
 			return (1);
 		// printf("exit status : %d\n", data->exit_status);
-		// disable_signal();
+		disable_signal();
 		// free(data->exit_string);
 
 		if (take_input(data, env_list))
@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **envp)
 			return (1);
 		if (open_outfile(par_list, data))
 			return (1);
-		display_parse_list(par_list);
+		// display_parse_list(par_list);
 
 		enable_signal();
 		data->num_cmd = count_cmds(par_list);
