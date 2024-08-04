@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/03 16:48:50 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 14:05:56 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 		if (data->has_pipe < 1)
 			exec_single_cmd(par_list, par_list->environ, data, &env_list);
 		else if (data->has_pipe >= 1)
-			exec_multiple_cmd(par_list, data);
+			exec_multiple_cmd(par_list, data, env_list);
 		free_array(par_list->environ);
 		// free_env_list(&env_list);
 		
