@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/03 17:07:09 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/04 13:17:59 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ typedef struct s_data
 	char			*exit_string;
 	int				fd_stdin;
 	int				fd_stdout;
+	pid_t			*pid;
+	int				(*fd)[2];
 }					t_data;
 
 typedef struct s_redir
@@ -133,9 +135,9 @@ int					count_cmds(t_parse *cmds_list);
 
 // execution
 void				free_array(char **line);
-void				exec_multiple_cmd(t_parse *cmds, t_data *data);
+void				exec_multiple_cmd(t_parse *cmds, t_data *data, t_env *env);
 void				exec_single_cmd(t_parse *cmds_list, char **environ, t_data *data, t_env **env_list);
-// void				execute_cmd(t_parse *cmd, char **environ, int std_in, int std_out);
+void				execute_cmd(t_parse *cmd, t_data *data, int fd[2], t_env *env);
 t_bool				prepare_file_descriptors(int *std_in, int *std_out, t_parse *cmds);
 t_bool				check_paths(t_parse *cmds);
 int					count_cmds(t_parse *cmds);
