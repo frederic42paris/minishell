@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:14:54 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:41:54 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int	init_cmd_array(t_token *tok_list, t_parse *par_list)
 	free_array(par_list->cmd_array);
 	par_list->cmd_array = (char **)malloc(sizeof(char *) * (len + 1));
 	if (par_list->cmd_array == NULL)
-		return (1);
+	{
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
+	}
 	return (0);
 }
 
@@ -63,7 +66,7 @@ int	split_command(t_token *tok_list, t_parse *par_list)
 			tok_list = tok_list->next;
 			continue ;
 		}
-		par_list->cmd_array[j] = ft_strdup(tok_list->word);
+		par_list->cmd_array[j] = ft_shield_strdup(tok_list->word);
 		if (par_list->cmd_array[j] == NULL)
 			return (1);
 		j++;

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/04 18:34:05 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:42:54 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,16 @@ int	init_to_zero(t_parse	*element)
 	element->builtin = 0;
 	element->cmd_array = (char **)ft_calloc(2, sizeof(char *));
 	if (element->cmd_array == NULL)
-		return (1);
+	{
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
+	}
 	element->cmd_array[0] = (char *)ft_calloc (1, sizeof(char));
 	if (element->cmd_array[0] == NULL)
-		return (1);
+	{
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
+	}
 	element->next = NULL;
 	return (0);
 }
@@ -38,7 +44,10 @@ int	push_parse_list(t_parse **par_list)
 	last = *par_list;
 	element = malloc(sizeof(t_parse));
 	if (element == NULL)
-		return (1);
+	{
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
+	}
 	if (init_to_zero(element))
 		return (1);
 	if (*par_list == NULL)

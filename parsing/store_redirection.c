@@ -3,28 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   store_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:01:57 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 17:05:48 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/05 11:13:37 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	store_str(t_token *tok_list, t_redir	*element)
+int	store_str(t_token *tok_list, t_redir *element)
 {
 	if (tok_list->operator[0] == '<')
 		element->type = 0;
 	else if (tok_list->operator[0] == '>')
 		element->type = 1;
-	element->token = ft_strdup(tok_list->operator);
-	if (element->token == NULL)
-		return (1);
+	element->token = ft_shield_strdup(tok_list->operator);
 	tok_list = tok_list->next;
-	element->name = ft_strdup(tok_list->word);
-	if (element->name == NULL)
-		return (1);
+	element->name = ft_shield_strdup(tok_list->word);
 	return (0);
 }
 

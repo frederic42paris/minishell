@@ -47,6 +47,7 @@ execution/prepare_multipipe.c \
 execution/prepare_execution.c \
 open_infile.c \
 open_outfile.c \
+shield.c \
 
 INCLUDES = libft/
 OBJDIR = .obj

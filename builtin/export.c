@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:45:47 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/04 12:17:43 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:28:05 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_setenv(char *env_str, char *name, t_env **env_list)
 	if (existing_env)
 	{
 		free(existing_env->env_var);
-		existing_env->env_var = ft_strdup(env_str);
+		existing_env->env_var = ft_shield_strdup(env_str);
 	}
 	else
 		push_env_list(env_list, env_str);
@@ -63,7 +63,7 @@ void	export_with_args(t_parse *cmds, t_env **env_list)
 	i = 1;
 	while (cmds->cmd_array[i])
 	{
-		cmd_cpy = ft_strdup(cmds->cmd_array[i]);
+		cmd_cpy = ft_shield_strdup(cmds->cmd_array[i]);
 		equals = ft_strchr(cmd_cpy, '=');
 		if (!equals)
 		{
@@ -73,7 +73,7 @@ void	export_with_args(t_parse *cmds, t_env **env_list)
 		else
 		{
 			*equals = '\0';
-			var_name = ft_strdup(cmd_cpy);
+			var_name = ft_shield_strdup(cmd_cpy);
 			ft_setenv(cmds->cmd_array[i], var_name, env_list);
 			free(var_name);
 		}

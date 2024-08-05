@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   store_path.c                                       :+:      :+:    :+:   */
+/*   shield.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 15:41:01 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/05 10:40:44 by rrichard         ###   ########.fr       */
+/*   Created: 2024/08/05 10:21:44 by rrichard          #+#    #+#             */
+/*   Updated: 2024/08/05 10:31:41 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-int	store_path(t_env *env_list, t_data *data)
+char	*ft_shield_strdup(const char *str)
 {
-	while (env_list)
+	char	*res;
+
+	res = ft_strdup(str);
+	if (res == NULL)
 	{
-		if (ft_strncmp(env_list->env_var, "PATH", 4) == 0)
-		{
-			if (data->all_paths)
-				free_array(data->all_paths);
-			data->all_paths = ft_split(env_list->env_var + 5, ':');
-			if (data->all_paths == NULL)
-			{
-				perror("Malloc error");
-				exit(EXIT_FAILURE);
-			}
-			break ;
-		}
-		env_list = env_list->next;
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
 	}
-	return (0);
+	return (res);
 }

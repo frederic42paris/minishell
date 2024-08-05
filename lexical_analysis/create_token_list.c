@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:07:50 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:12:47 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:25:35 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ int	push_token_list(t_token **tok_list, char *str, t_env *env, t_data *data)
 	last = *tok_list;
 	element = malloc(sizeof(t_token));
 	if (element == NULL)
-		return (1);
-	element->len = 0;
-	element->j = 0;
-	element->i = 0;
+	{
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
+	}
+	ft_bzero(element, sizeof(t_token));
 	get_len_pos(data, env, element);
 	if (store_string(element, str, env, data))
 		return (1);

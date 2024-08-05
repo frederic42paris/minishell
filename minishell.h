@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/04 17:36:19 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:32:17 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_parse
 
 // error handler
 void				exit_program(char *s);
+char				*ft_shield_strdup(const char *str);
 
 // minishell
 int					take_input(t_data *data, t_env *env_list);

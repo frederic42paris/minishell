@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:03:39 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/04 17:26:03 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:28:29 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_bool	check_paths(t_parse *cmds)
 		if (cmds->path)
 		{
 			free(cmds->cmd_array[0]);
-			cmds->cmd_array[0] = ft_strdup(cmds->path);
+			cmds->cmd_array[0] = ft_shield_strdup(cmds->path);
 		}
 		else if (!(cmds->cmd_array[0][0] == '.'
 			|| cmds->cmd_array[0][0] == '/'))

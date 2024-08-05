@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   store_string.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:52:05 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 11:32:09 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/05 11:25:57 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ int	store_operator(t_token *element, char *str)
 	element->word = NULL;
 	element->operator = malloc(element->len + 1);
 	if (element->operator == NULL)
-		return (1);
+	{
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
+	}
 	ft_strlcpy(element->operator, str, element->len + 1);
 	return (0);
 }
@@ -68,23 +71,24 @@ int	store_string(t_token *element, char *str, t_env *env_list, t_data *data)
 	{
 		if (store_operator(element, str))
 			return (1);
+		return (0);
 	}
-	else
+	element->operator = NULL;
+	element->word = malloc(element->len + 1);
+	if (element->word == NULL)
 	{
-		element->operator = NULL;
-		element->word = malloc(element->len + 1);
-		if (element->word == NULL)
-			return (1);
-		while (not_meta(str[element->i]))
-		{
-			if (str[element->i] == 39)
-				store_single_quote(element, str);
-			else if (str[element->i] == '"')
-				store_dbl_quote(element, str, env_list, data);
-			else
-				store_no_quote(element, str, env_list, data);
-		}
-		element->word[element->j] = '\0';
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
 	}
+	while (not_meta(str[element->i]))
+	{
+		if (str[element->i] == 39)
+			store_single_quote(element, str);
+		else if (str[element->i] == '"')
+			store_dbl_quote(element, str, env_list, data);
+		else
+			store_no_quote(element, str, env_list, data);
+	}
+	element->word[element->j] = '\0';
 	return (0);
 }

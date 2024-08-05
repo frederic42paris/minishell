@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/03 17:07:57 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:28:16 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 	{
 		if (cmds->path)
 		{
-			tmp = ft_strdup(cmds->path);
+			tmp = ft_shield_strdup(cmds->path);
 			free(cmds->cmd_array[0]);
 			cmds->cmd_array[0] = tmp;
 		}

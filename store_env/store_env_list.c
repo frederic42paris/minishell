@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 18:10:02 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 21:00:32 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:29:15 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	push_env_list(t_env **env_list, const char *str)
 	element = malloc(sizeof(t_env));
 	if (element == NULL)
 		return (1);
-	element->env_var = ft_strdup(str);
+	element->env_var = ft_shield_strdup(str);
 	if (element->env_var == NULL)
 		return (1);
 	element->next = NULL;

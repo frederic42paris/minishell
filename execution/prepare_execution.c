@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:57:41 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/04 17:26:22 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:39:38 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,14 @@ char	**transform_envlist(t_env *env_list)
 	current = env_list;
 	i = 0;
 	environ = malloc(sizeof(char *) * (listlen(env_list) + 1));
+	if (!environ)
+	{
+		perror("Malloc error");
+		exit(EXIT_FAILURE);
+	}
 	while (current)
 	{
-		environ[i] = ft_strdup(current->env_var);
+		environ[i] = ft_shield_strdup(current->env_var);
 		i++;
 		current = current->next;
 	}
