@@ -14,12 +14,15 @@
 
 int	store_path(t_env *env_list, t_data *data)
 {
+	if (data->all_paths)
+	{
+		free_array(data->all_paths);
+		data->all_paths = NULL;
+	}
 	while (env_list)
 	{
 		if (ft_strncmp(env_list->env_var, "PATH", 4) == 0)
 		{
-			if (data->all_paths)
-				free_array(data->all_paths);
 			data->all_paths = ft_split(env_list->env_var + 5, ':');
 			if (data->all_paths == NULL)
 			{

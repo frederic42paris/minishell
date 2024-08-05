@@ -48,14 +48,17 @@ int	compare_path(t_parse *par_list, t_data *data)
 
 	i = 0;
 	result = 0;
-	while (data->all_paths[i])
+	if (data->all_paths)
 	{
-		result = find_path(data->all_paths[i], par_list);
-		if (result == 2)
-			break ;
-		else if (result == 1)
-			return (1);
-		i++;
+		while (data->all_paths[i])
+		{
+			result = find_path(data->all_paths[i], par_list);
+			if (result == 2)
+				break ;
+			else if (result == 1)
+				return (1);
+			i++;
+		}
 	}
 	return (0);
 }

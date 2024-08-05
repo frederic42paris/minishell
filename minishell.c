@@ -94,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;
+	data->all_paths = NULL;
 	if (store_env_list(envp, &env_list) == 1)
 		return (1);
 	make_it_loop(data, env_list, tok_list, par_list);
