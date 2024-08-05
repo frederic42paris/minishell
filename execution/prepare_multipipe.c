@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:03:39 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/05 10:28:29 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:53:11 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@ t_bool	check_paths(t_parse *cmds)
 		{
 			free(cmds->cmd_array[0]);
 			cmds->cmd_array[0] = ft_shield_strdup(cmds->path);
-		}
-		else if (!(cmds->cmd_array[0][0] == '.'
-			|| cmds->cmd_array[0][0] == '/'))
-		{
-			if (access(cmds->cmd_array[0], X_OK) != 0)
-			{
-				ft_putstr_fd("command not found: ", STDERR_FILENO);
-				ft_putendl_fd(cmds->cmd_array[0], STDERR_FILENO);
-			}
-			return (EXIT_FAILURE);
 		}
 		cmds = cmds->next;
 	}

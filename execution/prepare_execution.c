@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:57:41 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/05 10:39:38 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:10:56 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	count_cmds(t_parse *cmds)
 	res = 0;
 	while (cmds)
 	{
-		if (cmds->path)
+		if (cmds->cmd_array[0])
 			res++;
 		cmds = cmds->next;
 	}

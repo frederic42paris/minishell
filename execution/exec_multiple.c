@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/05 10:50:49 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:52:12 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@ void	execute_multi_cmd(t_parse *cmds, t_data *data, int std_in, int std_out)
 	if (execve(cmds->cmd_array[0], cmds->cmd_array, cmds->environ) == -1)
 	{
 		perror(cmds->cmd_array[0]);
-		free_exit(cmds, data);
+		data->exit_status = 127;
+		// free_exit(cmds, data);
+		free_env_list(&data->env);
+		if (cmds->environ)
+			free_array(cmds->environ);
+		free_parse_list(&cmds);
+		free_data(data);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -48,6 +54,11 @@ void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
 	while (i < data->num_cmd)
 	{
 		waitpid(pid[i], &status, 0);
+		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		{
+			data->exit_status = 127;
+			break ;
+		}
 		if (i == data->num_cmd - 1)
 			data->exit_status = WEXITSTATUS(status);
 		i++;
