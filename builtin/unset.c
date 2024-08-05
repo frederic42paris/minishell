@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/01 11:49:27 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:29:35 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	delete_one_env(t_env **env_list, char *name)
 		temp->next->prev = temp->prev;
 	if (temp->prev)
 		temp->prev->next = temp->next;
+	free(temp->env_var);
 	free(temp);
 }
 
