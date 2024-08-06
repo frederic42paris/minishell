@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 15:25:25 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:44:24 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	print_echo(t_parse *cmds, int i, int nextline_flag, t_data *data)
 	}
 	if (!nextline_flag)
 		ft_putstr_fd("\n", fd);
-	if (fd > 0 && fd != STDOUT_FILENO)
-		close(fd);
 }
 
 int	func_echo(t_parse *cmds, t_data *data)
@@ -52,5 +50,9 @@ int	func_echo(t_parse *cmds, t_data *data)
 			break ;
 	}
 	print_echo(cmds, i, nextline_flag, data);
+	if (data->fd_stdin != STDIN_FILENO)
+			close(data->fd_stdin);
+	if (data->fd_stdout != STDOUT_FILENO)
+		close(data->fd_stdout);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 15:28:25 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:11:43 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ void	start_exec(t_data *data, t_parse *par_list, t_env *env_list)
 
 	current = par_list;
 	data->num_cmd = count_cmds(par_list);
-	par_list->environ = transform_envlist(env_list);
+	if (data->environ)
+		free_array(data->environ);
+	data->environ = transform_envlist(env_list);
 	if (data->has_pipe < 1)
-		exec_single_cmd(par_list, par_list->environ, data, &env_list);
+		exec_single_cmd(par_list, data->environ, data, &env_list);
 	else if (data->has_pipe >= 1)
 		exec_multiple_cmd(par_list, data);
 }
@@ -76,7 +78,6 @@ void	make_it_loop(t_data *data, t_env *env_list,
 			continue ;
 		}
 		start_exec(data, par_list, env_list);
-		free_array(par_list->environ);
 		free_parse_list(&par_list);
 	}
 }
@@ -94,6 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	if (data == NULL)
 		return (1);
 	ft_memset(data, 0, sizeof(t_data));
+	data->environ = NULL;
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;

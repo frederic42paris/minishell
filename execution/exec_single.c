@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 15:58:58 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:07:30 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,9 @@ void	execute_cmd(t_parse *cmd, t_data *data, int fd[2], t_env *env)
 		close(fd[0]);
 	if (fd[1] != STDOUT_FILENO)
 		close(fd[1]);
-	if (execve(cmd->cmd_array[0], cmd->cmd_array, cmd->environ) == -1)
+	if (execve(cmd->cmd_array[0], cmd->cmd_array, data->environ) == -1)
 	{
 		perror("execve");
-		free_array(cmd->environ);
 		free_data(data);
 		free_parse_list(&cmd);
 		free_env_list(&env);

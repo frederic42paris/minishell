@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 16:20:14 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:58:56 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_data
 	t_env			*env;
 	int				(**fd)[2];
 	pid_t			**pid;
+	char			**environ;
 }					t_data;
 
 typedef struct s_redir
@@ -89,7 +90,6 @@ typedef struct s_parse
 	int				builtin;
 	struct s_parse	*next;
 	struct s_parse	*prev;
-	char			**environ;
 }					t_parse;
 
 /////////////////////////////////////////////////////////////////////////

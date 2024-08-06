@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/04 17:27:05 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:06:34 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ t_bool	ft_check_args(char *str)
 void	free_exit(t_parse *cmds, t_data *data)
 {
 	free_env_list(&data->env);
-	if (cmds->environ)
-		free_array(cmds->environ);
 	free_parse_list(&cmds);
 	free_data(data);
 }
