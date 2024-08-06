@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 12:47:36 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:28:25 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ void	init_tok_list(t_token **tok_list, t_data *data, t_env *env_list)
 
 void	start_exec(t_data *data, t_parse *par_list, t_env *env_list)
 {
+	t_parse	*current;
+
+	current = par_list;
 	data->num_cmd = count_cmds(par_list);
 	par_list->environ = transform_envlist(env_list);
 	if (data->has_pipe < 1)

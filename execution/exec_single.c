@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 12:52:48 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:58:58 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,13 @@ void	single_cmd(t_parse *cmds, t_data *data, t_env *env)
 
 void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 {
-	int		builtin_check;
 	char	*tmp;
 
 	(void)envp;
 	if (!cmds->cmd_array[0])
 		return ;
-	builtin_check = is_builtin(cmds);
-	if (builtin_check > 0)
-		data->exit_status
-			= exec_builtin(builtin_check, cmds, data, env);
+	if (is_builtin(cmds))
+		data->exit_status = exec_builtin(cmds, data, env);
 	else
 	{
 		if (cmds->path)

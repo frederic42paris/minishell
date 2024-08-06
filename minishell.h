@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 12:58:22 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:20:14 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct s_data
 	int				fd_stdin;
 	int				fd_stdout;
 	t_env			*env;
+	int				(**fd)[2];
+	pid_t			**pid;
 }					t_data;
 
 typedef struct s_redir
@@ -114,10 +116,10 @@ void				wait_loop(pid_t *pid, t_data *data);
 
 // built-in
 int					is_builtin(t_parse *cmds);
-int					exec_builtin(int func, t_parse *cmds,
+int					exec_builtin(t_parse *cmds,
 						t_data *data, t_env **env_list);
 int					func_echo(t_parse *cmds, t_data *data);
-int					func_pwd(t_data *data);
+int					func_pwd(t_parse *cmds, t_data *data);
 int					func_cd(t_parse *cmds);
 int					func_exit(t_parse *cmds, t_data *data);
 int					func_env(t_parse *cmds, t_env *env_list, t_data *data);
