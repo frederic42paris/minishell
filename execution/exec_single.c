@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/05 10:28:16 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:30:52 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,13 @@ void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 
 	(void)envp;
 	if (!cmds->cmd_array[0])
+	{
+		if (data->fd_stdin != 0)
+			close(data->fd_stdin);
+		if (data->fd_stdin != 1)
+			close(data->fd_stdout);
 		return ;
+	}
 	builtin_check = is_builtin(cmds);
 	if (builtin_check > 0)
 		data->exit_status
