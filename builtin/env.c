@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:21 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 17:44:14 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:35:44 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	func_env(t_parse *cmds, t_env *env_list, t_data *data)
 		}
 	}
 	if (data->fd_stdin != STDIN_FILENO)
-			close(data->fd_stdin);
+		close(data->fd_stdin);
 	if (data->fd_stdout != STDOUT_FILENO)
 		close(data->fd_stdout);
 	return (0);

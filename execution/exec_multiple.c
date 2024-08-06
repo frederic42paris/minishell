@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/06 18:08:50 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:38:22 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,17 @@ void	execute_multi_builtin(t_parse *cmds, t_data *data, int std_in, int std_out)
 {
 	dup2(std_in, data->fd_stdin);
 	dup2(std_out, data->fd_stdout);
+	if (std_in != STDIN_FILENO)
+		close(std_in);
+	if (std_out != STDOUT_FILENO)
+		close(std_out);
 	exec_builtin(cmds, data, &data->env);
-	free_exit(cmds, data);
+	free_exec(data->fd, data->pid, NULL);
+	free_env_list(&data->env);
+	while (cmds->prev)
+		cmds = cmds->prev;
+	free_parse_list(&cmds);
+	free_data(data);
 	exit(EXIT_SUCCESS);
 }
 
@@ -48,22 +57,7 @@ void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
 		if (!is_builtin(cmds))
 			execute_multi_cmd(cmds, data, fd[data->num_cmd - 1][0], fd[0][1]);
 		else
-		{
-			dup2(fd[data->num_cmd - 1][0], data->fd_stdin);
-			dup2(fd[0][1], data->fd_stdout);
-			if (fd[data->num_cmd - 1][0] != STDIN_FILENO)
-				close(fd[data->num_cmd - 1][0]);
-			if (fd[0][1] != STDOUT_FILENO)
-				close(fd[0][1]);
-			exec_builtin(cmds, data, &data->env);
-			free_exec(data->fd, data->pid, NULL);
-			free_env_list(&data->env);
-			while (cmds->prev)
-				cmds = cmds->prev;
-			free_parse_list(&cmds);
-			free_data(data);
-			exit(EXIT_SUCCESS);
-		}
+			execute_multi_builtin(cmds, data, fd[data->num_cmd - 1], fd[0][1]);
 		exit(EXIT_SUCCESS);
 	}
 	close(fd[data->num_cmd - 1][0]);
@@ -175,8 +169,7 @@ void	exec_multiple_cmd(t_parse *cmds, t_data *data)
 	}
 	fd[0][0] = data->fd_stdin;
 	fd[0][1] = data->fd_stdout;
-	if (check_paths(cmds))
-		return ;
+	check_paths(cmds);
 	i = 1;
 	while (i <= data->has_pipe)
 	{
