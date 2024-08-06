@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 12:20:11 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/06 12:41:38 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	init_data(t_data *data, t_env *env_list)
 	data->exit_len = ft_strlen(data->exit_string);
 	data->fd_stdin = STDIN_FILENO;
 	data->fd_stdout = STDOUT_FILENO;
-	data->all_paths = NULL;
 	if (data->exit_string == NULL)
 	{
 		printf("Malloc error\n");
@@ -95,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 	tok_list = NULL;
 	par_list = NULL;
 	env_list = NULL;
+	data->all_paths = NULL;
 	if (store_env_list(envp, &env_list) == 1)
 		return (1);
 	make_it_loop(data, env_list, tok_list, par_list);
