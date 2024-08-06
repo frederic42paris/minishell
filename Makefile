@@ -22,8 +22,6 @@ lexical_analysis/free_token_list.c\
 lexical_analysis/get_len_pos.c\
 lexical_analysis/store_string.c\
 parsing/create_parse_list.c\
-parsing/check_infile.c\
-parsing/check_outfile.c\
 parsing/display_parse_list.c\
 parsing/free_parse_list.c\
 parsing/search_command.c\

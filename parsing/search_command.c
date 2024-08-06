@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/05 10:30:29 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:21:20 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,20 @@ int	search_command(t_parse *par_list, t_data *data)
 	int		i;
 
 	i = 0;
-	while (par_list)
+	if (data->all_paths)
 	{
-		if (!par_list->cmd_array[0])
-			break ;
-		if (ft_strncmp(par_list->cmd_array[0], "/", 1) == 0)
-			par_list->path = ft_shield_strdup(par_list->cmd_array[0]);
-		else
-			i = compare_path(par_list, data);
-		if (i == 1)
-			return (1);
-		par_list = par_list->next;
+		while (par_list)
+		{
+			if (!par_list->cmd_array[0])
+				break ;
+			if (ft_strncmp(par_list->cmd_array[0], "/", 1) == 0)
+				par_list->path = ft_shield_strdup(par_list->cmd_array[0]);
+			else
+				i = compare_path(par_list, data);
+			if (i == 1)
+				return (1);
+			par_list = par_list->next;
+		}
 	}
 	return (0);
 }
