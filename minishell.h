@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/05 10:32:17 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:49:49 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,10 @@ typedef struct s_parse
 void				exit_program(char *s);
 char				*ft_shield_strdup(const char *str);
 
-// minishell
+// input
 int					take_input(t_data *data, t_env *env_list);
-int					count_cmds(t_parse *cmds_list);
+int					check_input(char const *str);
+int					check_empty_redirection(t_token *tok_list);
 
 // execution
 void				free_array(char **line);
@@ -131,12 +132,10 @@ t_env				*sort_env(t_env *env_copy, t_env *current);
 void				free_exit(t_parse *cmds, t_data *data);
 
 //  lexical analysis
-int					check_input(char const *str);
 int					create_token_list(t_data *data, t_token **tok_list,
 						t_env *env_list);
 void				free_token_list(t_token **tok_list);
 void				get_num_token(t_token *tok_list, t_data *data);
-int					check_empty_redirection(t_token *tok_list);
 void				get_len_pos(t_data *data,
 						t_env *env_list, t_token *element);
 int					store_string(t_token *element, char *str,
@@ -145,17 +144,19 @@ void				copy_word(t_token *element, char *str);
 void				expand_word(t_token *element, char *str, t_env *env_list);
 char				*env_path(t_env *env_list, int len, char *string);
 void				copy_exit(t_token *element, t_data *data);
+void				display_token_list(t_token *tok_list);
 
 //  parsing
 int					create_parse_list(t_token *tok_list, t_parse **par_list);
-void				free_parse_list(t_parse **par_list);
 void				display_parse_list(t_parse *par_list, t_data *data);
 int					store_command(t_token *tok_list, t_parse *par_list);
-void				check_outfile(t_redir *par_list);
-void				check_infile(t_redir *par_list);
 int					search_command(t_parse *par_list, t_data *data);
-void				count_nb_pipe(t_token *tok_list, t_data *data);
 int					store_redirection(t_token *tok_list, t_parse *par_list);
+void				free_parse_list(t_parse **par_list);
+
+// data
+void				count_nb_pipe(t_token *tok_list, t_data *data);
+void				free_data(t_data	*data);
 
 // open fd
 int					open_infile(t_parse *par_list, t_data *data);
@@ -166,14 +167,6 @@ int					store_env_list(char **envp, t_env **env_list);
 int					store_path(t_env *env_list, t_data *data);
 void				free_env_list(t_env **env_list);
 int					push_env_list(t_env **env_list, const char *str);
-
-// data
-
-void				free_data(t_data	*data);
-
-// display
-void				display_array(char **array);
-void				display_token_list(t_token *tok_list);
 
 // utils parsing
 int					is_meta(char c);
@@ -192,7 +185,6 @@ int					is_alnum(char c);
 char				*get_next_line(int fd);
 
 // signals
-
 void				disable_signal(void);
 void				enable_signal(void);
 
