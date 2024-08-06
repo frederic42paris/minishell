@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:37:19 by ftanon            #+#    #+#             */
-/*   Updated: 2024/07/31 16:11:56 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:32:16 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ int	check_empty_string(char const *str)
 		i++;
 	if (str[i] == '\0')
 		return (1);
+	return (0);
+}
+
+int	check_pipe_error(char const *str)
+{
+	if (str[0] == '|')
+	{
+		printf("Error : invalid cmd\n");
+		return (1);
+	}
 	return (0);
 }
 
@@ -57,6 +67,8 @@ int	check_input(char const *str)
 	if (check_quote_unclosed(str) == 1)
 		return (1);
 	if (check_empty_string(str) == 1)
+		return (1);
+	if (check_pipe_error(str) == 1)
 		return (1);
 	return (0);
 }
