@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/05 10:28:16 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:52:48 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,15 @@ void	execute_cmd(t_parse *cmd, t_data *data, int fd[2], t_env *env)
 		close(fd[1]);
 	if (execve(cmd->cmd_array[0], cmd->cmd_array, cmd->environ) == -1)
 	{
-		printf("%s: command not found\n", cmd->cmd_array[0]);
+		perror("execve");
 		free_array(cmd->environ);
 		free_data(data);
 		free_parse_list(&cmd);
 		free_env_list(&env);
-		exit(EXIT_FAILURE);
+		if (errno == ENOENT)
+			exit(127);
+		else
+			exit(1);
 	}
 }
 

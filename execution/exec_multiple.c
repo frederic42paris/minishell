@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/05 16:52:12 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:58:39 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,17 @@ void	execute_multi_cmd(t_parse *cmds, t_data *data, int std_in, int std_out)
 		close(std_out);
 	if (execve(cmds->cmd_array[0], cmds->cmd_array, cmds->environ) == -1)
 	{
-		perror(cmds->cmd_array[0]);
-		data->exit_status = 127;
-		// free_exit(cmds, data);
-		free_env_list(&data->env);
-		if (cmds->environ)
-			free_array(cmds->environ);
-		free_parse_list(&cmds);
-		free_data(data);
-		exit(EXIT_FAILURE);
+		perror("execve");
+		free_exit(cmds, data);
+		if (errno = ENOENT)
+			exit(127);
+		else
+			exit(1);
 	}
 }
 
 void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
 {
-	int	i;
-	int	status;
-
-	i = 0;
-	status = 0;
 	pid[data->num_cmd - 1] = fork();
 	if (pid[data->num_cmd - 1] == 0)
 	{
@@ -50,19 +42,7 @@ void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
 		exit(EXIT_SUCCESS);
 	}
 	close(fd[data->num_cmd - 1][0]);
-	i = 0;
-	while (i < data->num_cmd)
-	{
-		waitpid(pid[i], &status, 0);
-		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		{
-			data->exit_status = 127;
-			break ;
-		}
-		if (i == data->num_cmd - 1)
-			data->exit_status = WEXITSTATUS(status);
-		i++;
-	}
+	wait_loop(pid, data);
 	if (fd[0][1] != STDOUT_FILENO)
 		close(fd[0][1]);
 }
