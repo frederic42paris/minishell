@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 15:30:52 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/06 15:49:55 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 	{
 		if (data->fd_stdin != 0)
 			close(data->fd_stdin);
-		if (data->fd_stdin != 1)
+		if (data->fd_stdout != 1)
 			close(data->fd_stdout);
 		return ;
 	}
