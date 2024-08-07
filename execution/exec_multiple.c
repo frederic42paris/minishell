@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multiple.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/06 18:38:22 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:44:07 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void	execute_multi_builtin(t_parse *cmds, t_data *data, int std_in, int std_out)
 {
 	dup2(std_in, data->fd_stdin);
 	dup2(std_out, data->fd_stdout);
+	exec_builtin(cmds, data, &data->env);
 	if (std_in != STDIN_FILENO)
 		close(std_in);
 	if (std_out != STDOUT_FILENO)
 		close(std_out);
-	exec_builtin(cmds, data, &data->env);
 	free_exec(data->fd, data->pid, NULL);
 	free_env_list(&data->env);
 	while (cmds->prev)
@@ -57,7 +57,7 @@ void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
 		if (!is_builtin(cmds))
 			execute_multi_cmd(cmds, data, fd[data->num_cmd - 1][0], fd[0][1]);
 		else
-			execute_multi_builtin(cmds, data, fd[data->num_cmd - 1], fd[0][1]);
+			execute_multi_builtin(cmds, data, fd[data->num_cmd - 1][0], fd[0][1]);
 		exit(EXIT_SUCCESS);
 	}
 	close(fd[data->num_cmd - 1][0]);
@@ -107,11 +107,11 @@ void	exec_pipes(t_parse *cmds, t_data *data, int (*fd)[2], pid_t *pid)
 				{
 					dup2(fd[0][0], data->fd_stdin);
 					dup2(fd[1][1], data->fd_stdout);
+					exec_builtin(cmds, data, &data->env);
 					if (fd[0][0] != STDIN_FILENO)
 						close(fd[0][0]);
 					if (fd[1][1] != STDOUT_FILENO)
 						close(fd[1][1]);
-					exec_builtin(cmds, data, &data->env);
 					free_exec(data->fd, data->pid, NULL);
 					free_env_list(&data->env);
 					free_parse_list(&cmds);
@@ -127,11 +127,11 @@ void	exec_pipes(t_parse *cmds, t_data *data, int (*fd)[2], pid_t *pid)
 				{
 					dup2(fd[i][0], data->fd_stdin);
 					dup2(fd[i + 1][1], data->fd_stdout);
+					exec_builtin(cmds, data, &data->env);
 					if (fd[i][0] != STDIN_FILENO)
 						close(fd[i][0]);
 					if (fd[i + 1][1] != STDOUT_FILENO)
 						close(fd[i + 1][1]);
-					exec_builtin(cmds, data, &data->env);
 					free_exec(data->fd, data->pid, NULL);
 					free_env_list(&data->env);
 					while (cmds->prev)
