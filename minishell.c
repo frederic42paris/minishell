@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 12:41:38 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/07 14:07:31 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_data(t_data *data, t_env *env_list)
 {
-	enable_signal();
+	disable_signal();
 	if (data->exit_string)
 		free(data->exit_string);
 	data->exit_string = ft_itoa(data->exit_status);
@@ -72,6 +72,7 @@ void	make_it_loop(t_data *data, t_env *env_list,
 			free_parse_list(&par_list);
 			continue ;
 		}
+		enable_signal();
 		start_exec(data, par_list, env_list);
 		free_array(par_list->environ);
 		free_parse_list(&par_list);
