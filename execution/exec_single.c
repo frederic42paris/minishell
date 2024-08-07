@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/07 16:37:16 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/07 17:27:22 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,13 @@ void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 
 	(void)envp;
 	if (!cmds->cmd_array[0])
+	{
+		if (data->fd_stdin != 0)
+			close(data->fd_stdin);
+		if (data->fd_stdout != 1)
+			close(data->fd_stdout);
 		return ;
+	}
 	if (is_builtin(cmds))
 		data->exit_status = exec_builtin(cmds, data, env);
 	else

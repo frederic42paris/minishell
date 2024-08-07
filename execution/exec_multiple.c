@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/07 16:35:55 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/07 17:25:23 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,23 @@ void	execute_multi_builtin(t_parse *cmds, t_data *data, int std_in, int std_out)
 
 void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
 {
-	pid[data->num_cmd - 1] = fork();
-	if (pid[data->num_cmd - 1] == 0)
+	if (cmds->cmd_array[0] != NULL)
 	{
-		if (!is_builtin(cmds))
-			execute_multi_cmd(cmds, data, fd[data->num_cmd - 1][0], fd[0][1]);
-		else
-			execute_multi_builtin(cmds, data, fd[data->num_cmd - 1][0], fd[0][1]);
-		exit(EXIT_SUCCESS);
+		pid[data->num_cmd - 1] = fork();
+		if (pid[data->num_cmd - 1] == 0)
+		{
+			if (!is_builtin(cmds))
+				execute_multi_cmd(cmds, data, fd[data->num_cmd - 1][0], fd[0][1]);
+			else
+				execute_multi_builtin(cmds, data, fd[data->num_cmd - 1][0], fd[0][1]);
+			exit(EXIT_SUCCESS);
+		}
+		close(fd[data->num_cmd - 1][0]);
 	}
-	close(fd[data->num_cmd - 1][0]);
+	else
+	{
+		close(fd[data->has_pipe][0]);
+	}
 	wait_loop(pid, data);
 	if (fd[0][1] != STDOUT_FILENO)
 		close(fd[0][1]);
@@ -99,55 +106,62 @@ void	exec_pipes(t_parse *cmds, t_data *data, int (*fd)[2], pid_t *pid)
 	int	i;
 
 	i = 0;
-	while (i < data->num_cmd - 1)
+	while (i < data->has_pipe)
 	{
-		pid[i] = fork();
-		if (pid[i] == 0)
+		if (cmds->cmd_array[0] != NULL)
+		{
+			pid[i] = fork();
+			if (pid[i] == 0)
+			{
+				close_child(data, fd, i);
+				if (i == 0)
+				{
+					if (!is_builtin(cmds))
+						execute_multi_cmd(cmds, data, fd[0][0], fd[1][1]);
+					else
+					{
+						dup2(fd[0][0], data->fd_stdin);
+						dup2(fd[1][1], data->fd_stdout);
+						exec_builtin(cmds, data, &data->env);
+						if (fd[0][0] != STDIN_FILENO)
+							close(fd[0][0]);
+						if (fd[1][1] != STDOUT_FILENO)
+							close(fd[1][1]);
+						free_exec(data->fd, data->pid, NULL);
+						free_env_list(&data->env);
+						free_parse_list(&cmds);
+						free_data(data);
+						exit(EXIT_SUCCESS);
+					}
+				}
+				else
+				{
+					if (!is_builtin(cmds))
+						execute_multi_cmd(cmds, data, fd[i][0], fd[i + 1][1]);
+					else
+					{
+						dup2(fd[i][0], data->fd_stdin);
+						dup2(fd[i + 1][1], data->fd_stdout);
+						exec_builtin(cmds, data, &data->env);
+						if (fd[i][0] != STDIN_FILENO)
+							close(fd[i][0]);
+						if (fd[i + 1][1] != STDOUT_FILENO)
+							close(fd[i + 1][1]);
+						free_exec(data->fd, data->pid, NULL);
+						free_env_list(&data->env);
+						while (cmds->prev)
+							cmds = cmds->prev;
+						free_parse_list(&cmds);
+						free_data(data);
+						exit(EXIT_SUCCESS);
+					}
+				}
+				exit(EXIT_SUCCESS);
+			}
+		}
+		else
 		{
 			close_child(data, fd, i);
-			if (i == 0)
-			{
-				if (!is_builtin(cmds))
-					execute_multi_cmd(cmds, data, fd[0][0], fd[1][1]);
-				else
-				{
-					dup2(fd[0][0], data->fd_stdin);
-					dup2(fd[1][1], data->fd_stdout);
-					exec_builtin(cmds, data, &data->env);
-					if (fd[0][0] != STDIN_FILENO)
-						close(fd[0][0]);
-					if (fd[1][1] != STDOUT_FILENO)
-						close(fd[1][1]);
-					free_exec(data->fd, data->pid, NULL);
-					free_env_list(&data->env);
-					free_parse_list(&cmds);
-					free_data(data);
-					exit(EXIT_SUCCESS);
-				}
-			}
-			else
-			{
-				if (!is_builtin(cmds))
-					execute_multi_cmd(cmds, data, fd[i][0], fd[i + 1][1]);
-				else
-				{
-					dup2(fd[i][0], data->fd_stdin);
-					dup2(fd[i + 1][1], data->fd_stdout);
-					exec_builtin(cmds, data, &data->env);
-					if (fd[i][0] != STDIN_FILENO)
-						close(fd[i][0]);
-					if (fd[i + 1][1] != STDOUT_FILENO)
-						close(fd[i + 1][1]);
-					free_exec(data->fd, data->pid, NULL);
-					free_env_list(&data->env);
-					while (cmds->prev)
-						cmds = cmds->prev;
-					free_parse_list(&cmds);
-					free_data(data);
-					exit(EXIT_SUCCESS);
-				}
-			}
-			exit(EXIT_SUCCESS);
 		}
 		if (i != 0)
 			close(fd[i][0]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:56:45 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/05 10:30:29 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:06:33 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ int	search_command(t_parse *par_list, t_data *data)
 	while (par_list)
 	{
 		if (!par_list->cmd_array[0])
-			break ;
+		{
+			par_list = par_list->next;
+			continue ;
+		}
 		if (ft_strncmp(par_list->cmd_array[0], "/", 1) == 0)
 			par_list->path = ft_shield_strdup(par_list->cmd_array[0]);
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_multipipe.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:03:39 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/06 16:55:43 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:06:59 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_bool	check_paths(t_parse *cmds)
 {
 	while (cmds)
 	{
+		printf("%s\n", cmds->path);
 		if (cmds->path)
 		{
 			if (!is_builtin(cmds))
