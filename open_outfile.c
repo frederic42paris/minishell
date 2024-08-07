@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_outfile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:38:41 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/04 12:10:50 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:35:29 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ int	open_outfile(t_parse *par_list, t_data *data)
 	}
 	if (data->fd_stdout == 0)
 		data->fd_stdout = STDOUT_FILENO;
+	while (par_list->redirection->prev)
+		par_list->redirection = par_list->redirection->prev;
 	return (0);
 }
