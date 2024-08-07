@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/07 16:21:31 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/07 16:35:55 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	execute_multi_cmd(t_parse *cmds, t_data *data, int std_in, int std_out)
 		close(std_out);
 	if (execve(cmds->cmd_array[0], cmds->cmd_array, data->environ) == -1)
 	{
-		perror("execve");
+		// perror("execve");
+		ft_putstr_fd("command not found: ", 2);
+		ft_putstr_fd(cmds->cmd_array[0], 2);
+		ft_putchar_fd('\n', 2);
 		free_exec(data->fd, data->pid, NULL);
 		while (cmds->prev)
 			cmds = cmds->prev;

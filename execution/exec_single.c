@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 18:07:30 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:37:16 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	execute_cmd(t_parse *cmd, t_data *data, int fd[2], t_env *env)
 		close(fd[1]);
 	if (execve(cmd->cmd_array[0], cmd->cmd_array, data->environ) == -1)
 	{
-		perror("execve");
+		// perror("execve");
+		ft_putstr_fd("command not found: ", 2);
+		ft_putstr_fd(cmd->cmd_array[0], 2);
+		ft_putchar_fd('\n', 2);
 		free_data(data);
 		free_parse_list(&cmd);
 		free_env_list(&env);
