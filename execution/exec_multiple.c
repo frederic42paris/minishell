@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/07 17:25:23 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/07 18:56:24 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	exec_pipes(t_parse *cmds, t_data *data, int (*fd)[2], pid_t *pid)
 		}
 		else
 		{
-			close_child(data, fd, i);
+			close(fd[i + 1][0]);
 		}
 		if (i != 0)
 			close(fd[i][0]);
