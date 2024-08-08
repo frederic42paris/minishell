@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/08 12:39:20 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:28:20 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	execute_multi_cmd(t_parse *cmds, t_data *data, int std_in, int std_out)
 		close(std_out);
 	data->fd_stdin = STDIN_FILENO;
 	data->fd_stdout = STDOUT_FILENO;
-	// if (i != -1)
-	// 	close(fd[i + 1][0]);
 	if (is_builtin(cmds))
 		exec_builtin(cmds, data, &data->env);
 	else if (execve(cmds->cmd_array[0], cmds->cmd_array, data->environ) == -1)
@@ -59,11 +57,19 @@ void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
 
 void	close_child(t_data *data, int (*fd)[2], int i)
 {
-	(void)data;
+	int	j;
+
 	close(fd[i + 1][0]);
 	close(fd[i][1]);
 	if (fd[0][1] != STDOUT_FILENO)
 		close(fd[0][1]);
+	j = i + 2;
+	while (j < data->num_cmd)
+	{
+		close(fd[j][0]);
+		close(fd[j][1]);
+		j++;
+	}
 }
 
 void	exec_pipes(t_parse *cmds, t_data *data, int (*fd)[2], pid_t *pid)
