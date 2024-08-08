@@ -6,7 +6,7 @@
 /*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/07 16:42:01 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/08 13:42:38 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,8 @@ void	make_it_loop(t_data *data, t_env *env_list,
 		store_command(tok_list, par_list);
 		free_token_list(&tok_list);
 		search_command(par_list, data);
-		if (open_infile(par_list, data) || open_outfile(par_list, data))
-		{
-			free_parse_list(&par_list);
-			continue ;
-		}
+		open_infile(par_list, data);
+		open_outfile(par_list, data);
 		enable_signal();
 		start_exec(data, par_list, env_list);
 		free_parse_list(&par_list);
