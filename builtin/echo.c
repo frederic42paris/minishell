@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:06:26 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/08 09:53:27 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:34:58 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	print_echo(t_parse *cmds, int i, int nextline_flag, t_data *data)
 	int	fd;
 
 	fd = data->fd_stdout;
-	printf("data->stdout = %d\n", data->fd_stdout);
 	while (cmds->cmd_array[i])
 	{
 		ft_putstr_fd(cmds->cmd_array[i], fd);
