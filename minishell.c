@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 18:11:43 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 21:06:14 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,6 @@ void	init_tok_list(t_token **tok_list, t_data *data, t_env *env_list)
 
 void	start_exec(t_data *data, t_parse *par_list, t_env *env_list)
 {
-	t_parse	*current;
-
-	current = par_list;
 	data->num_cmd = count_cmds(par_list);
 	if (data->environ)
 		free_array(data->environ);
