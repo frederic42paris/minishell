@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/08 12:35:09 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:25:46 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int					count_cmds(t_parse *cmds_list);
 
 // execution
 void				free_array(char **line);
+void				free_fail(t_parse *cmds, t_data *data);
 void				exec_multiple_cmd(t_parse *cmds, t_data *data);
 void				exec_single_cmd(t_parse *cmds_list, char **environ,
 						t_data *data, t_env **env_list);
@@ -120,11 +121,11 @@ int					exec_builtin(t_parse *cmds,
 						t_data *data, t_env **env_list);
 int					func_echo(t_parse *cmds, t_data *data);
 int					func_pwd(t_parse *cmds, t_data *data);
-int					func_cd(t_parse *cmds);
+int					func_cd(t_parse *cmds, t_data *data);
 int					func_exit(t_parse *cmds, t_data *data);
 int					func_env(t_parse *cmds, t_env *env_list, t_data *data);
 int					func_export(t_parse *cmds, t_env **env_list, t_data *data);
-int					func_unset(t_parse *cmds, t_env **env_list);
+int					func_unset(t_parse *cmds, t_env **env_list, t_data *data);
 void				print_echo(t_parse *cmds, int i,
 						int nextline_flag, t_data *data);
 int					check_export_variable(char *s);

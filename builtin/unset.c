@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/05 11:29:35 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:25:16 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	delete_one_env(t_env **env_list, char *name)
 	free(temp);
 }
 
-int	func_unset(t_parse *cmds, t_env **env_list)
+int	func_unset(t_parse *cmds, t_env **env_list, t_data *data)
 {
 	int		i;
 
@@ -48,5 +48,9 @@ int	func_unset(t_parse *cmds, t_env **env_list)
 		delete_one_env(env_list, cmds->cmd_array[i]);
 		i++;
 	}
+	if (data->fd_stdin != STDIN_FILENO)
+		close(data->fd_stdin);
+	if (data->fd_stdout != STDOUT_FILENO)
+		close(data->fd_stdout);
 	return (0);
 }

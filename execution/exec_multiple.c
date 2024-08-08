@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/08 13:28:20 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:21:01 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	execute_multi_cmd(t_parse *cmds, t_data *data, int std_in, int std_out)
 		exec_builtin(cmds, data, &data->env);
 	else if (execve(cmds->cmd_array[0], cmds->cmd_array, data->environ) == -1)
 	{
-		perror("execve");
-		free_exit(cmds, data);
+		free_exec(data->fd, data->pid, "execve");
+		free_fail(cmds, data);
 		if (errno == ENOENT)
 			exit(127);
 		else
@@ -42,11 +42,7 @@ void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
 	{
 		execute_multi_cmd(cmds, data, fd[data->num_cmd - 1][0], fd[0][1]);
 		free_exec(data->fd, data->pid, NULL);
-		free_env_list(&data->env);
-		while (cmds->prev)
-			cmds = cmds->prev;
-		free_parse_list(&cmds);
-		free_data(data);
+		free_fail(cmds, data);
 		exit(EXIT_SUCCESS);
 	}
 	close(fd[data->num_cmd - 1][0]);
@@ -85,11 +81,7 @@ void	exec_pipes(t_parse *cmds, t_data *data, int (*fd)[2], pid_t *pid)
 			close_child(data, fd, i);
 			execute_multi_cmd(cmds, data, fd[i][0], fd[i + 1][1]);
 			free_exec(data->fd, data->pid, NULL);
-			free_env_list(&data->env);
-			while (cmds->prev)
-				cmds = cmds->prev;
-			free_parse_list(&cmds);
-			free_data(data);
+			free_fail(cmds, data);
 			exit(EXIT_SUCCESS);
 		}
 		if (fd[i][0] != STDIN_FILENO)
@@ -123,7 +115,7 @@ void	exec_multiple_cmd(t_parse *cmds, t_data *data)
 	while (i <= data->has_pipe)
 	{
 		if (pipe(fd[i]) == -1)
-			free_exec(&fd, &pid, "pipe failed");
+			free_exec(&fd, &pid, "pipe");
 		i++;
 	}
 	data->pid = &pid;
