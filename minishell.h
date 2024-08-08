@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/08 15:40:36 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:19:31 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void				free_exec(int (**fd)[2], pid_t **pid, char *str);
 char				**transform_envlist(t_env *env_list);
 int					listlen(t_env *env_list);
 void				wait_loop(pid_t *pid, t_data *data);
+void				exit_error(t_parse *cmds, t_data *data);
 
 // built-in
 int					is_builtin(t_parse *cmds);

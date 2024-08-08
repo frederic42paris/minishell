@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/08 15:21:01 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:19:13 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,7 @@ void	execute_multi_cmd(t_parse *cmds, t_data *data, int std_in, int std_out)
 	if (is_builtin(cmds))
 		exec_builtin(cmds, data, &data->env);
 	else if (execve(cmds->cmd_array[0], cmds->cmd_array, data->environ) == -1)
-	{
-		free_exec(data->fd, data->pid, "execve");
-		free_fail(cmds, data);
-		if (errno == ENOENT)
-			exit(127);
-		else
-			exit(1);
-	}
+		exit_error(cmds, data);
 }
 
 void	exec_out(int (*fd)[2], pid_t *pid, t_parse *cmds, t_data *data)
