@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:30:32 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/08 17:19:13 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:14:19 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	exec_multiple_cmd(t_parse *cmds, t_data *data)
 {
 	int		(*fd)[2];
 	pid_t	*pid;
-	int		i;
 
 	fd = malloc(sizeof(int [2]) * (data->has_pipe + 1));
 	pid = malloc(sizeof(pid_t) * data->num_cmd);
@@ -103,16 +102,15 @@ void	exec_multiple_cmd(t_parse *cmds, t_data *data)
 	}
 	fd[0][0] = data->fd_stdin;
 	fd[0][1] = data->fd_stdout;
-	check_paths(cmds);
-	i = 1;
-	while (i <= data->has_pipe)
+	if (check_paths(cmds))
 	{
-		if (pipe(fd[i]) == -1)
-			free_exec(&fd, &pid, "pipe");
-		i++;
+		ft_putendl_fd("Error: invalid command", STDERR_FILENO);
+		if (data->fd_stdin != STDIN_FILENO)
+			close(data->fd_stdin);
+		if (data->fd_stdout != STDOUT_FILENO)
+			close(data->fd_stdout);
+		free_exec(&fd, &pid, NULL);
+		return ;
 	}
-	data->pid = &pid;
-	data->fd = &fd;
-	exec_pipes(cmds, data, fd, pid);
-	free_exec(&fd, &pid, NULL);
+	end_exec(pid, fd, cmds, data);
 }

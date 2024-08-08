@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:37:19 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/06 15:13:58 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/08 18:02:20 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_pipe_error(char const *str)
 {
 	if (str[0] == '|')
 	{
-		printf("Error : invalid cmd\n");
+		printf("Error : invalid command\n");
 		return (1);
 	}
 	return (0);

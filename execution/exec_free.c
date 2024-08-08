@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 17:24:11 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/08 17:19:18 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:14:24 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,23 @@ void	exit_error(t_parse *cmds, t_data *data)
 		free_fail(cmds, data);
 		exit(1);
 	}
+}
+
+void	end_exec(pid_t *pid, int (*fd)[2], t_parse *cmds, t_data *data)
+{
+	int	i;
+
+	i = 1;
+	while (i <= data->has_pipe)
+	{
+		if (pipe(fd[i]) == -1)
+			free_exec(&fd, &pid, "pipe");
+		i++;
+	}
+	data->pid = &pid;
+	data->fd = &fd;
+	exec_pipes(cmds, data, fd, pid);
+	free_exec(&fd, &pid, NULL);
 }
 
 void	wait_loop(pid_t *pid, t_data *data)

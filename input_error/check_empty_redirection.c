@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_empty_redirection.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:18:01 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/08 17:41:18 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/08 18:14:03 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_empty_redirection(t_token *tok_list)
 			if (!tok_list
 				|| (tok_list->operator && tok_list->operator[0] == '|'))
 			{
-				printf("Error : invalid cmd\n");
+				printf("Error : invalid command\n");
 				return (1);
 			}
 		}
@@ -57,14 +57,13 @@ int	check_empty_cmd(t_token *tok_list)
 			{
 				if (ft_strncmp(str, "|", 1) == 0
 					&& ft_strncmp(tok_list->operator, "|", 1) == 0)
-				{
-					printf("Error : invalid cmd\n");
-					return (1);
-				}
+					return (ft_putendl_fd("Error: invalid command", 2), 1);
 			}
 			else
 				str = tok_list->operator;
 		}
+		else
+			str = NULL;
 		if (tok_list)
 			tok_list = tok_list->next;
 	}

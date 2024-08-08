@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/08 17:41:30 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/08 18:15:42 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,10 @@ void				free_exec(int (**fd)[2], pid_t **pid, char *str);
 char				**transform_envlist(t_env *env_list);
 int					listlen(t_env *env_list);
 void				wait_loop(pid_t *pid, t_data *data);
+void				end_exec(pid_t *pid, int (*fd)[2], t_parse *cmds,
+						t_data *data);
+void				exec_pipes(t_parse *cmds, t_data *data,
+						int (*fd)[2], pid_t *pid);
 void				exit_error(t_parse *cmds, t_data *data);
 
 // built-in
