@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/08 15:41:11 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:11:32 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 		if (data->fd_stdout != 1)
 			close(data->fd_stdout);
 		return ;
+	}
 	if (is_builtin(cmds))
 		data->exit_status = exec_builtin(cmds, data, env);
 	else
