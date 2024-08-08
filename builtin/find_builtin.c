@@ -6,47 +6,41 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:41:15 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/04 13:13:22 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:25:03 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_builtin(t_parse *cmds)
+int	exec_builtin(t_parse *cmds, t_data *data, t_env **env_list)
 {
 	if (!ft_strcmp(cmds->cmd_array[0], "echo"))
-		return (1);
+		return (func_echo(cmds, data));
 	else if (!ft_strcmp(cmds->cmd_array[0], "pwd"))
-		return (2);
+		return (func_pwd(cmds, data));
 	else if (!ft_strcmp(cmds->cmd_array[0], "cd"))
-		return (3);
+		return (func_cd(cmds, data));
 	else if (!ft_strcmp(cmds->cmd_array[0], "env"))
-		return (4);
+		return (func_env(cmds, *env_list, data));
 	else if (!ft_strcmp(cmds->cmd_array[0], "exit"))
-		return (5);
+		return (func_exit(cmds, data));
 	else if (!ft_strcmp(cmds->cmd_array[0], "unset"))
-		return (6);
+		return (func_unset(cmds, env_list, data));
 	else if (!ft_strcmp(cmds->cmd_array[0], "export"))
-		return (7);
+		return (func_export(cmds, env_list, data));
 	else
 		return (0);
 }
 
-int	exec_builtin(int func, t_parse *cmds, t_data *data, t_env **env_list)
+int	is_builtin(t_parse *cmds)
 {
-	if (func == 1)
-		return (func_echo(cmds, data));
-	else if (func == 2)
-		return (func_pwd(data));
-	else if (func == 3)
-		return (func_cd(cmds));
-	else if (func == 4)
-		return (func_env(cmds, *env_list, data));
-	else if (func == 5)
-		return (func_exit(cmds, data));
-	else if (func == 6)
-		return (func_unset(cmds, env_list));
-	else if (func == 7)
-		return (func_export(cmds, env_list, data));
+	if (!ft_strcmp(cmds->cmd_array[0], "echo")
+		|| !ft_strcmp(cmds->cmd_array[0], "pwd")
+		|| !ft_strcmp(cmds->cmd_array[0], "cd")
+		|| !ft_strcmp(cmds->cmd_array[0], "env")
+		|| !ft_strcmp(cmds->cmd_array[0], "exit")
+		|| !ft_strcmp(cmds->cmd_array[0], "unset")
+		|| !ft_strcmp(cmds->cmd_array[0], "export"))
+		return (1);
 	return (0);
 }

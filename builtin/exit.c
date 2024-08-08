@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:30 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/04 17:27:05 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:36:04 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ t_bool	ft_check_args(char *str)
 void	free_exit(t_parse *cmds, t_data *data)
 {
 	free_env_list(&data->env);
-	if (cmds->environ)
-		free_array(cmds->environ);
+	while (cmds->prev)
+		cmds = cmds->prev;
 	free_parse_list(&cmds);
 	free_data(data);
 }
 
 int	func_exit(t_parse *cmds, t_data *data)
 {
+	int	res;
+
 	if (cmds->cmd_array[1])
 	{
 		if (!ft_check_args(cmds->cmd_array[1]))
@@ -57,16 +59,14 @@ int	func_exit(t_parse *cmds, t_data *data)
 		else if (count_input(cmds) <= 2)
 		{
 			printf("exit\n");
+			res = ft_atoi(cmds->cmd_array[1]) % 256;
 			free_exit(cmds, data);
-			exit(ft_atoi(cmds->cmd_array[1]) % 256);
+			exit(res);
 		}
+		ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
+		return (EXIT_FAILURE);
 	}
-	else
-	{
-		printf("exit\n");
-		free_exit(cmds, data);
-		exit(EXIT_SUCCESS);
-	}
-	ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
-	return (EXIT_FAILURE);
+	printf("exit\n");
+	free_exit(cmds, data);
+	exit(EXIT_SUCCESS);
 }

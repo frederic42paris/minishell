@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:11:01 by sumseo            #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:24:42 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	count_input(t_parse *cmds)
 	return (res);
 }
 
-int	func_cd(t_parse *cmds)
+int	func_cd(t_parse *cmds, t_data *data)
 {
 	char	*tmp;
 
@@ -39,5 +39,9 @@ int	func_cd(t_parse *cmds)
 	}
 	else if (chdir(cmds->cmd_array[1]) != 0)
 		return (perror("cd"), 1);
+	if (data->fd_stdin != STDIN_FILENO)
+		close(data->fd_stdin);
+	if (data->fd_stdout != STDOUT_FILENO)
+		close(data->fd_stdout);
 	return (0);
 }

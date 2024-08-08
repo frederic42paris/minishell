@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 13:49:49 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/08 15:40:36 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ typedef struct s_data
 	int				fd_stdin;
 	int				fd_stdout;
 	t_env			*env;
+	int				(**fd)[2];
+	pid_t			**pid;
+	char			**environ;
 }					t_data;
 
 typedef struct s_redir
@@ -87,7 +90,6 @@ typedef struct s_parse
 	int				builtin;
 	struct s_parse	*next;
 	struct s_parse	*prev;
-	char			**environ;
 }					t_parse;
 
 /////////////////////////////////////////////////////////////////////////
@@ -103,6 +105,7 @@ int					check_empty_redirection(t_token *tok_list);
 
 // execution
 void				free_array(char **line);
+void				free_fail(t_parse *cmds, t_data *data);
 void				exec_multiple_cmd(t_parse *cmds, t_data *data);
 void				exec_single_cmd(t_parse *cmds_list, char **environ,
 						t_data *data, t_env **env_list);
@@ -111,18 +114,19 @@ int					count_cmds(t_parse *cmds);
 void				free_exec(int (**fd)[2], pid_t **pid, char *str);
 char				**transform_envlist(t_env *env_list);
 int					listlen(t_env *env_list);
+void				wait_loop(pid_t *pid, t_data *data);
 
 // built-in
 int					is_builtin(t_parse *cmds);
-int					exec_builtin(int func, t_parse *cmds,
+int					exec_builtin(t_parse *cmds,
 						t_data *data, t_env **env_list);
 int					func_echo(t_parse *cmds, t_data *data);
-int					func_pwd(t_data *data);
-int					func_cd(t_parse *cmds);
+int					func_pwd(t_parse *cmds, t_data *data);
+int					func_cd(t_parse *cmds, t_data *data);
 int					func_exit(t_parse *cmds, t_data *data);
 int					func_env(t_parse *cmds, t_env *env_list, t_data *data);
 int					func_export(t_parse *cmds, t_env **env_list, t_data *data);
-int					func_unset(t_parse *cmds, t_env **env_list);
+int					func_unset(t_parse *cmds, t_env **env_list, t_data *data);
 void				print_echo(t_parse *cmds, int i,
 						int nextline_flag, t_data *data);
 int					check_export_variable(char *s);

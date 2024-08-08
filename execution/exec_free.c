@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 17:24:11 by rrichard          #+#    #+#             */
-/*   Updated: 2024/07/31 15:42:02 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:16:59 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,31 @@ void	free_exec(int (**fd)[2], pid_t **pid, char *str)
 	if (str)
 		perror(str);
 	return ;
+}
+
+void	free_fail(t_parse *cmds, t_data *data)
+{
+	free_env_list(&data->env);
+	while (cmds->prev)
+		cmds = cmds->prev;
+	free_parse_list(&cmds);
+	free_data(data);
+}
+
+void	wait_loop(pid_t *pid, t_data *data)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < data->num_cmd)
+	{
+		waitpid(pid[i], &status, 0);
+		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		{
+			data->exit_status = WEXITSTATUS(status);
+			break ;
+		}
+		i++;
+	}
 }

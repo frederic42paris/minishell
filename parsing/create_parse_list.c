@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:43:11 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/05 10:42:54 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 21:06:32 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	init_to_zero(t_parse	*element)
 	element->infile_nb = 0;
 	element->outfile_nb = 0;
 	element->path = NULL;
-	element->environ = NULL;
 	element->builtin = 0;
 	element->cmd_array = (char **)ft_calloc(2, sizeof(char *));
 	if (element->cmd_array == NULL)

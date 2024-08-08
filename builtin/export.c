@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 11:45:47 by rrichard          #+#    #+#             */
-/*   Updated: 2024/08/05 10:28:05 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:35:53 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,9 @@ int	func_export(t_parse *cmds, t_env **env_list, t_data *data)
 		export_without_args(*env_list, data);
 	else
 		export_with_args(cmds, env_list);
+	if (data->fd_stdin != STDIN_FILENO)
+		close(data->fd_stdin);
+	if (data->fd_stdout != STDOUT_FILENO)
+		close(data->fd_stdout);
 	return (0);
 }

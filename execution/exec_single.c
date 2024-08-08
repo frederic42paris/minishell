@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:30:11 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/06 15:49:55 by ftanon           ###   ########.fr       */
+/*   Updated: 2024/08/08 15:41:11 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ void	execute_cmd(t_parse *cmd, t_data *data, int fd[2], t_env *env)
 		close(fd[0]);
 	if (fd[1] != STDOUT_FILENO)
 		close(fd[1]);
-	if (execve(cmd->cmd_array[0], cmd->cmd_array, cmd->environ) == -1)
+	if (execve(cmd->cmd_array[0], cmd->cmd_array, data->environ) == -1)
 	{
-		printf("%s: command not found\n", cmd->cmd_array[0]);
-		free_array(cmd->environ);
+		perror("execve");
 		free_data(data);
 		free_parse_list(&cmd);
 		free_env_list(&env);
-		exit(EXIT_FAILURE);
+		if (errno == ENOENT)
+			exit(127);
+		else
+			exit(1);
 	}
 }
 
@@ -65,7 +67,6 @@ void	single_cmd(t_parse *cmds, t_data *data, t_env *env)
 
 void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 {
-	int		builtin_check;
 	char	*tmp;
 
 	(void)envp;
@@ -76,11 +77,8 @@ void	exec_single_cmd(t_parse *cmds, char **envp, t_data *data, t_env **env)
 		if (data->fd_stdout != 1)
 			close(data->fd_stdout);
 		return ;
-	}
-	builtin_check = is_builtin(cmds);
-	if (builtin_check > 0)
-		data->exit_status
-			= exec_builtin(builtin_check, cmds, data, env);
+	if (is_builtin(cmds))
+		data->exit_status = exec_builtin(cmds, data, env);
 	else
 	{
 		if (cmds->path)
