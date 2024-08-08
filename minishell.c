@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:45:46 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/08 15:38:47 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:41:52 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	make_it_loop(t_data *data, t_env *env_list,
 		if (take_input(data, env_list) || check_input(data->input))
 			continue ;
 		init_tok_list(&tok_list, data, env_list);
-		if (check_empty_redirection(tok_list))
+		if (check_empty_redirection(tok_list) || check_empty_cmd(tok_list))
 		{
 			free_token_list(&tok_list);
 			continue ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/08 17:19:31 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:41:30 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char				*ft_shield_strdup(const char *str);
 int					take_input(t_data *data, t_env *env_list);
 int					check_input(char const *str);
 int					check_empty_redirection(t_token *tok_list);
+int					check_empty_cmd(t_token *tok_list);
 
 // execution
 void				free_array(char **line);
