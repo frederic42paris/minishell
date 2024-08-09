@@ -69,3 +69,34 @@ int	check_empty_cmd(t_token *tok_list)
 	}
 	return (0);
 }
+
+int	count_fd(t_redir *redir, int i)
+{
+	while (redir)
+	{
+		if (redir->type == i)
+			return (1);
+		redir = redir->next;
+	}
+	return (0);
+}
+
+int	check_infile(t_parse *par_list, t_data *data)
+{
+	if (data->has_pipe == 0)
+		return (0);
+	if (par_list && par_list->redirection && count_fd(par_list->redirection, 1))
+		return (ft_putendl_fd("Error: invalid command", 2), 1);
+	par_list = par_list->next;
+	while (par_list->next)
+	{
+		if (par_list->redirection)
+			return (ft_putendl_fd("Error: invalid command", 2), 1);
+		par_list = par_list->next;
+	}	
+	if (data->has_pipe > 1)
+		par_list = par_list->next;
+	if (par_list && par_list->redirection && count_fd(par_list->redirection, 0))
+		return (ft_putendl_fd("Error: invalid command", 2), 1);
+	return (0);
+}

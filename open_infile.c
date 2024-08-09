@@ -42,31 +42,49 @@ void	handle_heredoc(t_data *data, char *limiter)
 	data->fd_stdin = fd[0];
 }
 
+t_redir	*find_last_infile(t_redir *redir, int infile_nb)
+{
+	int		i;
+
+	i = 0;
+	while (redir && i != infile_nb)
+	{
+		if (redir->type == 0)
+			i++;
+		if (i == infile_nb)
+			break ;
+		redir = redir->next;
+	}
+	return (redir);
+}
+
 int	open_infile(t_parse *par_list, t_data *data)
 {
-	char	*last_infile;
+	// char	*last_infile;
 	t_redir	*current;
 
 	current = par_list->redirection;
-	last_infile = NULL;
-	while (current)
+	if (!current)
+		return (0);
+	// last_infile = NULL;
+	current = find_last_infile(current, par_list->infile_nb);
+	printf("[%s]\n", current->name);
+	// while (current)
+	// {
+	if (current->type == 0)
 	{
-		if (current->type == 0)
+		if (!ft_strcmp(current->token, "<<"))
 		{
-			last_infile = current->name;
-			if (!ft_strcmp(current->token, "<<"))
-			{
-				handle_heredoc(data, last_infile);
-				return (0);
-			}
+			handle_heredoc(data, current->name);
+			return (0);
 		}
-		current = current->next;
+		else
+		{
+			data->fd_stdin = open(current->name, O_RDONLY);
+			if (data->fd_stdin < 0)
+				return (perror(current->name), 1);
+		}
 	}
-	if (last_infile)
-	{
-		data->fd_stdin = open(last_infile, O_RDONLY);
-		if (data->fd_stdin < 0)
-			return (perror(last_infile), 1);
-	}
+
 	return (0);
 }

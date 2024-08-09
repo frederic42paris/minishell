@@ -69,7 +69,7 @@ void	make_it_loop(t_data *data, t_env *env_list,
 		store_command(tok_list, par_list);
 		free_token_list(&tok_list);
 		search_command(par_list, data);
-		if (open_infile(par_list, data) || open_outfile(par_list, data))
+		if (open_infile(par_list, data) || open_outfile(par_list, data) || check_infile(par_list, data))
 		{
 			free_parse_list(&par_list);
 			continue ;

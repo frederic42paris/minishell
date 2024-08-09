@@ -178,6 +178,7 @@ int					store_path(t_env *env_list, t_data *data);
 void				free_env_list(t_env **env_list);
 int					push_env_list(t_env **env_list, const char *str);
 
+int	check_infile(t_parse *par_list, t_data *data);
 // utils parsing
 int					is_meta(char c);
 int					is_bracket(char c);

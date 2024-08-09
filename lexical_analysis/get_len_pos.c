@@ -52,7 +52,7 @@ void	len_double_quote(t_data *data, t_env *env_list, t_token *element)
 		if (data->input[data->pos] == '$' && data->input[data->pos + 1] == '?')
 		{
 			element->len = element->len + data->exit_len;
-			data->pos = data->pos + data->exit_len;
+			data->pos = data->pos + 2;
 		}
 		else if (data->input[data->pos] == '$'
 			&& is_alnum(data->input[data->pos + 1]))
@@ -74,7 +74,7 @@ void	len_no_quote(t_data *data, t_env *env_list, t_token *element)
 		if (data->input[data->pos] == '$' && data->input[data->pos + 1] == '?')
 		{
 			element->len = element->len + data->exit_len;
-			data->pos = data->pos + data->exit_len;
+			data->pos = data->pos + 2;
 		}
 		else if (data->input[data->pos] == '$'
 			&& is_quote(data->input[data->pos + 1]))

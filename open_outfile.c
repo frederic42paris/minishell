@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+t_redir	*find_last_outfile(t_redir *redir, int infile_nb)
+{
+	int		i;
+
+	i = 0;
+	while (redir && i != infile_nb)
+	{
+		if (redir->type == 1)
+			i++;
+		if (i == infile_nb)
+			break ;
+		redir = redir->next;
+	}
+	return (redir);
+}
+
 int	open_outfile(t_parse *par_list, t_data *data)
 {
 	t_redir	*current_redir;
@@ -22,8 +38,10 @@ int	open_outfile(t_parse *par_list, t_data *data)
 	data->fd_stdout = STDOUT_FILENO;
 	if (!current_redir)
 		return (0);
-	while (current_redir->next)
-		current_redir = current_redir->next;
+	// while (current_redir->next)
+		// current_redir = current_redir->next;
+	current_redir = find_last_outfile(current_redir, par_list->outfile_nb);
+	printf("%s\n", current_redir->name);
 	if (current_redir->type == 1)
 	{
 		if (!ft_strcmp(current_redir->token, ">"))
