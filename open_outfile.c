@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_outfile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:38:41 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/08 17:32:08 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/09 10:04:24 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ int	open_outfile(t_parse *par_list, t_data *data)
 	data->fd_stdout = STDOUT_FILENO;
 	if (!current_redir)
 		return (0);
-	// while (current_redir->next)
-		// current_redir = current_redir->next;
 	current_redir = find_last_outfile(current_redir, par_list->outfile_nb);
-	printf("%s\n", current_redir->name);
 	if (current_redir->type == 1)
 	{
 		if (!ft_strcmp(current_redir->token, ">"))

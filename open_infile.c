@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_infile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:38:41 by ftanon            #+#    #+#             */
-/*   Updated: 2024/08/05 11:26:06 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/09 10:04:21 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,14 @@ t_redir	*find_last_infile(t_redir *redir, int infile_nb)
 
 int	open_infile(t_parse *par_list, t_data *data)
 {
-	// char	*last_infile;
 	t_redir	*current;
 
+	if (check_infile(par_list, data))
+		return (1);
 	current = par_list->redirection;
 	if (!current)
 		return (0);
-	// last_infile = NULL;
 	current = find_last_infile(current, par_list->infile_nb);
-	printf("[%s]\n", current->name);
-	// while (current)
-	// {
 	if (current->type == 0)
 	{
 		if (!ft_strcmp(current->token, "<<"))
@@ -85,6 +82,5 @@ int	open_infile(t_parse *par_list, t_data *data)
 				return (perror(current->name), 1);
 		}
 	}
-
 	return (0);
 }

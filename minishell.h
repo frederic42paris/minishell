@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftanon <ftanon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 13:49:55 by sumseo            #+#    #+#             */
-/*   Updated: 2024/08/08 18:15:42 by rrichard         ###   ########.fr       */
+/*   Updated: 2024/08/09 09:49:48 by ftanon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int					store_path(t_env *env_list, t_data *data);
 void				free_env_list(t_env **env_list);
 int					push_env_list(t_env **env_list, const char *str);
 
-int	check_infile(t_parse *par_list, t_data *data);
+int					check_infile(t_parse *par_list, t_data *data);
 // utils parsing
 int					is_meta(char c);
 int					is_bracket(char c);
